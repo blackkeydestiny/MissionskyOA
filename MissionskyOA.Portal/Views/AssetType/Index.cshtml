@@ -1,0 +1,85 @@
+﻿@using PagedList.Mvc;
+@{
+    ViewBag.Title = "资产分类";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+        <small></small>
+    </h1>
+    <div class="pull-right header-r-toolbar">
+        <a class="btn btn-primary" href="@Url.Action("Edit", "AssetType")">新增</a>
+    </div>
+</section>
+<section class="content">
+    @{
+        Html.Kendo().Grid<MissionskyOA.Models.AssetTypeModel>()
+            .Name("grid")
+            .Columns(cols =>
+            {
+                cols.Bound(c => c.Id).Title("#").Sortable(false);
+                cols.Bound(c => c.Name).Title("名称");
+                cols.Bound(c => c.Sort).Title("序号").Sortable(true);
+                cols.Bound(c => c.Id).Title("操作").ClientTemplate(
+@"<a class='btn btn-link' href='" + @Url.Action("Edit", "AssetType", new { id = "#:Id#" }) + "'>编辑</a><a class='btn btn-link' href='" + @Url.Action("SetAttributes", "AssetType", new { id = "#:Id#" }) + "'>设置属性</a><a class='btn btn-link' onclick='deleteItem(#:Id#)'>删除</a>")
+.Sortable(false);
+            })
+            .Sortable(f => f.AllowUnsort(true))
+            .Pageable(pageable => pageable.Refresh(true))
+            .DataSource(datasource => datasource.Ajax()
+                .PageSize(15)
+                .Read(read => read.Action("Read", "AssetType"))
+                )
+            .Render();
+    }
+</section>
+
+<div class="modal fade modal-center" id="assetTypeDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">提示</h4>
+            </div>
+            <div class="modal-body">
+                确定删除?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" id="my-dialog-yes" data-area="" class="btn btn-primary" data-dismiss="modal">Yes</button>
+                @Html.Hidden("deleteId", "")
+            </div>
+        </div>
+    </div>
+</div>
+
+@section pagescript{
+    <script>
+        $(document).ready(function () {
+            $("#my-dialog-yes").on("click", function () {
+                var id = $("#deleteId").val();
+                if (id != "") {
+                    var url = "@Url.Action("Delete", "AssetType")" + "/" + id;
+                    $.post(url, null, function (data) {
+                        if (data && data.error) {
+                            alert(data.error);
+                        }
+                        $(".k-pager-refresh").click();
+                    });
+
+                }
+            });
+
+            $('#assetTypeDialog').on('hide.bs.modal', function (event) {
+                $("#deleteId").val("");
+            });
+        });
+
+        function deleteItem(id) {
+            $("#deleteId").val(id);
+            $('#assetTypeDialog').modal();
+        }
+    </script>
+}
+

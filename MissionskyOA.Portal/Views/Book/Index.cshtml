@@ -1,0 +1,184 @@
+﻿@using PagedList.Mvc;
+@{
+    ViewBag.Title = "图书管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+        <small></small>
+    </h1>
+    @using (Html.BeginForm("ExportQR", "Book", FormMethod.Post))
+    {
+        <div class="pull-right header-r-toolbar">
+            <a class="btn btn-primary" href="@Url.Action("Edit", "Book")">新增图书</a>&nbsp;&nbsp;
+            <button type="submit" class="btn btn-primary" value="exportQR" name="Submit">导出二维码</button>
+        </div>
+    }
+</section>
+<section class="content">
+    @{
+        Html.Kendo().Grid<MissionskyOA.Models.BookModel>()
+            .Name("grid")
+            .Columns(cols =>
+            {
+                cols.Bound(c => c.Id).Title("#").Sortable(false).Filterable(false);
+                cols.Bound(c => c.Name).Title("书名").Sortable(false).Filterable(false);
+                cols.Bound(c => c.ISBN).Title("编号").Sortable(false).Filterable(false);
+                cols.Bound(c => c.Type).Title("类型").Sortable(false).Filterable(false);
+                cols.Bound(c => c.Desc).Title("简介").Sortable(false).Filterable(false);
+                cols.Bound(c => c.Author).Title("作者").Sortable(false).Filterable(false);
+                cols.Bound(c => c.DonorName).Title("捐赠者名").Sortable(false).Filterable(false);
+                cols.Bound(c => c.Id).Title("操作").ClientTemplate(
+@"<a class='btn btn-link' href='" + @Url.Action("Edit", "Book", new { id = "#:Id#" }) + "'>编辑</a><a class='btn btn-link' onclick='deleteItem(#:Id#)'>删除</a><a class='btn btn-link' href='" + @Url.Action("Upload", "Book", new { id = "#:Id#" }) + "'>上传封面</a><a class='btn btn-link' onclick='showQRCode(#:Id#)'>二维码</a>")
+.Sortable(false);
+            })
+            //.ClientDetailTemplateId("myTemplate")
+            //.Filterable(filterable => filterable
+            //.Extra(false)
+            ////.Operators(operators => operators
+            ////    .ForString(str => str.Clear()
+            ////        .StartsWith("开头")
+            ////        .IsEqualTo("相等")
+            ////        .IsNotEqualTo("不相等")
+            ////    ))
+            ////)
+            .Sortable(f => f.AllowUnsort(true))
+            .Pageable(pageable => pageable.Refresh(true))
+            .DataSource(datasource => datasource.Ajax()
+                .PageSize(10)
+                .Read(read => read.Action("Read", "Book"))
+                )
+            .Render();
+    }
+</section>
+
+<div class="modal fade modal-center" id="barcodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            <div class="modal-body">
+                <img id="barcodeImg" style="margin-left:40%;" alt="" src=""><br />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-center" id="userDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">提示</h4>
+            </div>
+            <div class="modal-body">
+                确定删除?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" id="my-dialog-yes" data-area="" class="btn btn-primary" data-dismiss="modal">Yes</button>
+                @Html.Hidden("deleteId", "")
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<script id="myTemplate" type="text/kendo-tmpl">
+        @(Html.Kendo().Grid<MissionskyOA.Models.AttendanceSummaryModel>()
+                    .Name("grid_#=Id#")
+                            .Columns(cols =>
+                    {
+                        cols.Bound(c => c.Year).Title("年度");
+                        cols.Bound(c => c.TypeName).Title("类型");
+                        cols.Bound(c => c.LastValue).Title("上一年度剩余");
+                        cols.Bound(c => c.BaseValue).Title("本年度基准");
+                        cols.Bound(c => c.RemainValue).Title("本年度剩余");
+                        cols.Command(command => { command.Edit(); }).Width(160);
+                    })
+                    .Editable(editable => editable.Mode(GridEditMode.PopUp))
+                    .DataSource(datasource => datasource.Ajax()
+                        .PageSize(10)
+                                .Model(model => model.Id(c => c.Id))
+                                .Read(read => read.Action("GetAttendanceSummary", "User", new { Id = "#=Id#" }))
+                                .Update(update => update.Action("EditingPopup_Update", "User"))
+                        )
+                    .Events(e => e.Edit("onEdit"))
+                    .ToClientTemplate())
+    </script>*@
+
+
+
+@section pagescript{
+    <script>
+        function showQRCode(id) {
+            $('#barcodeImg').attr("src", "@Url.Action("ShowQR", "Book")" + "/" + id);
+            $('#barcodeModal').modal();
+        }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#my-dialog-yes").on("click", function () {
+                var id = $("#deleteId").val();
+                if (id != "") {
+                    var url = "@Url.Action("Delete","Book")" + "/" + id;
+                    $.post(url, null, function (data) {
+                        if (data && data.error) {
+                            alert(data.error);
+                        }
+                        $(".k-pager-refresh").click();
+                    });
+
+                }
+            });
+
+            $('#userDialog').on('hide.bs.modal', function (event) {
+                $("#deleteId").val("");
+            });
+        });
+
+        function deleteItem(id) {
+            $("#deleteId").val(id);
+            $('#userDialog').modal();
+        }
+
+        function HideControl(fieldName, e) {
+            var cont = $(e.container);
+            HideFieldLabel(cont.find("label[for='" + fieldName + "']"));
+            HideFieldField(cont.find("#" + fieldName));
+        }
+
+        function HideFieldLabel(control) {
+            control.parent(".editor-label").hide();
+        }
+
+        function HideFieldField(control) {
+            control.parent(".editor-field").hide();
+        }
+
+        function error_handler(e) {
+            if (e.errors) {
+                var message = "Errors:\n";
+                $.each(e.errors, function (key, value) {
+                    if ('errors' in value) {
+                        $.each(value.errors, function () {
+                            message += this + "\n";
+                        });
+                    }
+                });
+                alert(message);
+            }
+        }
+    </script>
+}
+<style>
+    .k-edit-field, .k-edit-form-container .editor-field {
+        padding-top: 10px !important;
+    }
+</style>

@@ -1,0 +1,263 @@
+﻿@using MissionskyOA.Portal.Models;
+@using MissionskyOA.Models;
+@using PagedList;
+@using PagedList.Mvc;
+@model MissionskyOA.Portal.Models.AssetList
+
+@{
+    ViewBag.Title = "资产列表";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="@Url.Content("~/Content/PagedList.css")" rel="stylesheet" type="text/css" />
+<style type="text/css">
+    table th {
+        color: #00435e;
+        background-color: #d9ecf5;
+    }
+
+    table td, th {
+        border: 1px solid #a3d0e4;
+    }
+
+    .table > thead > tr > th {
+        border-bottom: none;
+    }
+
+    .table-condensed > tbody > tr > td,
+    .table-condensed > tbody > tr > th,
+    .table-condensed > tfoot > tr > td,
+    .table-condensed > tfoot > tr > th,
+    .table-condensed > thead > tr > td,
+    .table-condensed > thead > tr > th {
+        padding: 2px;
+    }
+
+    .input-validation-error {
+        border: 1px solid #d2d6de;
+    }
+</style>
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+        <small></small>
+    </h1>
+    <div class="pull-right header-r-toolbar">
+        <a class="btn btn-primary" href="@Url.Action("Edit", "Asset")">新增</a>
+    </div>
+</section>
+<section class="content">
+    @using (Html.BeginForm("Index", "Asset", FormMethod.Get, new { @class = "form-horizontal" }))
+    {
+        <div class="form-group">
+            <div class="col-sm-2">
+                @Html.DropDownListFor(m => m.TypeId, ViewBag.Types as IEnumerable<SelectListItem>, new { @class = "form-control" })
+            </div>
+            <div class="col-sm-2">
+                @Html.TextBoxFor(m => m.BarCode, new { @class = "form-control", @placeholder = "编号" })
+            </div>
+            <div class="col-sm-2">
+                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = "使用人" })
+            </div>
+            <div class="col-sm-2">
+                @(Html.Kendo().DatePickerFor(m => m.BuyDate)
+                  .Name("BuyDate")
+                  .Start(CalendarView.Year)
+                  .Depth(CalendarView.Year)
+                  .Format("yyyy MM")
+                )
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-6">
+                <button type="submit" class="btn btn-info" value="save" name="Submit">查询</button>&nbsp;&nbsp;
+                <button type="submit" class="btn btn-info" value="export" name="Submit">导出</button>&nbsp;&nbsp;
+                <button type="submit" class="btn btn-info" value="exportQR" name="Submit">导出二维码</button>&nbsp;&nbsp;
+                <button type="button" class="btn btn-info" value="deleteAll" id="deleteAll">批量删除</button>&nbsp;&nbsp;
+                @Html.ActionLink("导入", "Import", null, new { @class = "btn btn-info" })&nbsp;&nbsp;
+                <a href="@Url.Content("~/Templates/AssettImportTemplate.xlsx")">导入模板</a>
+            </div>
+        </div>
+    }
+    <div class="table-responsive">
+        @{
+            if (Model.List.Count > 0)
+            {
+                foreach (var item in (ViewBag.Types as IEnumerable<SelectListItem>).Where(it => it.Value != null).ToList())
+                {
+                    var itemsByType = Model.List.Where(it => it.TypeId == int.Parse(item.Value)).ToList();
+                    if (itemsByType != null && itemsByType.Count > 0)
+                    {
+                        <table class="table table-condensed table-hover">
+                            @{
+                        var first = itemsByType.First();
+                        if (first != null && first.AssetInfoes != null && first.AssetInfoes.Count > 0)
+                        {
+                            <thead>
+                                <tr>
+                                    <th>全选/取消 @Html.CheckBox("selectAll", new { id = "selectAll" })</th>
+                                    <th>Id</th>
+                                    <th>类别</th>
+                                    <th>状态</th>
+                                    <th>用户</th>
+                                    @foreach (var j in first.AssetInfoes)
+                                    {
+                                        <th>@j.AttributeName</th>
+                                    }
+                                    <th class="text-center">操作</th>
+                                </tr>
+                            </thead>
+
+                        }
+                            }
+                            @foreach (var x in itemsByType)
+                            {
+                                if (x.AssetInfoes != null && x.AssetInfoes.Count > 0)
+                                {
+                                    <tr>
+                                        <td class="text-center">@Html.CheckBox("resultChb_" + x.Id)</td>
+                                        <td>@x.Id</td>
+                                        <td>@x.TypeName</td>
+                                        <td>@x.StatusName</td>
+                                        <td>@x.UserName</td>
+                                        @foreach (var j in x.AssetInfoes)
+                                        {
+                                            <td>
+                                                @j.AttributeValue
+                                            </td>
+                                        }
+                                        <td class="text-center">
+                                            <a class='btn btn-link' onclick='showQRCode("barcodeModal_@x.AssetInfoes.Where(it => it.AttributeId == Model.BarCodeAttrId).First().AttributeValue")'><i class="glyphicon glyphicon-qrcode" title="二维码"> </i></a>
+                                            <a class='btn btn-link' href='@Url.Action("Edit", "Asset", new { id = x.Id })'><i class="glyphicon glyphicon-pencil" title="编辑"> </i></a>
+                                            <a class='btn btn-link' onclick='deleteItem(@x.Id)'><i class="glyphicon glyphicon-trash" title="删除"> </i></a>
+
+                                            <div class="modal fade modal-center" id="barcodeModal_@x.AssetInfoes.Where(it => it.AttributeId == Model.BarCodeAttrId).First().AttributeValue" + tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                            <h4 class="modal-title" id="myModalLabel">@x.AssetInfoes.Where(it => it.AttributeId == Model.BarCodeAttrId).First().AttributeValue</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            @( Html.Kendo().QRCode()
+                                                            .Name("barcode_" + x.AssetInfoes.Where(it => it.AttributeId == Model.BarCodeAttrId).First().AttributeValue)
+                                                            .Value(x.AssetInfoes.Where(it => it.AttributeId == Model.BarCodeAttrId).First().AttributeValue)
+                                                            .Color("#000")
+                                                            .Background("transparent")
+                                                            .Size(120)
+                                                            .HtmlAttributes(new { style = "margin-left:40%;" })
+                                                            )
+                                                            <br />
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </table>
+                    }
+                }
+            }
+        }
+
+        <div class="col-sm-12 text-center">
+            <span>
+                @Html.PagedListPager(Model.List, page => Url.Action("Index", new { barCode = Model.BarCode, userName = Model.UserName, typeId = Model.TypeId, buyDate = Model.BuyDate, page = page }), new PagedListRenderOptions { LinkToPreviousPageFormat = "上一页", LinkToNextPageFormat = "下一页", MaximumPageNumbersToDisplay = 5 })
+                Page @(Model.List.PageCount < Model.List.PageNumber ? 0 : Model.List.PageNumber) of @Model.List.PageCount
+            </span>
+        </div>
+    </div>
+</section>
+
+<div class="modal fade modal-center" id="assetDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">提示</h4>
+            </div>
+            <div class="modal-body">
+                确定删除?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" id="my-dialog-yes" data-area="" class="btn btn-primary" data-dismiss="modal">Yes</button>
+                @Html.Hidden("deleteId", "")
+            </div>
+        </div>
+    </div>
+</div>
+
+@section pagescript{
+    <script>
+        $(document).ready(function () {
+            $("#my-dialog-yes").on("click", function () {
+                var id = $("#deleteId").val();
+                if (id != "") {
+                    var url = "@Url.Action("Delete", "Asset")" + "/" + id;
+                    $.post(url, null, function (data) {
+                        if (data && data.error) {
+                            alert(data.error);
+                        }
+                        window.location.href = '@Url.Action("Index", new { barCode = Model.BarCode, typeId = Model.TypeId, buyDate = Model.BuyDate})';
+                    });
+                }
+            });
+
+            $('#assetDialog').on('hide.bs.modal', function (event) {
+                $("#deleteId").val("");
+            });
+
+            $("#selectAll").on("click", function () {
+                var isChecked = $("#selectAll").is(':checked');
+                if (isChecked) {
+                    $("input:checkbox[name ^= 'resultChb_']").prop("checked", true)
+                }
+                else {
+                    $("input:checkbox[name ^= 'resultChb_']").prop("checked", false);
+                }
+            });
+
+            $("#deleteAll").on("click", function () {
+                var selectedValue = [];
+                $('input:checkbox[name ^= "resultChb_"]:checked').each(function (i) {
+                    selectedValue.push($(this).attr("name").split('_')[1]);
+                });
+                if (selectedValue.length > 0) {
+                    var url = "@Url.Action("BatchDelete", "Asset")";
+                    $.post(url, { ids: selectedValue }, function (data) {
+                        if (data && data.error) {
+                            alert(data.error);
+                        }
+                        window.location.href = '@Url.Action("Index", new { barCode = Model.BarCode, typeId = Model.TypeId, buyDate = Model.BuyDate})';
+                    });
+                }
+
+            });
+        });
+
+        function deleteItem(id) {
+            $("#deleteId").val(id);
+            $('#assetDialog').modal();
+        }
+
+        function showQRCode(modalId) {
+            $('#' + modalId).modal();
+        }
+
+        function showMessage() {
+            var message = '@(string.IsNullOrEmpty(ViewBag.Message)?"":ViewBag.Message)';
+            if (message != "") {
+                $('#messageModal').modal();
+            }
+        }
+        showMessage();
+    </script>
+}
+

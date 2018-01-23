@@ -1,0 +1,131 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model MissionskyOA.Models.BookModel
+@using MissionskyOA.Core.Enum;
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+        <small></small>
+    </h1>
+</section>
+<section class="content">
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title"></h3>
+            <div class="box-tools pull-right">
+            </div>
+        </div><!-- /.box-header -->
+        @using (Html.BeginForm("edit", "Book", FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            <div class="box-body">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Name, "书名", new { @class = "col-sm-2 control-label" })
+                    <div class="col-xs-3">
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+
+                        @Html.ValidationMessageFor(m => m.Name)
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ISBN, "ISBN编码", new { @class = "col-sm-2 control-label" })
+                    <div class="col-xs-3">
+                        @Html.TextBoxFor(m => m.ISBN, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.ISBN)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Type, "书籍类型", new { @class = "col-sm-2 control-label" })
+                    <div class="col-xs-3">
+                        @Html.TextBoxFor(m => m.Type, new { @class = "form-control" })
+
+                        @Html.ValidationMessageFor(m => m.Type)
+                    </div>
+                
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Source, "来源", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.RadioButtonFor(m => m.Source, BookSource.Purchase, new { @id = "bookPurchase", @name = "Purchase" })<label for="bookPurchase">公司购买</label>
+                        @Html.RadioButtonFor(m => m.Source, BookSource.Donate, new { @id = "bookDonate", @name = "Donate" })<label for="bookDonate">员工捐赠</label>
+                        @Html.ValidationMessageFor(m => m.Source)
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Donor, "捐赠者姓名", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @(Html.Kendo().DropDownListFor(m => m.Donor)
+                        .Name("Donor")
+                         .BindTo(ViewData["ProjectManagerList"] as SelectList).DataTextField("Text")
+                            .HtmlAttributes(new { style = "width:250px" })
+                        )
+                        @Html.ValidationMessageFor(m => m.Donor)
+                    </div>
+                </div> 
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Desc, "简介", new { @class = "col-sm-2 control-label" })
+                    <div class="col-xs-3">
+                        @Html.TextAreaFor(m => m.Desc, new { @class = "form-control" })
+
+                        @Html.ValidationMessageFor(m => m.Desc)
+                    </div>
+
+                </div>
+                
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Author, "作者", new { @class = "col-sm-2 control-label" })
+                    <div class="col-xs-3">
+                        @Html.TextBoxFor(m => m.Author, new { @class = "form-control" })
+
+                        @Html.ValidationMessageFor(m => m.Author)
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-default" value="cancel" name="Submit">取消</button>
+                        <button type="submit" class="btn btn-info" value="save" name="Submit">提交</button>
+                    </div>
+                </div>
+            </div><!-- /.box-body -->
+            @Html.HiddenFor(m => m.Id)
+        }
+
+    </div><!-- /.box -->
+</section>
+
+<div class="modal fade modal-center" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="mySmallModalLabel">Alert</h4>
+            </div>
+            <div class="modal-body">
+                @ViewBag.Message
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section pagescript{
+    <script>
+
+        function showMessage() {
+            var message = '@(string.IsNullOrEmpty(ViewBag.Message)?"":ViewBag.Message)';
+            if (message != "") {
+                $('#messageModal').modal();
+            }
+        }
+        showMessage();
+    </script>
+}

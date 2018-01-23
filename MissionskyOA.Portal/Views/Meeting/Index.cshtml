@@ -1,0 +1,171 @@
+﻿@using PagedList.Mvc;
+@{
+    ViewBag.Title = "会议管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+        <small></small>
+    </h1>
+    <div class="pull-right header-r-toolbar">
+        <a class="btn btn-primary" href="@Url.Action("Edit", "Meeting")">新增会议室</a>
+    </div>
+</section>
+<section class="content">
+    @{
+        Html.Kendo().Grid<MissionskyOA.Models.MeetingRoomModel>()
+            .Name("grid")
+            .Columns(cols =>
+            {
+                cols.Bound(c => c.Id).Title("#").Sortable(false).Filterable(false);
+                cols.Bound(c => c.MeetingRoomName).Title("会议室名").Sortable(false).Filterable(false);
+                cols.Bound(c => c.Equipment).Title("会议室设备").Sortable(false).Filterable(false);
+                cols.Bound(c => c.Capacity).Title("可容纳人数").Sortable(false).Filterable(false);
+                cols.Bound(c => c.Remark).Title("备注").Sortable(false).Filterable(false);
+                cols.Bound(c => c.Status).Title("状态").Sortable(false).Filterable(false).ClientTemplate(
+                        "# if (Status == 0) { #" +
+                            "<span>禁用</span>" +
+                         "# } #" +
+                         "# if(Status == 1) { #" +
+                            "<span>启用</span>" +
+                         "# } #"
+                        );
+                cols.Bound(c => c.CreateUserName).Title("创建人").Sortable(false).Filterable(false);
+                cols.Bound(c => c.CreateDate).Format("{0:yyyy/MM/dd}").Title("创建日期");
+                cols.Bound(c => c.Id).Title("操作").ClientTemplate(
+                @"<a class='btn btn-link' href='" + @Url.Action("Edit", "Meeting", new { id = "#:Id#" }) + "'>编辑</a>"+
+                        "# if (Status == 1) { #" +
+                            "<a class='btn btn-link' onclick='deleteItem(#:Id#)'>禁用</a>" +
+                         "# } #" +
+                         "# if(Status == 0) { #" +
+                            "<a class='btn btn-link' onclick='deleteItem(#:Id#)'>启用</a>" +
+                         "# } #").Sortable(false).Filterable(false);
+            })
+            .ClientDetailTemplateId("myTemplate")
+            //.Filterable(filterable => filterable
+            //.Extra(false)
+            ////.Operators(operators => operators
+            ////    .ForString(str => str.Clear()
+            ////        .StartsWith("开头")
+            ////        .IsEqualTo("相等")
+            ////        .IsNotEqualTo("不相等")
+            ////    ))
+            ////)
+            .Sortable(f => f.AllowUnsort(true))
+            .Pageable(pageable => pageable.Refresh(true))
+            .DataSource(datasource => datasource.Ajax()
+                .PageSize(10)
+                .Read(read => read.Action("Read", "Meeting"))
+                )
+            .Render();
+    }
+</section>
+
+<div class="modal fade modal-center" id="userDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">提示</h4>
+            </div>
+            <div class="modal-body">
+                确定?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" id="my-dialog-yes" data-area="" class="btn btn-primary" data-dismiss="modal">Yes</button>
+                @Html.Hidden("deleteId", "")
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="myTemplate" type="text/kendo-tmpl">
+    @(Html.Kendo().Grid<MissionskyOA.Models.MeetingCalendarModel>()
+                .Name("grid_#=Id#")
+                        .Columns(cols =>
+                {
+                    //cols.Bound(c => c.Id).Title("会议ID");
+                    cols.Bound(c => c.Title).Title("会议主题");
+                    cols.Bound(c => c.MeetingContext).Title("会议内容");
+                    cols.Bound(c => c.Host).Title("主持人");
+                    cols.Bound(c => c.StartDate).Title("开始时间").Format("{0:MM/dd/yyyy HH:MM}");
+                    cols.Bound(c => c.EndDate).Title("结束时间").Format("{0:MM/dd/yyyy HH:MM}");
+                    cols.Bound(c => c.MeetingSummary).Title("会议纪要");
+                    cols.Bound(c => c.ApplyUserName).Title("申请人");
+                })
+                .ClientDetailTemplateId("paticipantTemplate")
+                .DataSource(datasource => datasource.Ajax()
+                    .PageSize(10)
+                    .Read(read => read.Action("GetMeetingCalendar", "Meeting", new { Id = "#=Id#" }))
+                    )
+                .ToClientTemplate())
+</script>
+
+<script id="paticipantTemplate" type="text/kendo-tmpl">
+    @(Html.Kendo().Grid<MissionskyOA.Models.MeetingParticipantModel>()
+                .Name("grid2_#=Id#")
+                        .Columns(cols =>
+                {
+                    cols.Bound(c => c.User.EnglishName).Title("参会者名");
+                    cols.Bound(c => c.User.DeptName).Title("部门");
+                    cols.Bound(c => c.User.ProjectName).Title("项目组");
+                    cols.Bound(c => c.IsOptional).Title("是否必须参加");
+                })
+                .DataSource(datasource => datasource.Ajax()
+                    .PageSize(10)
+                    .Read(read => read.Action("GetMeetingParticipant", "Meeting", new { Id = "#=Id#" }))
+                    )
+                .ToClientTemplate())
+</script>
+
+
+
+@section pagescript{
+    <script>
+        $(document).ready(function () {
+            $("#my-dialog-yes").on("click", function () {
+                var id = $("#deleteId").val();
+                if (id != "") {
+                    var url = "@Url.Action("Delete","Meeting")" + "/" + id;
+                    $.post(url, null, function (data) {
+                        if (data && data.error) {
+                            alert(data.error);
+                        }
+                        $(".k-pager-refresh").click();
+                    });
+
+                }
+            });
+
+            $('#userDialog').on('hide.bs.modal', function (event) {
+                $("#deleteId").val("");
+            });
+        });
+
+        function deleteItem(id) {
+            $("#deleteId").val(id);
+            $('#userDialog').modal();
+        }
+
+        function error_handler(e) {
+            if (e.errors) {
+                var message = "Errors:\n";
+                $.each(e.errors, function (key, value) {
+                    if ('errors' in value) {
+                        $.each(value.errors, function () {
+                            message += this + "\n";
+                        });
+                    }
+                });
+                alert(message);
+            }
+        }
+    </script>
+}
+<style>
+    .k-edit-field, .k-edit-form-container .editor-field {
+        padding-top: 10px !important;
+    }
+</style>

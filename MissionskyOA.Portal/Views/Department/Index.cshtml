@@ -1,0 +1,103 @@
+﻿@using PagedList.Mvc;
+@{
+    ViewBag.Title = "部门管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+        <small></small>
+    </h1>
+    <div class="pull-right header-r-toolbar">
+        <a class="btn btn-primary" href="@Url.Action("Edit", "Department")">新增部门</a>
+    </div>
+</section>
+<section class="content">
+            @{
+        Html.Kendo().Grid<MissionskyOA.Models.DepartmentModel>()
+             .Name("grid")
+                    .Columns(cols =>
+            {
+                cols.Bound(c => c.Id).Title("#").Sortable(false).Filterable(false);
+                cols.Bound(c => c.No).Title("部门编号").Sortable(false).Filterable(false);
+                cols.Bound(c => c.Name).Title("部门名称").Sortable(false).Filterable(false);
+                cols.Bound(c => c.DepartmentHeadName).Title("部门主管").Sortable(false).Filterable(false);
+                cols.Bound(c => c.Status).Title("状态").Sortable(false).Filterable(false).ClientTemplate(
+                    "# if (Status == 0) { #" +
+                        "<span>禁用</span>" +
+                     "# } #" +
+                     "# if(Status == 1) { #" +
+                        "<span>启用</span>" +
+                     "# } #"
+                    );
+                cols.Bound(c => c.CreateUserName).Title("创建者").Sortable(false).Filterable(false);
+                cols.Bound(c => c.CreatedDate).Format("{0:yyyy/MM/dd}").Title("创建时间");
+                cols.Bound(c => c.Id).Title("操作").ClientTemplate(
+                @"<a class='btn btn-link' href='" + @Url.Action("Edit", "Department", new { id = "#:Id#" }) + "'>编辑</a>" +
+                "# if (Status == 1) { #" +
+                        "<a class='btn btn-link' onclick='deleteItem(#:Id#)'>禁用</a>" +
+                     "# } #" +
+                     "# if(Status == 0) { #" +
+                        "<a class='btn btn-link' onclick='deleteItem(#:Id#)'>启用</a>" +
+                     "# } #").Sortable(false).Filterable(false);
+            })
+            .Sortable(f => f.AllowUnsort(true))
+            .Pageable(pageable => pageable.Refresh(true))
+            .DataSource(datasource => datasource.Ajax()
+                .PageSize(10)
+                .Read(read => read.Action("Read", "Department"))
+                )
+                .Render();
+        }
+ </section>
+<div class="modal fade modal-center" id="userDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">提示</h4>
+            </div>
+            <div class="modal-body">
+                确定?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" id="my-dialog-yes" data-area="" class="btn btn-primary" data-dismiss="modal">Yes</button>
+                @Html.Hidden("deleteId", "")
+            </div>
+        </div>
+    </div>
+</div>
+
+@section pagescript{
+    <script>
+        $(document).ready(function () {
+            $("#my-dialog-yes").on("click", function () {
+                var id = $("#deleteId").val();
+                if (id != "") {
+                    var url = "@Url.Action("Delete","Department")" + "/" + id;
+                    $.post(url, null, function (data) {
+                        if (data && data.error) {
+                            alert(data.error);
+                        }
+                        $(".k-pager-refresh").click();
+                    });
+
+                }
+            });
+
+            $('#userDialog').on('hide.bs.modal', function (event) {
+                $("#deleteId").val("");
+            });
+        });
+
+        function deleteItem(id) {
+            $("#deleteId").val(id);
+            $('#userDialog').modal();
+        }
+
+    </script>
+}
+
+
+

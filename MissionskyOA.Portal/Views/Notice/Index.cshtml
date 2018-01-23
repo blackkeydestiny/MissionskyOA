@@ -1,0 +1,101 @@
+﻿@using PagedList.Mvc;
+@using MissionskyOA.Core.Enum;
+@{
+    ViewBag.Title = "推送通知列表";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+        <small></small>
+    </h1>
+</section>
+<section class="content">
+    @{
+        Html.Kendo().Grid<MissionskyOA.Models.NotificationModel>()
+            .Name("grid")
+            .Columns(cols =>
+            {
+                cols.Bound(c => c.Id).Title("#").ClientTemplate(
+                @"<input type='checkbox' name='chk_list' id='#: Id #'/>").Sortable(false).Filterable(false).HeaderTemplate(@"<input type='checkbox' id='chkSelectAll' onclick='checkAll(this)'/>"); 
+                cols.Bound(c => c.Target).Title("接收者").Sortable(false).Filterable(false);
+                cols.Bound(c => c.Title).Title("标题").Sortable(false).Filterable(false);
+                cols.Bound(c => c.MessageType).Title("消息方式").Sortable(false).Filterable(false);
+                cols.Bound(c => c.BusinessType).Title("业务类型").Sortable(false).Filterable(false);
+                cols.Bound(c => c.Scope).Title("消息范围").Sortable(false).Filterable(false);
+                cols.Bound(c => c.MessageContent).Title("消息内容").Sortable(false).Filterable(false);
+                cols.Bound(c => c.CreatedTime).Format("{0:yyyy/MM/dd hh:mm:ss}").Title("发送时间").Sortable(false).Filterable(false);
+                cols.Bound(c => c.Id).Title("操作").ClientTemplate(@"<a class='btn btn-link' onclick='deleteItem(#:Id#)'>删除</a>").Sortable(false);
+            })
+            .Sortable(f => f.AllowUnsort(true))
+            .Pageable(pageable => pageable.Refresh(true))
+            .DataSource(datasource => datasource.Ajax()
+                .PageSize(10)
+                .Read(read => read.Action("Read", "Notice"))
+                )
+            .Render();
+    }
+</section>
+<div class="modal fade modal-center" id="userDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">提示</h4>
+            </div>
+            <div class="modal-body">
+                确定删除?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" id="my-dialog-yes" data-area="" class="btn btn-primary" data-dismiss="modal">Yes</button>
+                @Html.Hidden("deleteId", "")
+            </div>
+        </div>
+    </div>
+</div>
+@section pagescript{
+<script>
+
+    $(document).ready(function () {
+        $("#my-dialog-yes").on("click", function () {
+
+            $("#grid").find("input:checked").each(function () {
+
+                var id = $("#deleteId").val();
+                if (id != "" && this.id != 'chkSelectAll') {
+                    var url = "@Url.Action("Delete","Notice")" + "/" + this.id;
+                    $.post(url, null, function (data) {
+                        if (data && data.error) {
+                            alert(data.error);
+                        }
+                        $(".k-pager-refresh").click();
+                    });
+
+                }
+
+            });
+
+            
+        });
+
+        $('#userDialog').on('hide.bs.modal', function (event) {
+            $("#deleteId").val("");
+        });
+    });
+
+    function deleteItem(id) {
+        $("#deleteId").val(id);
+        $('#userDialog').modal();
+    }
+
+    //function selectAll()
+    //{  
+    //    $("#grid").find("input").attr("checked", state);
+    //}
+    function checkAll(ele) {
+        var state = $(ele).is(':checked');
+        $("#grid").find("input").attr("checked", state);
+    }
+</script>
+}

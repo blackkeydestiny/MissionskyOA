@@ -1,0 +1,35 @@
+﻿@using MissionskyOA.Portal.Models;
+@using MissionskyOA.Models;
+@using PagedList;
+@using PagedList.Mvc;
+@model MissionskyOA.Portal.Models.AssetInventoryViewModel
+
+@{
+    ViewBag.Title = "资产盘点";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="@Url.Content("~/Content/PagedList.css")" rel="stylesheet" type="text/css" />
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+        <small></small>
+    </h1>
+</section>
+<section class="content">
+    @using (Html.BeginForm("Submit", "AssetInventory", FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+        <div class="form-group">
+            <div class="col-sm-4">
+                @Html.DropDownListFor(m => m.InventoryId, ViewBag.Inventories as IEnumerable<SelectListItem>, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-6">
+                <button type="submit" class="btn btn-info" value="close" name="Submit">关闭</button>&nbsp;&nbsp;
+                <button type="submit" class="btn btn-info" value="open" name="Submit">开启</button>
+                <button type="submit" class="btn btn-info" value="exportNoScanInfo" name="Submit">导出此次盘点未扫描的资产信息</button>
+            </div>
+        </div>
+    }
+
+</section>

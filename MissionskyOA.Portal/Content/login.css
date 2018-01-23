@@ -1,0 +1,162 @@
+﻿body {
+    height: 100%;
+    position: relative;
+    background-color: #495061;
+    padding-top: 15%;
+    font-family: "Helvetica Neue", Helvetica, Microsoft Yahei, Hiragino Sans GB, WenQuanYi Micro Hei, sans-serif;
+    color: rgba(28, 54, 83, 0.6);
+    -webkit-text-size-adjust: 100%;
+}
+
+.btn {
+    border: solid 2px;
+    border-radius: 40px;
+    display: inline-block;
+    text-transform: uppercase;
+}
+
+    .btn:hover, .btn:focus {
+        color: #fff;
+        border-color: #FF5274;
+        background-color: #FF5274;
+    }
+
+.btn-fill {
+    color: #fff;
+    border: solid 2px #FF5274;
+    border-radius: 40px;
+    display: inline-block;
+    text-transform: uppercase;
+    background-color: #FF5274;
+}
+
+    .btn-fill:hover, .btn-fill:focus {
+        color: #fff;
+        background-color: #D7405D;
+        border-color: #D7405D;
+    }
+
+section.intro, section.features-extra, section.sign-up {
+    background: url("images/polygonal-bg.jpg") center center;
+    background-size: cover;
+    padding-top: 20px;
+    padding-bottom: 50px;
+}
+
+.field-validation-error {
+    color: #f00;
+    display: inline;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+.input-validation-error {
+    background-color: none;
+}
+
+.validation-summary-errors {
+    color: #f00;
+    display: inline;
+}
+
+    .validation-summary-errors ul {
+        list-style: none;
+    }
+
+.validation-summary-valid {
+    display: none;
+}
+
+/* ==========================================================================
+Sign up form
+========================================================================== */
+.sign-up h3 {
+    color: #fff;
+}
+
+    .sign-up h3 span {
+        color: #6B758C;
+    }
+
+.sign-up .signup-form .sign-up-btn {
+    padding: 15px 0;
+    border-radius: 3px;
+    width: 80%;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.sign-up .signup-form .form-input-group {
+    width: 80%;
+    height: 55px;
+    margin: 0 auto 10px;
+    border-radius: 5px;
+    border: solid 1px #E6E9EA;
+    text-align: left;
+    position: relative;
+}
+
+    .sign-up .signup-form .form-input-group i {
+        color: #FF5274;
+        font-size: 14px;
+    }
+
+        .sign-up .signup-form .form-input-group i:after {
+            content: "";
+            height: 30px;
+            width: 1px;
+            border-right: solid 1px #E6E9EA;
+            position: absolute;
+            top: 50%;
+            left: 30px;
+            -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+        }
+
+        .sign-up .signup-form .form-input-group i.fa-lock {
+            font-size: 18px;
+            position: absolute;
+            top: 50%;
+            -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+            margin-left: 20px;
+        }
+
+        .sign-up .signup-form .form-input-group i.fa-envelope {
+            font-size: 14px;
+            position: absolute;
+            top: 50%;
+            -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+            margin-left: 20px;
+        }
+
+    .sign-up .signup-form .form-input-group input {
+        padding-left: 68px;
+        width: 101%;
+        height: 100%;
+        border-radius: 6px;
+        border: none;
+        margin-left: -2px;
+    }
+
+        .sign-up .signup-form .form-input-group input::-webkit-input-placeholder {
+            color: #BCC1C3;
+        }
+
+        .sign-up .signup-form .form-input-group input:-moz-placeholder {
+            color: #BCC1C3;
+        }
+
+        .sign-up .signup-form .form-input-group input::-moz-placeholder {
+            color: #BCC1C3;
+        }
+
+        .sign-up .signup-form .form-input-group input:-ms-input-placeholder {
+            color: #BCC1C3;
+        }

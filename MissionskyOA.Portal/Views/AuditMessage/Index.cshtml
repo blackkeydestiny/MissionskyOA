@@ -1,0 +1,33 @@
+﻿@using PagedList.Mvc;
+@{
+    ViewBag.Title = "审计日志管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+        <small></small>
+    </h1>
+</section>
+<section class="content">
+    @{
+        Html.Kendo().Grid<MissionskyOA.Models.AuditMessageModel>()
+            .Name("grid")
+            .Columns(cols =>
+            {
+                cols.Bound(c => c.Id).Title("#").Sortable(false).Filterable(false);
+                cols.Bound(c => c.UserEnglishName).Title("接受对象").Sortable(false).Filterable(false);
+                cols.Bound(c => c.Type).Title("审计消息类型").Sortable(false).Filterable(false);
+                cols.Bound(c => c.Message).Title("审计消息").Sortable(false).Filterable(false);
+                cols.Bound(c => c.Status).Title("审计消息状态").Sortable(false).Filterable(false);
+                cols.Bound(c => c.CreatedTime).Title("创建时间").ClientTemplate("#= kendo.toString(kendo.parseDate(CreatedTime), 'dd/MM/yyyy HH:MM') #").Filterable(false);
+            })
+            .Sortable(f => f.AllowUnsort(true))
+            .Pageable(pageable => pageable.Refresh(true))
+            .DataSource(datasource => datasource.Ajax()
+                .PageSize(10)
+                .Read(read => read.Action("Read", "AuditMessage"))
+                )
+            .Render();
+    }
+</section>

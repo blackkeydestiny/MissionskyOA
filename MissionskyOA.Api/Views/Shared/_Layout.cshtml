@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div id="wrapper">
+        <div class="navbar navbar-inverse navbar-fixed-top" style="background:#E2DFDA;">
+            <div class="strip"></div>
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div>
+                        <div>
+                            <table style="margin-top:-20px">
+                                <tr class="row" >
+                                    <td id="td" class="col-md-offset-1" width="50px" ><h1 class="glyphicon glyphicon-folder-open"> </h1></td>
+                                    <td style="padding-left:10px;padding-top:23px;">@Html.ActionLink("MissionSky OA Platform API Document", "Index", "Help", new { area = "HelpPage" }, new { @class = "navbar-brand text-right", @style = "font-size:36px" })</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div id="content" class="container">
+            @RenderBody()
+        </div>
+        <div id="footer">
+            <p style="margin-right:10%;padding-top:10px;">
+                &copy; @DateTime.Now.Year - MissionSky OA Platform
+            </p>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

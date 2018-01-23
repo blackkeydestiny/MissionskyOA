@@ -1,0 +1,49 @@
+﻿@using PagedList.Mvc;
+@using MissionskyOA.Portal.Common;
+
+@{
+    ViewBag.Title = "定时任务";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+        <small></small>
+    </h1>
+    <div class="pull-right header-r-toolbar">
+        <a class="btn btn-primary" href="@Url.Action("Edit", CmnConstants.MENU_TASK)">添加定时任务</a>
+        <a class="btn btn-primary" href="@Url.Action("Restart", CmnConstants.MENU_TASK)">重启定时任务</a>
+        <a class="btn btn-primary" href="@Url.Action("Monitor", CmnConstants.MENU_TASK)">监听线程</a>
+    </div>
+</section>
+<section class="content">
+    @{
+        Html.Kendo().Grid<MissionskyOA.Models.ScheduledTaskModel>()
+            .Name("grid")
+            .Columns(cols =>
+            {
+                cols.Bound(c => c.Id).Title("#").Sortable(false);
+                cols.Bound(c => c.Name).Title("名称");
+                cols.Bound(c => c.Interval).Title("执行间隔");
+                cols.Bound(c => c.Unit).Title("间隔单位");
+                cols.Bound(c => c.Status).Title("状态");
+                cols.Bound(c => c.LastExecTime).Format("{0:G}").Title("最后执行时间");
+                cols.Bound(c => c.Id).Title("操作").ClientTemplate(
+                    @"# if (Status == 1) { #" +
+                        @"<a class='btn btn-link' href='" + @Url.Action("Enable", CmnConstants.MENU_TASK, new { id = "#:Id#" }) + "'>禁用</a>" +
+                     "# } #" +
+                     "# if(Status == 2) { #" +
+                        @"<a class='btn btn-link' href='" + @Url.Action("Enable", CmnConstants.MENU_TASK, new { id = "#:Id#" }) + "'>启用</a>" +
+                     "# } #" + 
+                     "<a class='btn btn-link' href='" + @Url.Action("Edit", CmnConstants.MENU_TASK, new { id = "#:Id#" }) + "'>编辑</a><a class='btn btn-link' href='" + @Url.Action("Execute", CmnConstants.MENU_TASK, new { taskId = "#:Id#" }) + "'>手动执行</a><a class='btn btn-link' href='" + @Url.Action("History", CmnConstants.MENU_TASK, new { taskId = "#:Id#" }) + "'>执行记录</a>")
+.Sortable(false);
+            })
+            .Sortable(f => f.AllowUnsort(true))
+            .Pageable(pageable => pageable.Refresh(true))
+            .DataSource(datasource => datasource.Ajax()
+                .PageSize(10)
+                .Read(read => read.Action("Read", CmnConstants.MENU_TASK))
+                )
+            .Render();
+    }
+</section>

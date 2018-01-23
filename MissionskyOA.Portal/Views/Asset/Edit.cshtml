@@ -1,0 +1,166 @@
+﻿@using MissionskyOA.Core.Enum;
+@using Newtonsoft.Json;
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var status = new List<SelectListItem>();
+    status.Add(new SelectListItem()
+    {
+        Text = "正常",
+        Value = ((int)AssetStatus.Normal).ToString()
+    });
+    status.Add(new SelectListItem()
+    {
+        Text = "丢失",
+        Value = ((int)AssetStatus.Lose).ToString()
+    });
+    status.Add(new SelectListItem()
+    {
+        Text = "报废",
+        Value = ((int)AssetStatus.Scrapped).ToString()
+    });
+    status.Add(new SelectListItem()
+    {
+        Text = "闲置",
+        Value = ((int)AssetStatus.Idle).ToString()
+    });    
+}
+
+@model MissionskyOA.Models.AssetModel
+<section class="content-header">
+    <h1>
+        编辑资产信息
+        <small></small>
+    </h1>
+</section>
+<section class="content">
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title"></h3>
+            <div class="box-tools pull-right">
+            </div>
+        </div><!-- /.box-header -->
+        @using (Html.BeginForm("Edit", "Asset", FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            <div class="box-body">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.UserId, "用户", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @(Html.Kendo().DropDownListFor(m => m.UserId)
+                          .DataTextField("EnglishName")
+                          .DataValueField("Id")
+                          .HtmlAttributes(new { style = "width:250px" })
+                          .Filter("contains")
+                          .DataSource(source =>
+                          {
+                              source.Read(read =>
+                              {
+                                  read.Action("GetUsers", "Asset");
+                              })
+                              .ServerFiltering(false);
+                          })
+                        )
+                        @Html.ValidationMessageFor(m => m.UserId)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Status, "状态", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.DropDownListFor(m => m.Status, status, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Status)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.TypeId, "类别", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.DropDownListFor(m => m.TypeId, ViewBag.Types as IEnumerable<SelectListItem>, new { @class = "form-control", onclick = "typeChange();" })
+                        @Html.ValidationMessageFor(m => m.TypeId)
+                    </div>
+                </div>
+                <div id="assetFields"></div>
+                <div class="form-group">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-default" value="cancel" name="Submit">取消</button>
+                        <button type="submit" class="btn btn-info" value="save" name="Submit">提交</button>
+                    </div>
+                </div>
+            </div><!-- /.box-body -->
+            @Html.HiddenFor(m => m.Id)
+        }
+
+    </div><!-- /.box -->
+</section>
+
+<div class="modal fade modal-center" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="mySmallModalLabel">提示</h4>
+            </div>
+            <div class="modal-body">
+                @ViewBag.Message
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section pagescript{
+    <script>
+        //后台消息弹出
+        function showMessage() {
+            var message = '@(string.IsNullOrEmpty(ViewBag.Message)?"":ViewBag.Message)';
+            if (message != "") {
+                $('#messageModal').modal();
+            }
+        }
+        showMessage();
+
+        //类型选择事件
+        var selectedType = null;
+        function typeChange() {
+            var typeId = $("#TypeId  option:selected").val();
+            if (typeId && selectedType != typeId) {
+                $("#assetFields").empty();
+                selectedType = typeId;
+                var url = '@Url.Action("GetAssetAttributesByTypeId", "Asset")' + '?typeId=' + typeId;
+                $.get(url, function (data) {
+                    if (data && data.length > 0) {
+                        $.each(data, function (i, item) {
+                            var field = '<div class="form-group">' +
+                                            '<label class = "col-sm-2 control-label">' + item.Name + '</label>' +
+                                            '<div class="col-sm-10"><input type="text" ' + 'name="###' + item.Name + "$" + item.Id + '" class="form-control" /></div>' +
+                                      '</div>';
+                            $("#assetFields").append(field);
+                        });
+                        setAssetAttributes();
+                    }
+                });
+            }
+        }
+        typeChange();
+
+        //自动设置属性输入框的值
+        function setAssetAttributes() {
+            @{
+                var attrs=JsonConvert.SerializeObject(Model.AssetInfoes);
+            }
+            var div = document.createElement('div');
+            div.innerHTML = '@attrs';
+            var decoded = div.firstChild.nodeValue;
+            var htmlAttrs = JSON.parse(decoded);
+            if (htmlAttrs && htmlAttrs instanceof Array && htmlAttrs.length > 0) {
+                for (var i = 0; i < htmlAttrs.length; i++) {
+                    $('input[name="###' + htmlAttrs[i].AttributeName + "$" + htmlAttrs[i].AttributeId + '"]').val(htmlAttrs[i].AttributeValue);
+                }
+            }
+        }
+
+    </script>
+}
+

@@ -1,0 +1,186 @@
+﻿@using MissionskyOA.Portal.Common;
+@using MissionskyOA.Core.Enum;
+@using MissionskyOA.Models;
+
+@model MissionskyOA.Models.WorkflowStepModel
+@{
+    ViewBag.Title = "编辑流程步骤";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+    var workflow = ViewData["Workflow"] as WorkflowModel;
+
+    if (workflow == null)
+    {
+        throw new KeyNotFoundException("找不到工作流。");
+    }
+}
+
+<script language="javascript" type="text/javascript">
+    //审批人
+    $(function () {
+        var $operatorType = $(".operator-type").find("select"); //操作类型下拉列表
+        var $user = $(".user-operator").find("select"); //用户下拉列表
+        var $role = $(".role-operator").find("select"); //角色下拉列表
+        var defaultType = $operatorType.find("option:selected").text(); //初使选择操作类型
+        var defaultUser = $user.val(); //初使选择用户
+        var defaultRole = $role.val(); //初使选择角色
+
+        $operatorType.change(function() {
+            var typeDesc = $operatorType.find("option:selected").text();
+
+            if (typeDesc == "用户") {
+                $(".role-operator").hide();
+                $role.attr("disabled", "disabled");
+                $(".user-operator").show();
+                $user.removeAttr("disabled");
+
+                if (typeDesc == defaultType) { //设置初使用户
+                    $user.val(defaultUser);
+                    $role.val(0);
+                }
+            } else {
+                $(".role-operator").show();
+                $role.removeAttr("disabled");
+                $(".user-operator").hide();
+                $user.attr("disabled", "disabled");
+
+                if (typeDesc == defaultType) { //设置初使角色
+                    $role.val(defaultRole);
+                    $user.val(0);
+                }
+            }
+        });
+
+        $operatorType.change(); //初使化
+    });
+
+    //流程上一步
+    $(function () {
+        var $operatorType = $(".prev-step").find("select"); //上一步下拉列表
+        var defaultStep = $operatorType.val();
+
+        if (defaultStep > 0) {
+            $operatorType.attr("disabed", true);
+        }
+    });
+</script>
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+        <small></small>
+    </h1>
+    <div class="pull-right header-r-toolbar">
+    </div>
+</section>
+
+<section class="content">
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title"></h3>
+            <div class="box-tools pull-right">
+            </div>
+        </div><!-- /.box-header -->
+    @using (Html.BeginForm("EditStep", CmnConstants.MENU_WORKFLOW, FormMethod.Post, new {@class = "form-horizontal"}))
+    {
+        <div class="box-body">
+            <div class="form-group">
+                @Html.Label("工作流", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.Label(workflow.Name, new { @class = "form-control input-sm" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name, "名称", new {@class = "col-sm-2 control-label"})
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(m => m.Name, new {@class = "form-control input-sm"})
+                    @Html.ValidationMessageFor(m => m.Name)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Type, "类型", new {@class = "col-sm-2 control-label"})
+                <div class="col-sm-10">
+                    @Html.DropDownListFor(m => m.Type, ViewData["WorkflowStepType"] as SelectList, new {@class = "form-control input-sm"})
+                    @Html.ValidationMessageFor(m => m.Type)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.MinTimes, "最小时长", new {@class = "col-sm-2 control-label"})
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(m => m.MinTimes, new {@class = "form-control input-sm"})
+                    @Html.ValidationMessageFor(m => m.MinTimes)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.MaxTimes, "最大时长", new {@class = "col-sm-2 control-label"})
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(m => m.MaxTimes, new {@class = "form-control input-sm"})
+                    @Html.ValidationMessageFor(m => m.MaxTimes)
+                </div>
+            </div>
+            <div class="form-group prev-step">
+                @Html.LabelFor(m => m.PrevStep, "上一步", new {@class = "col-sm-2 control-label"})
+                <div class="col-sm-10">
+                    @Html.DropDownListFor(m => m.PrevStep, ViewData["WorkflowSteps"] as SelectList, new {@class = "form-control input-sm"})
+                    @Html.ValidationMessageFor(m => m.PrevStep)
+                </div>
+            </div>
+            <div class="form-group operator-type">
+                @Html.LabelFor(m => m.OperatorType, "审批人类型", new {@class = "col-sm-2 control-label"})
+                <div class="col-sm-10">
+                    @Html.DropDownListFor(m => m.OperatorType, ViewData["WorkflowOperatorType"] as SelectList, new {@class = "form-control input-sm"})
+                    @Html.ValidationMessageFor(m => m.OperatorType)
+                </div>
+            </div>
+            <div class="form-group user-operator">
+                @Html.LabelFor(m => m.Operator, "用户", new {@class = "col-sm-2 control-label"})
+                <div class="col-sm-10">
+                    @Html.DropDownListFor(m => m.Operator, ViewData["Users"] as SelectList, new {@class = "form-control input-sm"})
+                    @Html.ValidationMessageFor(m => m.Operator)
+                </div>
+            </div>
+            <div class="form-group role-operator">
+                @Html.LabelFor(m => m.Operator, "角色", new {@class = "col-sm-2 control-label"})
+                <div class="col-sm-10">
+                    @Html.DropDownListFor(m => m.Operator, ViewData["Roles"] as SelectList, new {@class = "form-control input-sm"})
+                    @Html.ValidationMessageFor(m => m.Operator)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Desc, "描述", new {@class = "col-sm-2 control-label"})
+                <div class="col-sm-10">
+                    @Html.TextAreaFor(m => m.Desc, new {@class = "form-control"})
+                    @Html.ValidationMessageFor(m => m.Desc)
+                </div>
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="form-group">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-10">
+                <button type="submit" class="btn btn-default" value="cancel" name="Submit">取消</button>
+                <button type="submit" class="btn btn-info" value="save" name="Submit">提交</button>
+                <button type="submit" class="btn btn-info" value="test" name="Submit">测试</button>
+            </div>
+        </div>
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.FlowId)
+    }
+    </div><!-- /.box -->
+</section>
+
+<div class="modal fade modal-center" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="mySmallModalLabel">提示</h4>
+            </div>
+            <div class="modal-body">
+                @ViewBag.Message
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">确认</button>
+            </div>
+        </div>
+    </div>
+</div>

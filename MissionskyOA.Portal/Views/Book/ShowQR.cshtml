@@ -1,0 +1,56 @@
+﻿@model MissionskyOA.Models.BookModel
+@using System.Drawing
+@using System.Text
+@using MissionskyOA.Core.Common
+@using MissionskyOA.Core.Enum;
+@using MissionskyOA.Models
+@using MissionskyOA.Services
+@using ThoughtWorks.QRCode.Codec
+
+@{
+    var id = ViewData["BookId"] ?? 0;
+    var book = (new BookService()).GetBookDetail((int) id);
+
+    try
+    {
+        if (book != null)
+        {
+            #region 生成二维码
+            string enCodeString = book.BarCode;
+            QRCodeEncoder qrCodeEncoder = new QRCodeEncoder();
+            qrCodeEncoder.QRCodeErrorCorrect = QRCodeEncoder.ERROR_CORRECTION.Q;
+            qrCodeEncoder.QRCodeScale = 3;
+            Bitmap qrImg = qrCodeEncoder.Encode(enCodeString, Encoding.UTF8);
+
+            Bitmap resultImage = new Bitmap(qrImg.Width + 20, qrImg.Height + 20);
+            Graphics gResult = Graphics.FromImage(resultImage);
+            gResult.Clear(System.Drawing.Color.White);
+            if (System.IO.File.Exists(Server.MapPath("~/Content/images/logo.jpg"))) //如果有logo的话则添加logo
+            {
+                Bitmap btm = new Bitmap(Server.MapPath("~/Content/images/logo.jpg"));
+                Bitmap copyImage = new Bitmap(btm, qrImg.Width/3, qrImg.Height/3);
+                Graphics g = Graphics.FromImage(qrImg);
+                int x = qrImg.Width/2 - copyImage.Width/2;
+                int y = qrImg.Height/2 - copyImage.Height/2;
+                g.DrawImage(copyImage, x, y);
+            }
+
+            gResult.DrawImage(qrImg, 10, 10);
+            #endregion
+
+            MemoryStream ms = new MemoryStream();
+            resultImage.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
+            byte[] byteImage = new Byte[ms.Length];
+            byteImage = ms.GetBuffer();
+
+            Response.ClearContent();
+            Response.ContentType = "image/Jpeg";
+            Response.BinaryWrite(byteImage);
+
+            ms.Close();
+        }
+    }
+    catch
+    {
+    }
+}

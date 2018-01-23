@@ -1,0 +1,110 @@
+﻿@using PagedList.Mvc;
+@{
+    ViewBag.Title = "请假单列表";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+        <small></small>
+    </h1>
+</section>
+<section class="content">
+    @(
+        Html.Kendo().Grid<MissionskyOA.Models.OrderModel>()
+            .Name("grid")
+            .Columns(cols =>
+            {
+                cols.Bound(c => c.Id).Title("#").Sortable(false).Filterable(false);
+                cols.Bound(c => c.UserName).Title("用户名");
+                cols.Bound(c => c.DeptName).Title("部门").Sortable(false).Filterable(false);
+                cols.Bound(c => c.ProjectName).Title("项目组").Sortable(false).Filterable(false);
+                cols.Bound(c => c.Status).Title("审批状态").Sortable(false).Filterable(false).ClientTemplate(
+                        "# if (NextAuditName == null) { #" +
+                         "# if (Status == 0) { #" + "<span>待审批</span>" + "# } #" +
+                         "# if (Status == 1) { #" + "<span>审核中</span>" + "# } #" +
+                         "# if (Status == 2) { #" + "<span>已批准</span>" + "# } #" +
+                         "# if (Status == 3) { #" + "<span>已拒绝</span>" + "# } #" +
+                         "# if (Status == 4) { #" + "<span>已取消</span>" + "# } #" +
+                         "# if (Status == 5) { #" + "<span>已撤销</span>" + "# } #" +
+                         "# if (Status == 6) { #" + "<span>已接收</span>" + "# } #" +
+                         "# } #" +
+                         "# if(NextAuditName != null) { #" +
+                            "<span>审核中</span>" +
+                         "# } #"
+                        );
+                cols.Bound(c => c.NextAuditName).Title("下个审批人").Sortable(false).Filterable(false);
+                cols.Bound(c => c.AuditAdvice).Title("审批意见").Sortable(false).Filterable(false);
+                cols.Bound(c => c.RefOrderId).Title("关联撤销的请假单").Sortable(false).Filterable(false);
+                cols.Bound(c => c.CreatedTime).Title("创建时间").ClientTemplate("#= kendo.toString(kendo.parseDate(CreatedTime), 'dd/MM/yyyy HH:MM') #");
+            })
+                .Sortable(f => f.AllowUnsort(true))
+                    .Filterable(filterable => filterable
+                        .Extra(false)
+                .Operators(o => o.ForString(s => s.Clear().IsEqualTo("相等")
+                .IsNotEqualTo("不相等")
+                .StartsWith("开始"))
+                .ForDate(d => d.IsEqualTo("相等")
+                    .IsNotEqualTo("不相等")
+                    .IsGreaterThan("大于")
+                    .IsGreaterThanOrEqualTo("大于等于")
+                    .IsLessThanOrEqualTo("小于等于")
+                    .IsLessThan("小于"))))
+            .ClientDetailTemplateId("myTemplate")
+            .Pageable(pageable => pageable.Refresh(true))
+            .DataSource(datasource => datasource.Ajax()
+                .PageSize(10)
+                .Read(read => read.Action("Read", "AskLeave"))
+                )
+            .Events(events => events.DataBound("dataBound"))
+    )
+</section>
+
+<script id="myTemplate" type="text/kendo-tmpl">
+
+    @(Html.Kendo().Grid<MissionskyOA.Models.OrderDetModel>()
+                .Name("grid_#=Id#")
+                        .Columns(cols =>
+                {
+                    //cols.Bound(c => c.Id).Title("#").Sortable(false);
+                    cols.Bound(c => c.StartDate).Title("开始日期").Format("{0:MM/dd/yyyy HH:MM}");
+                    cols.Bound(c => c.EndDate).Title("结束日期").Format("{0:MM/dd/yyyy HH:MM}");
+                    cols.Bound(c => c.IOHours).Title("IO小时");
+                    cols.Bound(c => c.Description).Title("申请理由");
+                })
+                .ClientDetailTemplateId("auditTemplate")
+                .DataSource(datasource => datasource.Ajax()
+                    .PageSize(10)
+                            .Read(read => read.Action("ViewAskLeaveDetail", "AskLeave", new { Id = "#=Id#" }))
+                    )
+                .ToClientTemplate())
+
+</script>
+
+<script id="auditTemplate" type="text/kendo-tmpl">
+    @(Html.Kendo().Grid<MissionskyOA.Models.WorkflowProcessModel>()
+                .Name("grid_#=Id#")
+                        .Columns(cols =>
+                {
+                    cols.Bound(c => c.FlowId).Title("流程ID").Sortable(false);
+                    cols.Bound(c => c.StepName).Title("步骤名称");
+                    cols.Bound(c => c.OperatorName).Title("审批人姓名");
+                    cols.Bound(c => c.OperationDesc).Title("审批意见");
+                    cols.Bound(c => c.CreatedTime).Title("创建时间").Format("{0:MM/dd/yyyy HH:MM}");
+                })
+                .DataSource(datasource => datasource.Ajax()
+                    .PageSize(10)
+                            .Read(read => read.Action("ViewWorkFlowDetail", "AskLeave", new { Id = "#=Id#" }))
+                    )
+                .ToClientTemplate())
+</script>
+
+    <script>
+        function dataBound() {
+            this.expandRow(this.tbody.find("tr.k-master-row").first());
+        }
+    </script>
+
+
+
+

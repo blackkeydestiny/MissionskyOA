@@ -1,0 +1,3058 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MissionskyOAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AcceptProxy">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="200" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Content" Type="varbinary(max)" />
+          <Property Name="AcceptUserId" Type="int" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="Courier" Type="nvarchar" MaxLength="200" />
+          <Property Name="LeaveMessage" Type="nvarchar" MaxLength="200" />
+          <Property Name="CourierPhone" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreateUserId" Type="int" />
+          <Property Name="LastModifyUserId" Type="int" />
+          <Property Name="LastModifyTime" Type="datetime2" Precision="7" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MissionskyOA_DEV.dbo.Announcement' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Announcement">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Type" />
+            <PropertyRef Name="ApplyUserId" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="255" />
+          <Property Name="Content" Type="nvarchar(max)" />
+          <Property Name="ApplyUserId" Type="int" Nullable="false" />
+          <Property Name="EffectiveDays" Type="int" />
+          <Property Name="CreateUserId" Type="int" />
+          <Property Name="CreatedTime" Type="datetime2" Precision="7" />
+          <Property Name="Status" Type="int" />
+          <Property Name="AuditReason" Type="nvarchar" MaxLength="255" />
+          <Property Name="RefAssetInventoryId" Type="int" />
+        </EntityType>
+        <EntityType Name="Asset">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TypeId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Status" Type="int" />
+        </EntityType>
+        <EntityType Name="AssetAttribute">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" />
+          <Property Name="DataType" Type="int" />
+          <Property Name="Sort" Type="int" />
+        </EntityType>
+        <EntityType Name="AssetInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AssetId" Type="int" Nullable="false" />
+          <Property Name="AttributeId" Type="int" Nullable="false" />
+          <Property Name="AttributeValue" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="AssetInventory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="2000" />
+          <Property Name="Status" Type="int" />
+          <Property Name="CreatedTime" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AssetInventoryRecord">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InventoryId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="AssetId" Type="int" />
+          <Property Name="ScanCode" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="AssetTransaction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AssetId" Type="int" Nullable="false" />
+          <Property Name="BusinessType" Type="int" />
+          <Property Name="OutUserId" Type="int" Nullable="false" />
+          <Property Name="OutUserIsConfirm" Type="bit" />
+          <Property Name="InUserId" Type="int" Nullable="false" />
+          <Property Name="InUserIsConfirm" Type="bit" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" />
+          <Property Name="CreatedTime" Type="datetime2" Precision="7" />
+          <Property Name="Status" Type="int" />
+        </EntityType>
+        <EntityType Name="AssetType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Sort" Type="int" />
+        </EntityType>
+        <EntityType Name="AssetTypeAttribute">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TypeId" Type="int" Nullable="false" />
+          <Property Name="AttributeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Attachment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EntityType" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="EntityId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Desc" Type="nvarchar" MaxLength="100" />
+          <Property Name="Content" Type="varbinary(max)" />
+          <Property Name="CreatedTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AttendanceSummary">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="Year" Type="int" Nullable="false" />
+          <Property Name="LastValue" Type="float" />
+          <Property Name="BaseValue" Type="float" />
+          <Property Name="RemainValue" Type="float" />
+        </EntityType>
+        <EntityType Name="AuditMessage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="Message" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Status" Type="int" />
+          <Property Name="CreatedTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Avatar">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Content" Type="varbinary(max)" />
+          <Property Name="CreatedTime" Type="datetime2" Precision="7" />
+        </EntityType>
+        <EntityType Name="Book">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ISBN" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="30" />
+          <Property Name="Desc" Type="ntext" />
+          <Property Name="Author" Type="nvarchar" MaxLength="30" />
+          <Property Name="Source" Type="int" />
+          <Property Name="Donor" Type="int" />
+          <Property Name="Status" Type="int" />
+          <Property Name="Reader" Type="int" />
+          <Property Name="BarCode" Type="nvarchar" MaxLength="100" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BookBorrow">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="BookId" Type="int" Nullable="false" />
+          <Property Name="Status" Type="int" />
+          <Property Name="BorrowDate" Type="datetime" Nullable="false" />
+          <Property Name="ReturnDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BookComment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="BookId" Type="int" Nullable="false" />
+          <Property Name="Comment" Type="ntext" />
+          <Property Name="Rating" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DataDict">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Text" Type="nvarchar" MaxLength="30" />
+          <Property Name="Parent" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="No" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="CreateUserName" Type="nvarchar" MaxLength="30" />
+          <Property Name="DepartmentHead" Type="int" />
+          <Property Name="Status" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ExpenseAuditHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CurrentAudit" Type="int" Nullable="false" />
+          <Property Name="NextAudit" Type="int" />
+          <Property Name="ExpenseId" Type="int" Nullable="false" />
+          <Property Name="Status" Type="int" />
+          <Property Name="AuditMessage" Type="nvarchar" MaxLength="200" />
+          <Property Name="CreatedTime" Type="datetime2" Precision="7" />
+        </EntityType>
+        <EntityType Name="ExpenseDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MId" Type="int" Nullable="false" />
+          <Property Name="ODate" Type="datetime" Nullable="false" />
+          <Property Name="EType" Type="int" Nullable="false" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="200" />
+          <Property Name="PCount" Type="int" Nullable="false" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ExpenseMain">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AuditId" Type="int" Nullable="false" />
+          <Property Name="DeptNo" Type="int" Nullable="false" />
+          <Property Name="ProjNo" Type="int" Nullable="false" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Reason" Type="nvarchar" MaxLength="200" />
+          <Property Name="CreatedTime" Type="datetime2" Precision="7" />
+          <Property Name="ApplyUserId" Type="int" />
+          <Property Name="PrintForm" Type="int" />
+          <Property Name="ConfirmForm" Type="bit" />
+        </EntityType>
+        <EntityType Name="ExpenseMember">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DId" Type="int" Nullable="false" />
+          <Property Name="MemberId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Feedback">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Desc" Type="nvarchar" MaxLength="100" />
+          <Property Name="ProblemType" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="CreateTime" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="datetime" />
+          <Property Name="Thread" Type="nvarchar" MaxLength="255" />
+          <Property Name="Level" Type="nvarchar" MaxLength="50" />
+          <Property Name="Logger" Type="nvarchar" MaxLength="255" />
+          <Property Name="Message" Type="nvarchar" MaxLength="4000" />
+          <Property Name="Exception" Type="nvarchar" MaxLength="2000" />
+        </EntityType>
+        <EntityType Name="MeetingCalendar">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MeetingRoomId" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="200" />
+          <Property Name="StartDate" Type="date" Nullable="false" />
+          <Property Name="StartTime" Type="time" Precision="7" />
+          <Property Name="EndDate" Type="date" Nullable="false" />
+          <Property Name="EndTime" Type="time" Precision="7" />
+          <Property Name="Host" Type="nvarchar" MaxLength="200" />
+          <Property Name="MeetingContext" Type="nvarchar" MaxLength="200" />
+          <Property Name="MeetingSummary" Type="nvarchar" MaxLength="200" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="ApplyUserId" Type="int" Nullable="false" />
+          <Property Name="CreatedTime" Type="datetime2" Precision="7" />
+        </EntityType>
+        <EntityType Name="MeetingParticipant">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MeetingCalendarId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="IsOptional" Type="char" MaxLength="5" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MeetingRoom">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MeetingRoomName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Capacity" Type="int" Nullable="false" />
+          <Property Name="Equipment" Type="nvarchar" MaxLength="200" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="200" />
+          <Property Name="Status" Type="int" />
+          <Property Name="CreateUserName" Type="nvarchar" MaxLength="255" />
+          <Property Name="CreateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Notification">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BusinessType" Type="int" />
+          <Property Name="Title" Type="nvarchar" MaxLength="255" />
+          <Property Name="MessageContent" Type="nvarchar(max)" />
+          <Property Name="Target" Type="nvarchar" MaxLength="255" />
+          <Property Name="MessageType" Type="int" Nullable="false" />
+          <Property Name="Scope" Type="int" Nullable="false" />
+          <Property Name="MessagePrams" Type="nvarchar(max)" />
+          <Property Name="CreatedUserId" Type="int" />
+          <Property Name="CreatedTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NotificationTargetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NotificationId" Type="int" Nullable="false" />
+          <Property Name="TargetUserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="int" />
+          <Property Name="OrderType" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="ApplyUserId" Type="int" />
+          <Property Name="RefOrderId" Type="int" />
+          <Property Name="WorkflowId" Type="int" />
+          <Property Name="NextStep" Type="int" />
+          <Property Name="NextAudit" Type="int" />
+          <Property Name="CreatedTime" Type="datetime2" Precision="7" />
+          <Property Name="OrderNo" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrderDet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderId" Type="int" Nullable="false" />
+          <Property Name="StartDate" Type="date" Nullable="false" />
+          <Property Name="StartTime" Type="time" Precision="7" />
+          <Property Name="EndDate" Type="date" Nullable="false" />
+          <Property Name="EndTime" Type="time" Precision="7" />
+          <Property Name="IOHours" Type="float" />
+          <Property Name="InformLeader" Type="bit" />
+          <Property Name="WorkTransfer" Type="bit" />
+          <Property Name="Recipient" Type="int" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="FileName" Type="nvarchar(max)" />
+          <Property Name="FileContent" Type="varbinary(max)" />
+          <Property Name="Audit" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedTime" Type="datetime2" Precision="7" />
+          <Property Name="ProjectNo" Type="nvarchar" MaxLength="100" />
+          <Property Name="ProjectManager" Type="int" />
+          <Property Name="ProjectBegin" Type="datetime" />
+          <Property Name="ProjectEnd" Type="datetime" />
+          <Property Name="CreateUserName" Type="nvarchar" MaxLength="255" />
+          <Property Name="Status" Type="int" />
+        </EntityType>
+        <EntityType Name="Report">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Desc" Type="nvarchar" MaxLength="100" />
+          <Property Name="IsOpen" Type="bit" Nullable="false" />
+          <Property Name="No" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="CreatedTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ReportConfig">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ReportId" Type="int" Nullable="false" />
+          <Property Name="Config" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="CreatedTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ReportParameter">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ReportId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Desc" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Nullable" Type="bit" />
+          <Property Name="DataSource" Type="nvarchar" MaxLength="30" />
+          <Property Name="CreatedTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ApprovedDays" Type="int" />
+          <Property Name="CreatedTime" Type="datetime2" Precision="7" />
+          <Property Name="Abbreviation" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsInitRole" Type="int" />
+          <Property Name="CreateUser" Type="nvarchar" MaxLength="255" />
+          <Property Name="Status" Type="int" />
+        </EntityType>
+        <EntityType Name="ScheduledTask">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Interval" Type="int" Nullable="false" />
+          <Property Name="Unit" Type="int" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="TaskClass" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Desc" Type="nvarchar" MaxLength="100" />
+          <Property Name="LastExecTime" Type="datetime" />
+          <Property Name="CreatedTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ScheduledTaskHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TaskId" Type="int" Nullable="false" />
+          <Property Name="Result" Type="bit" Nullable="false" />
+          <Property Name="Desc" Type="ntext" />
+          <Property Name="CreatedTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="No" Type="nvarchar" MaxLength="30" />
+          <Property Name="ChineseName" Type="nvarchar" MaxLength="50" />
+          <Property Name="EnglishName" Type="nvarchar" MaxLength="50" />
+          <Property Name="QQID" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="255" />
+          <Property Name="Gender" Type="int" />
+          <Property Name="DirectlySupervisorId" Type="int" />
+          <Property Name="DeptId" Type="int" />
+          <Property Name="ProjectId" Type="int" />
+          <Property Name="Position" Type="nvarchar" MaxLength="30" />
+          <Property Name="Token" Type="nvarchar" MaxLength="255" />
+          <Property Name="Status" Type="int" />
+          <Property Name="Available" Type="bit" Nullable="false" />
+          <Property Name="TodayStatus" Type="int" Nullable="false" />
+          <Property Name="JoinDate" Type="date" />
+          <Property Name="ExpirationTime" Type="datetime2" Precision="7" />
+          <Property Name="AuthNotify" Type="nvarchar" MaxLength="500" />
+          <Property Name="CreatedTime" Type="datetime2" Precision="7" />
+          <Property Name="ServerYear" Type="int" />
+          <Property Name="ServerYearType" Type="int" />
+        </EntityType>
+        <EntityType Name="UserRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Workflow">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Desc" Type="nvarchar" MaxLength="100" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="CreatedTime" Type="datetime" Nullable="false" />
+          <Property Name="Condition" Type="ntext" />
+          <Property Name="ConditionDesc" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="WorkflowProcess">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FlowId" Type="int" Nullable="false" />
+          <Property Name="StepId" Type="int" Nullable="false" />
+          <Property Name="Operator" Type="int" Nullable="false" />
+          <Property Name="Operation" Type="int" Nullable="false" />
+          <Property Name="OperationDesc" Type="nvarchar" MaxLength="100" />
+          <Property Name="OrderNo" Type="int" Nullable="false" />
+          <Property Name="CreatedTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WorkflowStep">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FlowId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Operator" Type="int" Nullable="false" />
+          <Property Name="OperatorType" Type="int" Nullable="false" />
+          <Property Name="MinTimes" Type="float" Nullable="false" />
+          <Property Name="MaxTimes" Type="float" Nullable="false" />
+          <Property Name="Type" Type="int" />
+          <Property Name="NextStep" Type="int" />
+          <Property Name="Desc" Type="nvarchar" MaxLength="100" />
+          <Property Name="CreatedTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WorkTask">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Outline" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="Desc" Type="nvarchar" MaxLength="150" />
+          <Property Name="MeetingId" Type="int" />
+          <Property Name="ProjectId" Type="int" />
+          <Property Name="Sponsor" Type="int" Nullable="false" />
+          <Property Name="Supervisor" Type="int" />
+          <Property Name="Executor" Type="int" />
+          <Property Name="Source" Type="int" Nullable="false" />
+          <Property Name="Priority" Type="int" Nullable="false" />
+          <Property Name="Workload" Type="int" Nullable="false" />
+          <Property Name="Urgency" Type="int" />
+          <Property Name="Importance" Type="int" />
+          <Property Name="StartTime" Type="datetime" />
+          <Property Name="EndTime" Type="datetime" />
+          <Property Name="CompleteTime" Type="datetime" />
+          <Property Name="CloseTime" Type="datetime" />
+          <Property Name="CreatedTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WorkTaskComment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TaskId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="CreatedTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WorkTaskHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TaskId" Type="int" Nullable="false" />
+          <Property Name="Operator" Type="int" Nullable="false" />
+          <Property Name="OperatorName" Type="nvarchar" MaxLength="30" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="Audit" Type="nvarchar" MaxLength="100" />
+          <Property Name="CreatedTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Asset_AssetType">
+          <End Role="AssetType" Type="Self.AssetType" Multiplicity="1" />
+          <End Role="Asset" Type="Self.Asset" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AssetType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Asset">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Asset_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Asset" Type="Self.Asset" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Asset">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssetInfo_Asset1">
+          <End Role="Asset" Type="Self.Asset" Multiplicity="1" />
+          <End Role="AssetInfo" Type="Self.AssetInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asset">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AssetInfo">
+              <PropertyRef Name="AssetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssetInfo_AssetAttribute">
+          <End Role="AssetAttribute" Type="Self.AssetAttribute" Multiplicity="1" />
+          <End Role="AssetInfo" Type="Self.AssetInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AssetAttribute">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AssetInfo">
+              <PropertyRef Name="AttributeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssetInventoryRecord_AssetInventory">
+          <End Role="AssetInventory" Type="Self.AssetInventory" Multiplicity="1" />
+          <End Role="AssetInventoryRecord" Type="Self.AssetInventoryRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AssetInventory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AssetInventoryRecord">
+              <PropertyRef Name="InventoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssetTransaction_Asset">
+          <End Role="Asset" Type="Self.Asset" Multiplicity="1" />
+          <End Role="AssetTransaction" Type="Self.AssetTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asset">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AssetTransaction">
+              <PropertyRef Name="AssetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssetTypeAttribute_AssetAttribute">
+          <End Role="AssetAttribute" Type="Self.AssetAttribute" Multiplicity="1" />
+          <End Role="AssetTypeAttribute" Type="Self.AssetTypeAttribute" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AssetAttribute">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AssetTypeAttribute">
+              <PropertyRef Name="AttributeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssetTypeAttribute_AssetType">
+          <End Role="AssetType" Type="Self.AssetType" Multiplicity="1" />
+          <End Role="AssetTypeAttribute" Type="Self.AssetTypeAttribute" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AssetType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AssetTypeAttribute">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Avatar_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Avatar" Type="Self.Avatar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Avatar">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExpenseAuditHistory_ExpenseMain">
+          <End Role="ExpenseMain" Type="Self.ExpenseMain" Multiplicity="1" />
+          <End Role="ExpenseAuditHistory" Type="Self.ExpenseAuditHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExpenseMain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExpenseAuditHistory">
+              <PropertyRef Name="ExpenseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExpenseDetail_ExpenseMain">
+          <End Role="ExpenseMain" Type="Self.ExpenseMain" Multiplicity="1" />
+          <End Role="ExpenseDetail" Type="Self.ExpenseDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExpenseMain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExpenseDetail">
+              <PropertyRef Name="MId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExpenseMain_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="ExpenseMain" Type="Self.ExpenseMain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExpenseMain">
+              <PropertyRef Name="DeptNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExpenseMain_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="ExpenseMain" Type="Self.ExpenseMain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExpenseMain">
+              <PropertyRef Name="DeptNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExpenseMember_ExpenseDetail">
+          <End Role="ExpenseDetail" Type="Self.ExpenseDetail" Multiplicity="1" />
+          <End Role="ExpenseMember" Type="Self.ExpenseMember" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExpenseDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExpenseMember">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExpenseMember_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="ExpenseMember" Type="Self.ExpenseMember" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExpenseMember">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Feedback_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Feedback" Type="Self.Feedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Feedback">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MeetingCalendar_MeetingRoom">
+          <End Role="MeetingRoom" Type="Self.MeetingRoom" Multiplicity="1" />
+          <End Role="MeetingCalendar" Type="Self.MeetingCalendar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MeetingRoom">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MeetingCalendar">
+              <PropertyRef Name="MeetingRoomId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MeetingParticipant_MeetingCalendar">
+          <End Role="MeetingCalendar" Type="Self.MeetingCalendar" Multiplicity="1" />
+          <End Role="MeetingParticipant" Type="Self.MeetingParticipant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MeetingCalendar">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MeetingParticipant">
+              <PropertyRef Name="MeetingCalendarId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MeetingParticipant_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="MeetingParticipant" Type="Self.MeetingParticipant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MeetingParticipant">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NotificationTargetUser_Notification">
+          <End Role="Notification" Type="Self.Notification" Multiplicity="1" />
+          <End Role="NotificationTargetUser" Type="Self.NotificationTargetUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Notification">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NotificationTargetUser">
+              <PropertyRef Name="NotificationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDet_Order">
+          <End Role="Order" Type="Self.Order" Multiplicity="1" />
+          <End Role="OrderDet" Type="Self.OrderDet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderDet">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Report_Config">
+          <End Role="Report" Type="Self.Report" Multiplicity="1" />
+          <End Role="ReportConfig" Type="Self.ReportConfig" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Report">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ReportConfig">
+              <PropertyRef Name="ReportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Report_Parameter">
+          <End Role="Report" Type="Self.Report" Multiplicity="1" />
+          <End Role="ReportParameter" Type="Self.ReportParameter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Report">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ReportParameter">
+              <PropertyRef Name="ReportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScheduledTask_History">
+          <End Role="ScheduledTask" Type="Self.ScheduledTask" Multiplicity="1" />
+          <End Role="ScheduledTaskHistory" Type="Self.ScheduledTaskHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ScheduledTask">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ScheduledTaskHistory">
+              <PropertyRef Name="TaskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRole_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="UserRole" Type="Self.UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserRole">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRole_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserRole" Type="Self.UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserRole">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkflowProcess_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="WorkflowProcess" Type="Self.WorkflowProcess" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WorkflowProcess">
+              <PropertyRef Name="Operator" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkflowStep_Workflow">
+          <End Role="Workflow" Type="Self.Workflow" Multiplicity="1" />
+          <End Role="WorkflowStep" Type="Self.WorkflowStep" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Workflow">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WorkflowStep">
+              <PropertyRef Name="FlowId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkTaskComment_WorkTask">
+          <End Role="WorkTask" Type="Self.WorkTask" Multiplicity="1" />
+          <End Role="WorkTaskComment" Type="Self.WorkTaskComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkTask">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WorkTaskComment">
+              <PropertyRef Name="TaskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkTaskHistory_WorkTask">
+          <End Role="WorkTask" Type="Self.WorkTask" Multiplicity="1" />
+          <End Role="WorkTaskHistory" Type="Self.WorkTaskHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkTask">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WorkTaskHistory">
+              <PropertyRef Name="TaskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="p_summaryAttendanceDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="date" Type="datetime" Mode="In" />
+        </Function>
+        <EntityContainer Name="MissionskyOAModelStoreContainer">
+          <EntitySet Name="AcceptProxy" EntityType="Self.AcceptProxy" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Asset" EntityType="Self.Asset" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AssetAttribute" EntityType="Self.AssetAttribute" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AssetInfo" EntityType="Self.AssetInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AssetInventory" EntityType="Self.AssetInventory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AssetInventoryRecord" EntityType="Self.AssetInventoryRecord" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AssetTransaction" EntityType="Self.AssetTransaction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AssetType" EntityType="Self.AssetType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AssetTypeAttribute" EntityType="Self.AssetTypeAttribute" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Attachment" EntityType="Self.Attachment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AttendanceSummary" EntityType="Self.AttendanceSummary" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AuditMessage" EntityType="Self.AuditMessage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Avatar" EntityType="Self.Avatar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Book" EntityType="Self.Book" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BookBorrow" EntityType="Self.BookBorrow" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BookComment" EntityType="Self.BookComment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DataDict" EntityType="Self.DataDict" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExpenseAuditHistory" EntityType="Self.ExpenseAuditHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExpenseDetail" EntityType="Self.ExpenseDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExpenseMain" EntityType="Self.ExpenseMain" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExpenseMember" EntityType="Self.ExpenseMember" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Feedback" EntityType="Self.Feedback" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Log" EntityType="Self.Log" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MeetingCalendar" EntityType="Self.MeetingCalendar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MeetingParticipant" EntityType="Self.MeetingParticipant" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MeetingRoom" EntityType="Self.MeetingRoom" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Notification" EntityType="Self.Notification" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NotificationTargetUser" EntityType="Self.NotificationTargetUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderDet" EntityType="Self.OrderDet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Report" EntityType="Self.Report" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReportConfig" EntityType="Self.ReportConfig" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReportParameter" EntityType="Self.ReportParameter" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ScheduledTask" EntityType="Self.ScheduledTask" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ScheduledTaskHistory" EntityType="Self.ScheduledTaskHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserRole" EntityType="Self.UserRole" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Workflow" EntityType="Self.Workflow" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorkflowProcess" EntityType="Self.WorkflowProcess" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorkflowStep" EntityType="Self.WorkflowStep" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorkTask" EntityType="Self.WorkTask" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorkTaskComment" EntityType="Self.WorkTaskComment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorkTaskHistory" EntityType="Self.WorkTaskHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Announcement" EntityType="Self.Announcement" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Announcement].[Id] AS [Id], 
+    [Announcement].[Type] AS [Type], 
+    [Announcement].[Title] AS [Title], 
+    [Announcement].[Content] AS [Content], 
+    [Announcement].[ApplyUserId] AS [ApplyUserId], 
+    [Announcement].[EffectiveDays] AS [EffectiveDays], 
+    [Announcement].[CreateUserId] AS [CreateUserId], 
+    [Announcement].[CreatedTime] AS [CreatedTime], 
+    [Announcement].[Status] AS [Status], 
+    [Announcement].[AuditReason] AS [AuditReason], 
+    [Announcement].[RefAssetInventoryId] AS [RefAssetInventoryId]
+    FROM [dbo].[Announcement] AS [Announcement]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Asset_AssetType" Association="Self.FK_Asset_AssetType">
+            <End Role="AssetType" EntitySet="AssetType" />
+            <End Role="Asset" EntitySet="Asset" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Asset_User" Association="Self.FK_Asset_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Asset" EntitySet="Asset" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssetInfo_Asset1" Association="Self.FK_AssetInfo_Asset1">
+            <End Role="Asset" EntitySet="Asset" />
+            <End Role="AssetInfo" EntitySet="AssetInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssetInfo_AssetAttribute" Association="Self.FK_AssetInfo_AssetAttribute">
+            <End Role="AssetAttribute" EntitySet="AssetAttribute" />
+            <End Role="AssetInfo" EntitySet="AssetInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssetInventoryRecord_AssetInventory" Association="Self.FK_AssetInventoryRecord_AssetInventory">
+            <End Role="AssetInventory" EntitySet="AssetInventory" />
+            <End Role="AssetInventoryRecord" EntitySet="AssetInventoryRecord" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssetTransaction_Asset" Association="Self.FK_AssetTransaction_Asset">
+            <End Role="Asset" EntitySet="Asset" />
+            <End Role="AssetTransaction" EntitySet="AssetTransaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssetTypeAttribute_AssetAttribute" Association="Self.FK_AssetTypeAttribute_AssetAttribute">
+            <End Role="AssetAttribute" EntitySet="AssetAttribute" />
+            <End Role="AssetTypeAttribute" EntitySet="AssetTypeAttribute" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssetTypeAttribute_AssetType" Association="Self.FK_AssetTypeAttribute_AssetType">
+            <End Role="AssetType" EntitySet="AssetType" />
+            <End Role="AssetTypeAttribute" EntitySet="AssetTypeAttribute" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Avatar_User" Association="Self.FK_Avatar_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Avatar" EntitySet="Avatar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExpenseAuditHistory_ExpenseMain" Association="Self.FK_ExpenseAuditHistory_ExpenseMain">
+            <End Role="ExpenseMain" EntitySet="ExpenseMain" />
+            <End Role="ExpenseAuditHistory" EntitySet="ExpenseAuditHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExpenseDetail_ExpenseMain" Association="Self.FK_ExpenseDetail_ExpenseMain">
+            <End Role="ExpenseMain" EntitySet="ExpenseMain" />
+            <End Role="ExpenseDetail" EntitySet="ExpenseDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExpenseMain_Department" Association="Self.FK_ExpenseMain_Department">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="ExpenseMain" EntitySet="ExpenseMain" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExpenseMain_Project" Association="Self.FK_ExpenseMain_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="ExpenseMain" EntitySet="ExpenseMain" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExpenseMember_ExpenseDetail" Association="Self.FK_ExpenseMember_ExpenseDetail">
+            <End Role="ExpenseDetail" EntitySet="ExpenseDetail" />
+            <End Role="ExpenseMember" EntitySet="ExpenseMember" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExpenseMember_User" Association="Self.FK_ExpenseMember_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="ExpenseMember" EntitySet="ExpenseMember" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Feedback_User" Association="Self.FK_Feedback_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Feedback" EntitySet="Feedback" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MeetingCalendar_MeetingRoom" Association="Self.FK_MeetingCalendar_MeetingRoom">
+            <End Role="MeetingRoom" EntitySet="MeetingRoom" />
+            <End Role="MeetingCalendar" EntitySet="MeetingCalendar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MeetingParticipant_MeetingCalendar" Association="Self.FK_MeetingParticipant_MeetingCalendar">
+            <End Role="MeetingCalendar" EntitySet="MeetingCalendar" />
+            <End Role="MeetingParticipant" EntitySet="MeetingParticipant" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MeetingParticipant_User" Association="Self.FK_MeetingParticipant_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="MeetingParticipant" EntitySet="MeetingParticipant" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NotificationTargetUser_Notification" Association="Self.FK_NotificationTargetUser_Notification">
+            <End Role="Notification" EntitySet="Notification" />
+            <End Role="NotificationTargetUser" EntitySet="NotificationTargetUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_User" Association="Self.FK_Order_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDet_Order" Association="Self.FK_OrderDet_Order">
+            <End Role="Order" EntitySet="Order" />
+            <End Role="OrderDet" EntitySet="OrderDet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Report_Config" Association="Self.FK_Report_Config">
+            <End Role="Report" EntitySet="Report" />
+            <End Role="ReportConfig" EntitySet="ReportConfig" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Report_Parameter" Association="Self.FK_Report_Parameter">
+            <End Role="Report" EntitySet="Report" />
+            <End Role="ReportParameter" EntitySet="ReportParameter" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScheduledTask_History" Association="Self.FK_ScheduledTask_History">
+            <End Role="ScheduledTask" EntitySet="ScheduledTask" />
+            <End Role="ScheduledTaskHistory" EntitySet="ScheduledTaskHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRole_Role" Association="Self.FK_UserRole_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="UserRole" EntitySet="UserRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRole_User" Association="Self.FK_UserRole_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserRole" EntitySet="UserRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkflowProcess_User" Association="Self.FK_WorkflowProcess_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="WorkflowProcess" EntitySet="WorkflowProcess" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkflowStep_Workflow" Association="Self.FK_WorkflowStep_Workflow">
+            <End Role="Workflow" EntitySet="Workflow" />
+            <End Role="WorkflowStep" EntitySet="WorkflowStep" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkTaskComment_WorkTask" Association="Self.FK_WorkTaskComment_WorkTask">
+            <End Role="WorkTask" EntitySet="WorkTask" />
+            <End Role="WorkTaskComment" EntitySet="WorkTaskComment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkTaskHistory_WorkTask" Association="Self.FK_WorkTaskHistory_WorkTask">
+            <End Role="WorkTask" EntitySet="WorkTask" />
+            <End Role="WorkTaskHistory" EntitySet="WorkTaskHistory" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MissionskyOAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AcceptProxy">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FileName" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Content" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="AcceptUserId" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="Courier" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="LeaveMessage" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CourierPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreateUserId" Type="Int32" />
+          <Property Name="LastModifyUserId" Type="Int32" />
+          <Property Name="LastModifyTime" Type="DateTime" Precision="7" />
+        </EntityType>
+        <EntityType Name="Asset">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="Int32" />
+          <NavigationProperty Name="AssetType" Relationship="Self.FK_Asset_AssetType" FromRole="Asset" ToRole="AssetType" />
+          <NavigationProperty Name="AssetInfoes" Relationship="Self.FK_AssetInfo_Asset1" FromRole="Asset" ToRole="AssetInfo" />
+          <NavigationProperty Name="AssetTransactions" Relationship="Self.FK_AssetTransaction_Asset" FromRole="Asset" ToRole="AssetTransaction" />
+          <NavigationProperty Name="User" Relationship="MissionskyOAModel.FK_Asset_User" FromRole="Asset" ToRole="User" />
+        </EntityType>
+        <EntityType Name="AssetAttribute">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="DataType" Type="Int32" />
+          <Property Name="Sort" Type="Int32" />
+          <NavigationProperty Name="AssetInfoes" Relationship="Self.FK_AssetInfo_AssetAttribute" FromRole="AssetAttribute" ToRole="AssetInfo" />
+          <NavigationProperty Name="AssetTypeAttributes" Relationship="Self.FK_AssetTypeAttribute_AssetAttribute" FromRole="AssetAttribute" ToRole="AssetTypeAttribute" />
+        </EntityType>
+        <EntityType Name="AssetInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AssetId" Type="Int32" Nullable="false" />
+          <Property Name="AttributeId" Type="Int32" Nullable="false" />
+          <Property Name="AttributeValue" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Asset" Relationship="Self.FK_AssetInfo_Asset1" FromRole="AssetInfo" ToRole="Asset" />
+          <NavigationProperty Name="AssetAttribute" Relationship="Self.FK_AssetInfo_AssetAttribute" FromRole="AssetInfo" ToRole="AssetAttribute" />
+        </EntityType>
+        <EntityType Name="AssetInventory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="AssetInventoryRecords" Relationship="Self.FK_AssetInventoryRecord_AssetInventory" FromRole="AssetInventory" ToRole="AssetInventoryRecord" />
+        </EntityType>
+        <EntityType Name="AssetInventoryRecord">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InventoryId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="AssetId" Type="Int32" />
+          <Property Name="ScanCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AssetInventory" Relationship="Self.FK_AssetInventoryRecord_AssetInventory" FromRole="AssetInventoryRecord" ToRole="AssetInventory" />
+        </EntityType>
+        <EntityType Name="AssetTransaction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AssetId" Type="Int32" Nullable="false" />
+          <Property Name="BusinessType" Type="Int32" />
+          <Property Name="OutUserId" Type="Int32" Nullable="false" />
+          <Property Name="OutUserIsConfirm" Type="Boolean" />
+          <Property Name="InUserId" Type="Int32" Nullable="false" />
+          <Property Name="InUserIsConfirm" Type="Boolean" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedTime" Type="DateTime" Precision="7" />
+          <Property Name="Status" Type="Int32" />
+          <NavigationProperty Name="Asset" Relationship="Self.FK_AssetTransaction_Asset" FromRole="AssetTransaction" ToRole="Asset" />
+        </EntityType>
+        <EntityType Name="AssetType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Sort" Type="Int32" />
+          <NavigationProperty Name="Assets" Relationship="Self.FK_Asset_AssetType" FromRole="AssetType" ToRole="Asset" />
+          <NavigationProperty Name="AssetTypeAttributes" Relationship="Self.FK_AssetTypeAttribute_AssetType" FromRole="AssetType" ToRole="AssetTypeAttribute" />
+        </EntityType>
+        <EntityType Name="AssetTypeAttribute">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeId" Type="Int32" Nullable="false" />
+          <Property Name="AttributeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AssetAttribute" Relationship="Self.FK_AssetTypeAttribute_AssetAttribute" FromRole="AssetTypeAttribute" ToRole="AssetAttribute" />
+          <NavigationProperty Name="AssetType" Relationship="Self.FK_AssetTypeAttribute_AssetType" FromRole="AssetTypeAttribute" ToRole="AssetType" />
+        </EntityType>
+        <EntityType Name="Attachment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EntityType" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EntityId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Desc" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Content" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="AttendanceSummary">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="LastValue" Type="Double" />
+          <Property Name="BaseValue" Type="Double" />
+          <Property Name="RemainValue" Type="Double" />
+        </EntityType>
+        <EntityType Name="AuditMessage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="Message" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="CreatedTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Avatar">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="FileName" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Content" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="CreatedTime" Type="DateTime" Precision="7" />
+          <NavigationProperty Name="User" Relationship="MissionskyOAModel.FK_Avatar_User" FromRole="Avatar" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Book">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ISBN" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Type" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Desc" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Author" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Source" Type="Int32" />
+          <Property Name="Donor" Type="Int32" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="Reader" Type="Int32" />
+          <Property Name="BarCode" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="BookBorrow">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="BookId" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="BorrowDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ReturnDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="BookComment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="BookId" Type="Int32" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Rating" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="DataDict">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Parent" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="No" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreateUserName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="DepartmentHead" Type="Int32" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="ExpenseMains" Relationship="Self.FK_ExpenseMain_Department" FromRole="Department" ToRole="ExpenseMain" />
+        </EntityType>
+        <EntityType Name="ExpenseAuditHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CurrentAudit" Type="Int32" Nullable="false" />
+          <Property Name="NextAudit" Type="Int32" />
+          <Property Name="ExpenseId" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="AuditMessage" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedTime" Type="DateTime" Precision="7" />
+          <NavigationProperty Name="ExpenseMain" Relationship="Self.FK_ExpenseAuditHistory_ExpenseMain" FromRole="ExpenseAuditHistory" ToRole="ExpenseMain" />
+        </EntityType>
+        <EntityType Name="ExpenseDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MId" Type="Int32" Nullable="false" />
+          <Property Name="ODate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EType" Type="Int32" Nullable="false" />
+          <Property Name="Remark" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PCount" Type="Int32" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <NavigationProperty Name="ExpenseMain" Relationship="Self.FK_ExpenseDetail_ExpenseMain" FromRole="ExpenseDetail" ToRole="ExpenseMain" />
+          <NavigationProperty Name="ExpenseMembers" Relationship="Self.FK_ExpenseMember_ExpenseDetail" FromRole="ExpenseDetail" ToRole="ExpenseMember" />
+        </EntityType>
+        <EntityType Name="ExpenseMain">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AuditId" Type="Int32" Nullable="false" />
+          <Property Name="DeptNo" Type="Int32" Nullable="false" />
+          <Property Name="ProjNo" Type="Int32" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Reason" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedTime" Type="DateTime" Precision="7" />
+          <Property Name="ApplyUserId" Type="Int32" />
+          <Property Name="PrintForm" Type="Int32" />
+          <Property Name="ConfirmForm" Type="Boolean" />
+          <NavigationProperty Name="Department" Relationship="Self.FK_ExpenseMain_Department" FromRole="ExpenseMain" ToRole="Department" />
+          <NavigationProperty Name="ExpenseAuditHistories" Relationship="Self.FK_ExpenseAuditHistory_ExpenseMain" FromRole="ExpenseMain" ToRole="ExpenseAuditHistory" />
+          <NavigationProperty Name="ExpenseDetails" Relationship="Self.FK_ExpenseDetail_ExpenseMain" FromRole="ExpenseMain" ToRole="ExpenseDetail" />
+          <NavigationProperty Name="Project" Relationship="Self.FK_ExpenseMain_Project" FromRole="ExpenseMain" ToRole="Project" />
+        </EntityType>
+        <EntityType Name="ExpenseMember">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DId" Type="Int32" Nullable="false" />
+          <Property Name="MemberId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ExpenseDetail" Relationship="Self.FK_ExpenseMember_ExpenseDetail" FromRole="ExpenseMember" ToRole="ExpenseDetail" />
+          <NavigationProperty Name="User" Relationship="MissionskyOAModel.FK_ExpenseMember_User" FromRole="ExpenseMember" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Feedback">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Desc" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ProblemType" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="User" Relationship="MissionskyOAModel.FK_Feedback_User" FromRole="Feedback" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="Thread" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Level" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Logger" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Message" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="Exception" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="MeetingCalendar">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MeetingRoomId" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="StartTime" Type="Time" Precision="7" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EndTime" Type="Time" Precision="7" />
+          <Property Name="Host" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="MeetingContext" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="MeetingSummary" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="ApplyUserId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedTime" Type="DateTime" Precision="7" />
+          <NavigationProperty Name="MeetingRoom" Relationship="Self.FK_MeetingCalendar_MeetingRoom" FromRole="MeetingCalendar" ToRole="MeetingRoom" />
+          <NavigationProperty Name="MeetingParticipants" Relationship="Self.FK_MeetingParticipant_MeetingCalendar" FromRole="MeetingCalendar" ToRole="MeetingParticipant" />
+        </EntityType>
+        <EntityType Name="MeetingParticipant">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MeetingCalendarId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="IsOptional" Type="String" MaxLength="5" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="MeetingCalendar" Relationship="Self.FK_MeetingParticipant_MeetingCalendar" FromRole="MeetingParticipant" ToRole="MeetingCalendar" />
+          <NavigationProperty Name="User" Relationship="MissionskyOAModel.FK_MeetingParticipant_User" FromRole="MeetingParticipant" ToRole="User" />
+        </EntityType>
+        <EntityType Name="MeetingRoom">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MeetingRoomName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Capacity" Type="Int32" Nullable="false" />
+          <Property Name="Equipment" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="CreateUserName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="MeetingCalendars" Relationship="Self.FK_MeetingCalendar_MeetingRoom" FromRole="MeetingRoom" ToRole="MeetingCalendar" />
+        </EntityType>
+        <EntityType Name="Notification">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BusinessType" Type="Int32" />
+          <Property Name="Title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="MessageContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Target" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="MessageType" Type="Int32" Nullable="false" />
+          <Property Name="Scope" Type="Int32" Nullable="false" />
+          <Property Name="MessagePrams" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedUserId" Type="Int32" />
+          <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="NotificationTargetUsers" Relationship="Self.FK_NotificationTargetUser_Notification" FromRole="Notification" ToRole="NotificationTargetUser" />
+        </EntityType>
+        <EntityType Name="NotificationTargetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NotificationId" Type="Int32" Nullable="false" />
+          <Property Name="TargetUserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Notification" Relationship="Self.FK_NotificationTargetUser_Notification" FromRole="NotificationTargetUser" ToRole="Notification" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="OrderType" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="ApplyUserId" Type="Int32" />
+          <Property Name="RefOrderId" Type="Int32" />
+          <Property Name="WorkflowId" Type="Int32" />
+          <Property Name="NextStep" Type="Int32" />
+          <Property Name="NextAudit" Type="Int32" />
+          <Property Name="CreatedTime" Type="DateTime" Precision="7" />
+          <Property Name="OrderNo" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="OrderDets" Relationship="Self.FK_OrderDet_Order" FromRole="Order" ToRole="OrderDet" />
+          <NavigationProperty Name="User" Relationship="MissionskyOAModel.FK_Order_User" FromRole="Order" ToRole="User" />
+        </EntityType>
+        <EntityType Name="OrderDet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="Int32" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="StartTime" Type="Time" Precision="7" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EndTime" Type="Time" Precision="7" />
+          <Property Name="IOHours" Type="Double" />
+          <Property Name="InformLeader" Type="Boolean" />
+          <Property Name="WorkTransfer" Type="Boolean" />
+          <Property Name="Recipient" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FileName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FileContent" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Audit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Order" Relationship="Self.FK_OrderDet_Order" FromRole="OrderDet" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedTime" Type="DateTime" Precision="7" />
+          <Property Name="ProjectNo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ProjectManager" Type="Int32" />
+          <Property Name="ProjectBegin" Type="DateTime" Precision="3" />
+          <Property Name="ProjectEnd" Type="DateTime" Precision="3" />
+          <Property Name="CreateUserName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int32" />
+          <NavigationProperty Name="ExpenseMains" Relationship="Self.FK_ExpenseMain_Project" FromRole="Project" ToRole="ExpenseMain" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ApprovedDays" Type="Int32" />
+          <Property Name="CreatedTime" Type="DateTime" Precision="7" />
+          <Property Name="Abbreviation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsInitRole" Type="Int32" />
+          <Property Name="CreateUser" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int32" />
+          <NavigationProperty Name="UserRoles" Relationship="Self.FK_UserRole_Role" FromRole="Role" ToRole="UserRole" />
+        </EntityType>
+        <EntityType Name="ScheduledTask">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Interval" Type="Int32" Nullable="false" />
+          <Property Name="Unit" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="TaskClass" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Desc" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LastExecTime" Type="DateTime" Precision="3" />
+          <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="ScheduledTaskHistories" Relationship="Self.FK_ScheduledTask_History" FromRole="ScheduledTask" ToRole="ScheduledTaskHistory" />
+        </EntityType>
+        <EntityType Name="ScheduledTaskHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TaskId" Type="Int32" Nullable="false" />
+          <Property Name="Result" Type="Boolean" Nullable="false" />
+          <Property Name="Desc" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="ScheduledTask" Relationship="Self.FK_ScheduledTask_History" FromRole="ScheduledTaskHistory" ToRole="ScheduledTask" />
+        </EntityType>
+        <EntityType Name="UserRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Role" Relationship="Self.FK_UserRole_Role" FromRole="UserRole" ToRole="Role" />
+          <NavigationProperty Name="User" Relationship="MissionskyOAModel.FK_UserRole_User" FromRole="UserRole" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Workflow">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Desc" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Condition" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ConditionDesc" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="WorkflowSteps" Relationship="Self.FK_WorkflowStep_Workflow" FromRole="Workflow" ToRole="WorkflowStep" />
+        </EntityType>
+        <EntityType Name="WorkflowProcess">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FlowId" Type="Int32" Nullable="false" />
+          <Property Name="StepId" Type="Int32" Nullable="false" />
+          <Property Name="Operator" Type="Int32" Nullable="false" />
+          <Property Name="Operation" Type="Int32" Nullable="false" />
+          <Property Name="OperationDesc" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="OrderNo" Type="Int32" Nullable="false" />
+          <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="User" Relationship="MissionskyOAModel.FK_WorkflowProcess_User" FromRole="WorkflowProcess" ToRole="User" />
+        </EntityType>
+        <EntityType Name="WorkflowStep">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FlowId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Operator" Type="Int32" Nullable="false" />
+          <Property Name="OperatorType" Type="Int32" Nullable="false" />
+          <Property Name="MinTimes" Type="Double" Nullable="false" />
+          <Property Name="MaxTimes" Type="Double" Nullable="false" />
+          <Property Name="Type" Type="Int32" />
+          <Property Name="NextStep" Type="Int32" />
+          <Property Name="Desc" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Workflow" Relationship="Self.FK_WorkflowStep_Workflow" FromRole="WorkflowStep" ToRole="Workflow" />
+        </EntityType>
+        <EntityType Name="WorkTask">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Outline" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="Desc" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="MeetingId" Type="Int32" />
+          <Property Name="ProjectId" Type="Int32" />
+          <Property Name="Sponsor" Type="Int32" Nullable="false" />
+          <Property Name="Supervisor" Type="Int32" />
+          <Property Name="Executor" Type="Int32" />
+          <Property Name="Source" Type="Int32" Nullable="false" />
+          <Property Name="Priority" Type="Int32" Nullable="false" />
+          <Property Name="Workload" Type="Int32" Nullable="false" />
+          <Property Name="Urgency" Type="Int32" />
+          <Property Name="Importance" Type="Int32" />
+          <Property Name="StartTime" Type="DateTime" Precision="3" />
+          <Property Name="EndTime" Type="DateTime" Precision="3" />
+          <Property Name="CompleteTime" Type="DateTime" Precision="3" />
+          <Property Name="CloseTime" Type="DateTime" Precision="3" />
+          <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="WorkTaskComments" Relationship="Self.FK_WorkTaskComment_WorkTask" FromRole="WorkTask" ToRole="WorkTaskComment" />
+          <NavigationProperty Name="WorkTaskHistories" Relationship="Self.FK_WorkTaskHistory_WorkTask" FromRole="WorkTask" ToRole="WorkTaskHistory" />
+        </EntityType>
+        <EntityType Name="WorkTaskComment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TaskId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="WorkTask" Relationship="Self.FK_WorkTaskComment_WorkTask" FromRole="WorkTaskComment" ToRole="WorkTask" />
+        </EntityType>
+        <EntityType Name="WorkTaskHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TaskId" Type="Int32" Nullable="false" />
+          <Property Name="Operator" Type="Int32" Nullable="false" />
+          <Property Name="OperatorName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="Audit" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="WorkTask" Relationship="Self.FK_WorkTaskHistory_WorkTask" FromRole="WorkTaskHistory" ToRole="WorkTask" />
+        </EntityType>
+        <EntityType Name="Announcement">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Type" />
+            <PropertyRef Name="ApplyUserId" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ApplyUserId" Type="Int32" Nullable="false" />
+          <Property Name="EffectiveDays" Type="Int32" />
+          <Property Name="CreateUserId" Type="Int32" />
+          <Property Name="CreatedTime" Type="DateTime" Precision="7" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="AuditReason" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="RefAssetInventoryId" Type="Int32" />
+        </EntityType>
+        <Association Name="FK_Asset_AssetType">
+          <End Role="AssetType" Type="Self.AssetType" Multiplicity="1" />
+          <End Role="Asset" Type="Self.Asset" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AssetType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Asset">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssetInfo_Asset1">
+          <End Role="Asset" Type="Self.Asset" Multiplicity="1" />
+          <End Role="AssetInfo" Type="Self.AssetInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asset">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AssetInfo">
+              <PropertyRef Name="AssetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssetTransaction_Asset">
+          <End Role="Asset" Type="Self.Asset" Multiplicity="1" />
+          <End Role="AssetTransaction" Type="Self.AssetTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asset">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AssetTransaction">
+              <PropertyRef Name="AssetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssetInfo_AssetAttribute">
+          <End Role="AssetAttribute" Type="Self.AssetAttribute" Multiplicity="1" />
+          <End Role="AssetInfo" Type="Self.AssetInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AssetAttribute">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AssetInfo">
+              <PropertyRef Name="AttributeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssetTypeAttribute_AssetAttribute">
+          <End Role="AssetAttribute" Type="Self.AssetAttribute" Multiplicity="1" />
+          <End Role="AssetTypeAttribute" Type="Self.AssetTypeAttribute" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AssetAttribute">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AssetTypeAttribute">
+              <PropertyRef Name="AttributeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssetInventoryRecord_AssetInventory">
+          <End Role="AssetInventory" Type="Self.AssetInventory" Multiplicity="1" />
+          <End Role="AssetInventoryRecord" Type="Self.AssetInventoryRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AssetInventory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AssetInventoryRecord">
+              <PropertyRef Name="InventoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssetTypeAttribute_AssetType">
+          <End Role="AssetType" Type="Self.AssetType" Multiplicity="1" />
+          <End Role="AssetTypeAttribute" Type="Self.AssetTypeAttribute" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AssetType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AssetTypeAttribute">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExpenseMain_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="ExpenseMain" Type="Self.ExpenseMain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExpenseMain">
+              <PropertyRef Name="DeptNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExpenseAuditHistory_ExpenseMain">
+          <End Role="ExpenseMain" Type="Self.ExpenseMain" Multiplicity="1" />
+          <End Role="ExpenseAuditHistory" Type="Self.ExpenseAuditHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExpenseMain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExpenseAuditHistory">
+              <PropertyRef Name="ExpenseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExpenseDetail_ExpenseMain">
+          <End Role="ExpenseMain" Type="Self.ExpenseMain" Multiplicity="1" />
+          <End Role="ExpenseDetail" Type="Self.ExpenseDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExpenseMain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExpenseDetail">
+              <PropertyRef Name="MId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExpenseMember_ExpenseDetail">
+          <End Role="ExpenseDetail" Type="Self.ExpenseDetail" Multiplicity="1" />
+          <End Role="ExpenseMember" Type="Self.ExpenseMember" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExpenseDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExpenseMember">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExpenseMain_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="ExpenseMain" Type="Self.ExpenseMain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExpenseMain">
+              <PropertyRef Name="DeptNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MeetingCalendar_MeetingRoom">
+          <End Role="MeetingRoom" Type="Self.MeetingRoom" Multiplicity="1" />
+          <End Role="MeetingCalendar" Type="Self.MeetingCalendar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MeetingRoom">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MeetingCalendar">
+              <PropertyRef Name="MeetingRoomId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MeetingParticipant_MeetingCalendar">
+          <End Role="MeetingCalendar" Type="Self.MeetingCalendar" Multiplicity="1" />
+          <End Role="MeetingParticipant" Type="Self.MeetingParticipant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MeetingCalendar">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MeetingParticipant">
+              <PropertyRef Name="MeetingCalendarId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NotificationTargetUser_Notification">
+          <End Role="Notification" Type="Self.Notification" Multiplicity="1" />
+          <End Role="NotificationTargetUser" Type="Self.NotificationTargetUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Notification">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NotificationTargetUser">
+              <PropertyRef Name="NotificationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDet_Order">
+          <End Role="Order" Type="Self.Order" Multiplicity="1" />
+          <End Role="OrderDet" Type="Self.OrderDet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderDet">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRole_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="UserRole" Type="Self.UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserRole">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScheduledTask_History">
+          <End Role="ScheduledTask" Type="Self.ScheduledTask" Multiplicity="1" />
+          <End Role="ScheduledTaskHistory" Type="Self.ScheduledTaskHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ScheduledTask">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ScheduledTaskHistory">
+              <PropertyRef Name="TaskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkflowStep_Workflow">
+          <End Role="Workflow" Type="Self.Workflow" Multiplicity="1" />
+          <End Role="WorkflowStep" Type="Self.WorkflowStep" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Workflow">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WorkflowStep">
+              <PropertyRef Name="FlowId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkTaskComment_WorkTask">
+          <End Role="WorkTask" Type="Self.WorkTask" Multiplicity="1" />
+          <End Role="WorkTaskComment" Type="Self.WorkTaskComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkTask">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WorkTaskComment">
+              <PropertyRef Name="TaskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkTaskHistory_WorkTask">
+          <End Role="WorkTask" Type="Self.WorkTask" Multiplicity="1" />
+          <End Role="WorkTaskHistory" Type="Self.WorkTaskHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkTask">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WorkTaskHistory">
+              <PropertyRef Name="TaskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MissionskyOAEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AcceptProxies" EntityType="Self.AcceptProxy" />
+          <EntitySet Name="Assets" EntityType="Self.Asset" />
+          <EntitySet Name="AssetAttributes" EntityType="Self.AssetAttribute" />
+          <EntitySet Name="AssetInfoes" EntityType="Self.AssetInfo" />
+          <EntitySet Name="AssetInventories" EntityType="Self.AssetInventory" />
+          <EntitySet Name="AssetInventoryRecords" EntityType="Self.AssetInventoryRecord" />
+          <EntitySet Name="AssetTransactions" EntityType="Self.AssetTransaction" />
+          <EntitySet Name="AssetTypes" EntityType="Self.AssetType" />
+          <EntitySet Name="AssetTypeAttributes" EntityType="Self.AssetTypeAttribute" />
+          <EntitySet Name="Attachments" EntityType="Self.Attachment" />
+          <EntitySet Name="AttendanceSummaries" EntityType="Self.AttendanceSummary" />
+          <EntitySet Name="AuditMessages" EntityType="Self.AuditMessage" />
+          <EntitySet Name="Avatars" EntityType="Self.Avatar" />
+          <EntitySet Name="Books" EntityType="Self.Book" />
+          <EntitySet Name="BookBorrows" EntityType="Self.BookBorrow" />
+          <EntitySet Name="BookComments" EntityType="Self.BookComment" />
+          <EntitySet Name="DataDicts" EntityType="Self.DataDict" />
+          <EntitySet Name="Departments" EntityType="Self.Department" />
+          <EntitySet Name="ExpenseAuditHistories" EntityType="Self.ExpenseAuditHistory" />
+          <EntitySet Name="ExpenseDetails" EntityType="Self.ExpenseDetail" />
+          <EntitySet Name="ExpenseMains" EntityType="Self.ExpenseMain" />
+          <EntitySet Name="ExpenseMembers" EntityType="Self.ExpenseMember" />
+          <EntitySet Name="Feedbacks" EntityType="Self.Feedback" />
+          <EntitySet Name="Logs" EntityType="Self.Log" />
+          <EntitySet Name="MeetingCalendars" EntityType="Self.MeetingCalendar" />
+          <EntitySet Name="MeetingParticipants" EntityType="Self.MeetingParticipant" />
+          <EntitySet Name="MeetingRooms" EntityType="Self.MeetingRoom" />
+          <EntitySet Name="Notifications" EntityType="Self.Notification" />
+          <EntitySet Name="NotificationTargetUsers" EntityType="Self.NotificationTargetUser" />
+          <EntitySet Name="Orders" EntityType="Self.Order" />
+          <EntitySet Name="OrderDets" EntityType="Self.OrderDet" />
+          <EntitySet Name="Projects" EntityType="Self.Project" />
+          <EntitySet Name="Roles" EntityType="Self.Role" />
+          <EntitySet Name="ScheduledTasks" EntityType="Self.ScheduledTask" />
+          <EntitySet Name="ScheduledTaskHistories" EntityType="Self.ScheduledTaskHistory" />
+          <EntitySet Name="UserRoles" EntityType="Self.UserRole" />
+          <EntitySet Name="Workflows" EntityType="Self.Workflow" />
+          <EntitySet Name="WorkflowProcesses" EntityType="Self.WorkflowProcess" />
+          <EntitySet Name="WorkflowSteps" EntityType="Self.WorkflowStep" />
+          <EntitySet Name="WorkTasks" EntityType="Self.WorkTask" />
+          <EntitySet Name="WorkTaskComments" EntityType="Self.WorkTaskComment" />
+          <EntitySet Name="WorkTaskHistories" EntityType="Self.WorkTaskHistory" />
+          <EntitySet Name="Announcements" EntityType="Self.Announcement" />
+          <AssociationSet Name="FK_Asset_AssetType" Association="Self.FK_Asset_AssetType">
+            <End Role="AssetType" EntitySet="AssetTypes" />
+            <End Role="Asset" EntitySet="Assets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssetInfo_Asset1" Association="Self.FK_AssetInfo_Asset1">
+            <End Role="Asset" EntitySet="Assets" />
+            <End Role="AssetInfo" EntitySet="AssetInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssetTransaction_Asset" Association="Self.FK_AssetTransaction_Asset">
+            <End Role="Asset" EntitySet="Assets" />
+            <End Role="AssetTransaction" EntitySet="AssetTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssetInfo_AssetAttribute" Association="Self.FK_AssetInfo_AssetAttribute">
+            <End Role="AssetAttribute" EntitySet="AssetAttributes" />
+            <End Role="AssetInfo" EntitySet="AssetInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssetTypeAttribute_AssetAttribute" Association="Self.FK_AssetTypeAttribute_AssetAttribute">
+            <End Role="AssetAttribute" EntitySet="AssetAttributes" />
+            <End Role="AssetTypeAttribute" EntitySet="AssetTypeAttributes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssetInventoryRecord_AssetInventory" Association="Self.FK_AssetInventoryRecord_AssetInventory">
+            <End Role="AssetInventory" EntitySet="AssetInventories" />
+            <End Role="AssetInventoryRecord" EntitySet="AssetInventoryRecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssetTypeAttribute_AssetType" Association="Self.FK_AssetTypeAttribute_AssetType">
+            <End Role="AssetType" EntitySet="AssetTypes" />
+            <End Role="AssetTypeAttribute" EntitySet="AssetTypeAttributes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExpenseMain_Department" Association="Self.FK_ExpenseMain_Department">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="ExpenseMain" EntitySet="ExpenseMains" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExpenseAuditHistory_ExpenseMain" Association="Self.FK_ExpenseAuditHistory_ExpenseMain">
+            <End Role="ExpenseMain" EntitySet="ExpenseMains" />
+            <End Role="ExpenseAuditHistory" EntitySet="ExpenseAuditHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExpenseDetail_ExpenseMain" Association="Self.FK_ExpenseDetail_ExpenseMain">
+            <End Role="ExpenseMain" EntitySet="ExpenseMains" />
+            <End Role="ExpenseDetail" EntitySet="ExpenseDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExpenseMember_ExpenseDetail" Association="Self.FK_ExpenseMember_ExpenseDetail">
+            <End Role="ExpenseDetail" EntitySet="ExpenseDetails" />
+            <End Role="ExpenseMember" EntitySet="ExpenseMembers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExpenseMain_Project" Association="Self.FK_ExpenseMain_Project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="ExpenseMain" EntitySet="ExpenseMains" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MeetingCalendar_MeetingRoom" Association="Self.FK_MeetingCalendar_MeetingRoom">
+            <End Role="MeetingRoom" EntitySet="MeetingRooms" />
+            <End Role="MeetingCalendar" EntitySet="MeetingCalendars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MeetingParticipant_MeetingCalendar" Association="Self.FK_MeetingParticipant_MeetingCalendar">
+            <End Role="MeetingCalendar" EntitySet="MeetingCalendars" />
+            <End Role="MeetingParticipant" EntitySet="MeetingParticipants" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NotificationTargetUser_Notification" Association="Self.FK_NotificationTargetUser_Notification">
+            <End Role="Notification" EntitySet="Notifications" />
+            <End Role="NotificationTargetUser" EntitySet="NotificationTargetUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDet_Order" Association="Self.FK_OrderDet_Order">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="OrderDet" EntitySet="OrderDets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRole_Role" Association="Self.FK_UserRole_Role">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="UserRole" EntitySet="UserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScheduledTask_History" Association="Self.FK_ScheduledTask_History">
+            <End Role="ScheduledTask" EntitySet="ScheduledTasks" />
+            <End Role="ScheduledTaskHistory" EntitySet="ScheduledTaskHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkflowStep_Workflow" Association="Self.FK_WorkflowStep_Workflow">
+            <End Role="Workflow" EntitySet="Workflows" />
+            <End Role="WorkflowStep" EntitySet="WorkflowSteps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkTaskComment_WorkTask" Association="Self.FK_WorkTaskComment_WorkTask">
+            <End Role="WorkTask" EntitySet="WorkTasks" />
+            <End Role="WorkTaskComment" EntitySet="WorkTaskComments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkTaskHistory_WorkTask" Association="Self.FK_WorkTaskHistory_WorkTask">
+            <End Role="WorkTask" EntitySet="WorkTasks" />
+            <End Role="WorkTaskHistory" EntitySet="WorkTaskHistories" />
+          </AssociationSet>
+          <FunctionImport Name="p_summaryAttendanceDetail">
+          <Parameter Name="date" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <EntitySet Name="Reports" EntityType="MissionskyOAModel.Report" />
+          <EntitySet Name="ReportConfigs" EntityType="MissionskyOAModel.ReportConfig" />
+          <EntitySet Name="ReportParameters" EntityType="MissionskyOAModel.ReportParameter" />
+          <AssociationSet Name="FK_Report_Config" Association="MissionskyOAModel.FK_Report_Config">
+            <End Role="Report" EntitySet="Reports" />
+            <End Role="ReportConfig" EntitySet="ReportConfigs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Report_Parameter" Association="MissionskyOAModel.FK_Report_Parameter">
+            <End Role="Report" EntitySet="Reports" />
+            <End Role="ReportParameter" EntitySet="ReportParameters" />
+          </AssociationSet>
+          <EntitySet Name="Users" EntityType="MissionskyOAModel.User" />
+          <AssociationSet Name="FK_Asset_User" Association="MissionskyOAModel.FK_Asset_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Asset" EntitySet="Assets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Avatar_User" Association="MissionskyOAModel.FK_Avatar_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Avatar" EntitySet="Avatars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExpenseMember_User" Association="MissionskyOAModel.FK_ExpenseMember_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="ExpenseMember" EntitySet="ExpenseMembers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Feedback_User" Association="MissionskyOAModel.FK_Feedback_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Feedback" EntitySet="Feedbacks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MeetingParticipant_User" Association="MissionskyOAModel.FK_MeetingParticipant_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="MeetingParticipant" EntitySet="MeetingParticipants" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_User" Association="MissionskyOAModel.FK_Order_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRole_User" Association="MissionskyOAModel.FK_UserRole_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserRole" EntitySet="UserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkflowProcess_User" Association="MissionskyOAModel.FK_WorkflowProcess_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="WorkflowProcess" EntitySet="WorkflowProcesses" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Report">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Desc" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IsOpen" Type="Boolean" Nullable="false" />
+          <Property Name="No" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="ReportConfigs" Relationship="MissionskyOAModel.FK_Report_Config" FromRole="Report" ToRole="ReportConfig" />
+          <NavigationProperty Name="ReportParameters" Relationship="MissionskyOAModel.FK_Report_Parameter" FromRole="Report" ToRole="ReportParameter" />
+        </EntityType>
+        <EntityType Name="ReportConfig">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReportId" Type="Int32" Nullable="false" />
+          <Property Name="Config" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Value" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Report" Relationship="MissionskyOAModel.FK_Report_Config" FromRole="ReportConfig" ToRole="Report" />
+        </EntityType>
+        <EntityType Name="ReportParameter">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReportId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Desc" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Nullable" Type="Boolean" />
+          <Property Name="DataSource" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Report" Relationship="MissionskyOAModel.FK_Report_Parameter" FromRole="ReportParameter" ToRole="Report" />
+        </EntityType>
+        <Association Name="FK_Report_Config">
+          <End Type="MissionskyOAModel.Report" Role="Report" Multiplicity="1" />
+          <End Type="MissionskyOAModel.ReportConfig" Role="ReportConfig" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Report">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ReportConfig">
+              <PropertyRef Name="ReportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Report_Parameter">
+          <End Type="MissionskyOAModel.Report" Role="Report" Multiplicity="1" />
+          <End Type="MissionskyOAModel.ReportParameter" Role="ReportParameter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Report">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ReportParameter">
+              <PropertyRef Name="ReportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="No" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="ChineseName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EnglishName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="QQID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Gender" Type="Int32" />
+          <Property Name="DirectlySupervisorId" Type="Int32" />
+          <Property Name="DeptId" Type="Int32" />
+          <Property Name="ProjectId" Type="Int32" />
+          <Property Name="Position" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Token" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="Available" Type="Boolean" Nullable="false" />
+          <Property Name="TodayStatus" Type="Int32" Nullable="false" />
+          <Property Name="JoinDate" Type="DateTime" Precision="0" />
+          <Property Name="ExpirationTime" Type="DateTime" Precision="7" />
+          <Property Name="AuthNotify" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedTime" Type="DateTime" Precision="7" />
+          <Property Name="ServerYear" Type="Int32" />
+          <Property Name="ServerYearType" Type="Int32" />
+          <NavigationProperty Name="Assets" Relationship="MissionskyOAModel.FK_Asset_User" FromRole="User" ToRole="Asset" />
+          <NavigationProperty Name="Avatars" Relationship="MissionskyOAModel.FK_Avatar_User" FromRole="User" ToRole="Avatar" />
+          <NavigationProperty Name="ExpenseMembers" Relationship="MissionskyOAModel.FK_ExpenseMember_User" FromRole="User" ToRole="ExpenseMember" />
+          <NavigationProperty Name="Feedbacks" Relationship="MissionskyOAModel.FK_Feedback_User" FromRole="User" ToRole="Feedback" />
+          <NavigationProperty Name="MeetingParticipants" Relationship="MissionskyOAModel.FK_MeetingParticipant_User" FromRole="User" ToRole="MeetingParticipant" />
+          <NavigationProperty Name="Orders" Relationship="MissionskyOAModel.FK_Order_User" FromRole="User" ToRole="Order" />
+          <NavigationProperty Name="UserRoles" Relationship="MissionskyOAModel.FK_UserRole_User" FromRole="User" ToRole="UserRole" />
+          <NavigationProperty Name="WorkflowProcesses" Relationship="MissionskyOAModel.FK_WorkflowProcess_User" FromRole="User" ToRole="WorkflowProcess" />
+        </EntityType>
+        <Association Name="FK_Asset_User">
+          <End Type="MissionskyOAModel.User" Role="User" Multiplicity="1" />
+          <End Type="MissionskyOAModel.Asset" Role="Asset" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Asset">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Avatar_User">
+          <End Type="MissionskyOAModel.User" Role="User" Multiplicity="1" />
+          <End Type="MissionskyOAModel.Avatar" Role="Avatar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Avatar">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExpenseMember_User">
+          <End Type="MissionskyOAModel.User" Role="User" Multiplicity="1" />
+          <End Type="MissionskyOAModel.ExpenseMember" Role="ExpenseMember" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExpenseMember">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Feedback_User">
+          <End Type="MissionskyOAModel.User" Role="User" Multiplicity="1" />
+          <End Type="MissionskyOAModel.Feedback" Role="Feedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Feedback">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MeetingParticipant_User">
+          <End Type="MissionskyOAModel.User" Role="User" Multiplicity="1" />
+          <End Type="MissionskyOAModel.MeetingParticipant" Role="MeetingParticipant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MeetingParticipant">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_User">
+          <End Type="MissionskyOAModel.User" Role="User" Multiplicity="1" />
+          <End Type="MissionskyOAModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRole_User">
+          <End Type="MissionskyOAModel.User" Role="User" Multiplicity="1" />
+          <End Type="MissionskyOAModel.UserRole" Role="UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserRole">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkflowProcess_User">
+          <End Type="MissionskyOAModel.User" Role="User" Multiplicity="1" />
+          <End Type="MissionskyOAModel.WorkflowProcess" Role="WorkflowProcess" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WorkflowProcess">
+              <PropertyRef Name="Operator" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MissionskyOAModelStoreContainer" CdmEntityContainer="MissionskyOAEntities">
+          <EntitySetMapping Name="AcceptProxies">
+            <EntityTypeMapping TypeName="MissionskyOAModel.AcceptProxy">
+              <MappingFragment StoreEntitySet="AcceptProxy">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="AcceptUserId" ColumnName="AcceptUserId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Courier" ColumnName="Courier" />
+                <ScalarProperty Name="LeaveMessage" ColumnName="LeaveMessage" />
+                <ScalarProperty Name="CourierPhone" ColumnName="CourierPhone" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="LastModifyUserId" ColumnName="LastModifyUserId" />
+                <ScalarProperty Name="LastModifyTime" ColumnName="LastModifyTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Assets">
+            <EntityTypeMapping TypeName="MissionskyOAModel.Asset">
+              <MappingFragment StoreEntitySet="Asset">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AssetAttributes">
+            <EntityTypeMapping TypeName="MissionskyOAModel.AssetAttribute">
+              <MappingFragment StoreEntitySet="AssetAttribute">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DataType" ColumnName="DataType" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AssetInfoes">
+            <EntityTypeMapping TypeName="MissionskyOAModel.AssetInfo">
+              <MappingFragment StoreEntitySet="AssetInfo">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="AssetId" ColumnName="AssetId" />
+                <ScalarProperty Name="AttributeId" ColumnName="AttributeId" />
+                <ScalarProperty Name="AttributeValue" ColumnName="AttributeValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AssetInventories">
+            <EntityTypeMapping TypeName="MissionskyOAModel.AssetInventory">
+              <MappingFragment StoreEntitySet="AssetInventory">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AssetInventoryRecords">
+            <EntityTypeMapping TypeName="MissionskyOAModel.AssetInventoryRecord">
+              <MappingFragment StoreEntitySet="AssetInventoryRecord">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="InventoryId" ColumnName="InventoryId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="AssetId" ColumnName="AssetId" />
+                <ScalarProperty Name="ScanCode" ColumnName="ScanCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AssetTransactions">
+            <EntityTypeMapping TypeName="MissionskyOAModel.AssetTransaction">
+              <MappingFragment StoreEntitySet="AssetTransaction">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="AssetId" ColumnName="AssetId" />
+                <ScalarProperty Name="BusinessType" ColumnName="BusinessType" />
+                <ScalarProperty Name="OutUserId" ColumnName="OutUserId" />
+                <ScalarProperty Name="OutUserIsConfirm" ColumnName="OutUserIsConfirm" />
+                <ScalarProperty Name="InUserId" ColumnName="InUserId" />
+                <ScalarProperty Name="InUserIsConfirm" ColumnName="InUserIsConfirm" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AssetTypes">
+            <EntityTypeMapping TypeName="MissionskyOAModel.AssetType">
+              <MappingFragment StoreEntitySet="AssetType">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AssetTypeAttributes">
+            <EntityTypeMapping TypeName="MissionskyOAModel.AssetTypeAttribute">
+              <MappingFragment StoreEntitySet="AssetTypeAttribute">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+                <ScalarProperty Name="AttributeId" ColumnName="AttributeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Attachments">
+            <EntityTypeMapping TypeName="MissionskyOAModel.Attachment">
+              <MappingFragment StoreEntitySet="Attachment">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="EntityType" ColumnName="EntityType" />
+                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Desc" ColumnName="Desc" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AttendanceSummaries">
+            <EntityTypeMapping TypeName="MissionskyOAModel.AttendanceSummary">
+              <MappingFragment StoreEntitySet="AttendanceSummary">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="LastValue" ColumnName="LastValue" />
+                <ScalarProperty Name="BaseValue" ColumnName="BaseValue" />
+                <ScalarProperty Name="RemainValue" ColumnName="RemainValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AuditMessages">
+            <EntityTypeMapping TypeName="MissionskyOAModel.AuditMessage">
+              <MappingFragment StoreEntitySet="AuditMessage">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Avatars">
+            <EntityTypeMapping TypeName="MissionskyOAModel.Avatar">
+              <MappingFragment StoreEntitySet="Avatar">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Books">
+            <EntityTypeMapping TypeName="MissionskyOAModel.Book">
+              <MappingFragment StoreEntitySet="Book">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ISBN" ColumnName="ISBN" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Desc" ColumnName="Desc" />
+                <ScalarProperty Name="Author" ColumnName="Author" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="Donor" ColumnName="Donor" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Reader" ColumnName="Reader" />
+                <ScalarProperty Name="BarCode" ColumnName="BarCode" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BookBorrows">
+            <EntityTypeMapping TypeName="MissionskyOAModel.BookBorrow">
+              <MappingFragment StoreEntitySet="BookBorrow">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="BookId" ColumnName="BookId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="BorrowDate" ColumnName="BorrowDate" />
+                <ScalarProperty Name="ReturnDate" ColumnName="ReturnDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BookComments">
+            <EntityTypeMapping TypeName="MissionskyOAModel.BookComment">
+              <MappingFragment StoreEntitySet="BookComment">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="BookId" ColumnName="BookId" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DataDicts">
+            <EntityTypeMapping TypeName="MissionskyOAModel.DataDict">
+              <MappingFragment StoreEntitySet="DataDict">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Parent" ColumnName="Parent" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Departments">
+            <EntityTypeMapping TypeName="MissionskyOAModel.Department">
+              <MappingFragment StoreEntitySet="Department">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="No" ColumnName="No" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CreateUserName" ColumnName="CreateUserName" />
+                <ScalarProperty Name="DepartmentHead" ColumnName="DepartmentHead" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExpenseAuditHistories">
+            <EntityTypeMapping TypeName="MissionskyOAModel.ExpenseAuditHistory">
+              <MappingFragment StoreEntitySet="ExpenseAuditHistory">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CurrentAudit" ColumnName="CurrentAudit" />
+                <ScalarProperty Name="NextAudit" ColumnName="NextAudit" />
+                <ScalarProperty Name="ExpenseId" ColumnName="ExpenseId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="AuditMessage" ColumnName="AuditMessage" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExpenseDetails">
+            <EntityTypeMapping TypeName="MissionskyOAModel.ExpenseDetail">
+              <MappingFragment StoreEntitySet="ExpenseDetail">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="MId" ColumnName="MId" />
+                <ScalarProperty Name="ODate" ColumnName="ODate" />
+                <ScalarProperty Name="EType" ColumnName="EType" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="PCount" ColumnName="PCount" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExpenseMains">
+            <EntityTypeMapping TypeName="MissionskyOAModel.ExpenseMain">
+              <MappingFragment StoreEntitySet="ExpenseMain">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="AuditId" ColumnName="AuditId" />
+                <ScalarProperty Name="DeptNo" ColumnName="DeptNo" />
+                <ScalarProperty Name="ProjNo" ColumnName="ProjNo" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="ApplyUserId" ColumnName="ApplyUserId" />
+                <ScalarProperty Name="PrintForm" ColumnName="PrintForm" />
+                <ScalarProperty Name="ConfirmForm" ColumnName="ConfirmForm" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExpenseMembers">
+            <EntityTypeMapping TypeName="MissionskyOAModel.ExpenseMember">
+              <MappingFragment StoreEntitySet="ExpenseMember">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DId" ColumnName="DId" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Feedbacks">
+            <EntityTypeMapping TypeName="MissionskyOAModel.Feedback">
+              <MappingFragment StoreEntitySet="Feedback">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Desc" ColumnName="Desc" />
+                <ScalarProperty Name="ProblemType" ColumnName="ProblemType" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Logs">
+            <EntityTypeMapping TypeName="MissionskyOAModel.Log">
+              <MappingFragment StoreEntitySet="Log">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Thread" ColumnName="Thread" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="Logger" ColumnName="Logger" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Exception" ColumnName="Exception" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MeetingCalendars">
+            <EntityTypeMapping TypeName="MissionskyOAModel.MeetingCalendar">
+              <MappingFragment StoreEntitySet="MeetingCalendar">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="MeetingRoomId" ColumnName="MeetingRoomId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="Host" ColumnName="Host" />
+                <ScalarProperty Name="MeetingContext" ColumnName="MeetingContext" />
+                <ScalarProperty Name="MeetingSummary" ColumnName="MeetingSummary" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ApplyUserId" ColumnName="ApplyUserId" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MeetingParticipants">
+            <EntityTypeMapping TypeName="MissionskyOAModel.MeetingParticipant">
+              <MappingFragment StoreEntitySet="MeetingParticipant">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="MeetingCalendarId" ColumnName="MeetingCalendarId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="IsOptional" ColumnName="IsOptional" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MeetingRooms">
+            <EntityTypeMapping TypeName="MissionskyOAModel.MeetingRoom">
+              <MappingFragment StoreEntitySet="MeetingRoom">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="MeetingRoomName" ColumnName="MeetingRoomName" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+                <ScalarProperty Name="Equipment" ColumnName="Equipment" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CreateUserName" ColumnName="CreateUserName" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Notifications">
+            <EntityTypeMapping TypeName="MissionskyOAModel.Notification">
+              <MappingFragment StoreEntitySet="Notification">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="BusinessType" ColumnName="BusinessType" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="MessageContent" ColumnName="MessageContent" />
+                <ScalarProperty Name="Target" ColumnName="Target" />
+                <ScalarProperty Name="MessageType" ColumnName="MessageType" />
+                <ScalarProperty Name="Scope" ColumnName="Scope" />
+                <ScalarProperty Name="MessagePrams" ColumnName="MessagePrams" />
+                <ScalarProperty Name="CreatedUserId" ColumnName="CreatedUserId" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NotificationTargetUsers">
+            <EntityTypeMapping TypeName="MissionskyOAModel.NotificationTargetUser">
+              <MappingFragment StoreEntitySet="NotificationTargetUser">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="NotificationId" ColumnName="NotificationId" />
+                <ScalarProperty Name="TargetUserId" ColumnName="TargetUserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="MissionskyOAModel.Order">
+              <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="OrderType" ColumnName="OrderType" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ApplyUserId" ColumnName="ApplyUserId" />
+                <ScalarProperty Name="RefOrderId" ColumnName="RefOrderId" />
+                <ScalarProperty Name="WorkflowId" ColumnName="WorkflowId" />
+                <ScalarProperty Name="NextStep" ColumnName="NextStep" />
+                <ScalarProperty Name="NextAudit" ColumnName="NextAudit" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderDets">
+            <EntityTypeMapping TypeName="MissionskyOAModel.OrderDet">
+              <MappingFragment StoreEntitySet="OrderDet">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="IOHours" ColumnName="IOHours" />
+                <ScalarProperty Name="InformLeader" ColumnName="InformLeader" />
+                <ScalarProperty Name="WorkTransfer" ColumnName="WorkTransfer" />
+                <ScalarProperty Name="Recipient" ColumnName="Recipient" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="FileContent" ColumnName="FileContent" />
+                <ScalarProperty Name="Audit" ColumnName="Audit" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Projects">
+            <EntityTypeMapping TypeName="MissionskyOAModel.Project">
+              <MappingFragment StoreEntitySet="Project">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="ProjectNo" ColumnName="ProjectNo" />
+                <ScalarProperty Name="ProjectManager" ColumnName="ProjectManager" />
+                <ScalarProperty Name="ProjectBegin" ColumnName="ProjectBegin" />
+                <ScalarProperty Name="ProjectEnd" ColumnName="ProjectEnd" />
+                <ScalarProperty Name="CreateUserName" ColumnName="CreateUserName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="MissionskyOAModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ApprovedDays" ColumnName="ApprovedDays" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="Abbreviation" ColumnName="Abbreviation" />
+                <ScalarProperty Name="IsInitRole" ColumnName="IsInitRole" />
+                <ScalarProperty Name="CreateUser" ColumnName="CreateUser" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ScheduledTasks">
+            <EntityTypeMapping TypeName="MissionskyOAModel.ScheduledTask">
+              <MappingFragment StoreEntitySet="ScheduledTask">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Interval" ColumnName="Interval" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="TaskClass" ColumnName="TaskClass" />
+                <ScalarProperty Name="Desc" ColumnName="Desc" />
+                <ScalarProperty Name="LastExecTime" ColumnName="LastExecTime" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ScheduledTaskHistories">
+            <EntityTypeMapping TypeName="MissionskyOAModel.ScheduledTaskHistory">
+              <MappingFragment StoreEntitySet="ScheduledTaskHistory">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TaskId" ColumnName="TaskId" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="Desc" ColumnName="Desc" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserRoles">
+            <EntityTypeMapping TypeName="MissionskyOAModel.UserRole">
+              <MappingFragment StoreEntitySet="UserRole">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Workflows">
+            <EntityTypeMapping TypeName="MissionskyOAModel.Workflow">
+              <MappingFragment StoreEntitySet="Workflow">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Desc" ColumnName="Desc" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="Condition" ColumnName="Condition" />
+                <ScalarProperty Name="ConditionDesc" ColumnName="ConditionDesc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkflowProcesses">
+            <EntityTypeMapping TypeName="MissionskyOAModel.WorkflowProcess">
+              <MappingFragment StoreEntitySet="WorkflowProcess">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FlowId" ColumnName="FlowId" />
+                <ScalarProperty Name="StepId" ColumnName="StepId" />
+                <ScalarProperty Name="Operator" ColumnName="Operator" />
+                <ScalarProperty Name="Operation" ColumnName="Operation" />
+                <ScalarProperty Name="OperationDesc" ColumnName="OperationDesc" />
+                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkflowSteps">
+            <EntityTypeMapping TypeName="MissionskyOAModel.WorkflowStep">
+              <MappingFragment StoreEntitySet="WorkflowStep">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FlowId" ColumnName="FlowId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Operator" ColumnName="Operator" />
+                <ScalarProperty Name="OperatorType" ColumnName="OperatorType" />
+                <ScalarProperty Name="MinTimes" ColumnName="MinTimes" />
+                <ScalarProperty Name="MaxTimes" ColumnName="MaxTimes" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="NextStep" ColumnName="NextStep" />
+                <ScalarProperty Name="Desc" ColumnName="Desc" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkTasks">
+            <EntityTypeMapping TypeName="MissionskyOAModel.WorkTask">
+              <MappingFragment StoreEntitySet="WorkTask">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Outline" ColumnName="Outline" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Desc" ColumnName="Desc" />
+                <ScalarProperty Name="MeetingId" ColumnName="MeetingId" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="Sponsor" ColumnName="Sponsor" />
+                <ScalarProperty Name="Supervisor" ColumnName="Supervisor" />
+                <ScalarProperty Name="Executor" ColumnName="Executor" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="Workload" ColumnName="Workload" />
+                <ScalarProperty Name="Urgency" ColumnName="Urgency" />
+                <ScalarProperty Name="Importance" ColumnName="Importance" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="CompleteTime" ColumnName="CompleteTime" />
+                <ScalarProperty Name="CloseTime" ColumnName="CloseTime" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkTaskComments">
+            <EntityTypeMapping TypeName="MissionskyOAModel.WorkTaskComment">
+              <MappingFragment StoreEntitySet="WorkTaskComment">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TaskId" ColumnName="TaskId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkTaskHistories">
+            <EntityTypeMapping TypeName="MissionskyOAModel.WorkTaskHistory">
+              <MappingFragment StoreEntitySet="WorkTaskHistory">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TaskId" ColumnName="TaskId" />
+                <ScalarProperty Name="Operator" ColumnName="Operator" />
+                <ScalarProperty Name="OperatorName" ColumnName="OperatorName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Audit" ColumnName="Audit" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Announcements">
+            <EntityTypeMapping TypeName="MissionskyOAModel.Announcement">
+              <MappingFragment StoreEntitySet="Announcement">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="ApplyUserId" ColumnName="ApplyUserId" />
+                <ScalarProperty Name="EffectiveDays" ColumnName="EffectiveDays" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="AuditReason" ColumnName="AuditReason" />
+                <ScalarProperty Name="RefAssetInventoryId" ColumnName="RefAssetInventoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="p_summaryAttendanceDetail" FunctionName="MissionskyOAModel.Store.p_summaryAttendanceDetail" />
+          <EntitySetMapping Name="Reports">
+            <EntityTypeMapping TypeName="MissionskyOAModel.Report">
+              <MappingFragment StoreEntitySet="Report">
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="No" ColumnName="No" />
+                <ScalarProperty Name="IsOpen" ColumnName="IsOpen" />
+                <ScalarProperty Name="Desc" ColumnName="Desc" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReportConfigs">
+            <EntityTypeMapping TypeName="MissionskyOAModel.ReportConfig">
+              <MappingFragment StoreEntitySet="ReportConfig">
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Config" ColumnName="Config" />
+                <ScalarProperty Name="ReportId" ColumnName="ReportId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReportParameters">
+            <EntityTypeMapping TypeName="MissionskyOAModel.ReportParameter">
+              <MappingFragment StoreEntitySet="ReportParameter">
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="DataSource" ColumnName="DataSource" />
+                <ScalarProperty Name="Nullable" ColumnName="Nullable" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Desc" ColumnName="Desc" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ReportId" ColumnName="ReportId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="MissionskyOAModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="ServerYearType" ColumnName="ServerYearType" />
+                <ScalarProperty Name="ServerYear" ColumnName="ServerYear" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="AuthNotify" ColumnName="AuthNotify" />
+                <ScalarProperty Name="ExpirationTime" ColumnName="ExpirationTime" />
+                <ScalarProperty Name="JoinDate" ColumnName="JoinDate" />
+                <ScalarProperty Name="TodayStatus" ColumnName="TodayStatus" />
+                <ScalarProperty Name="Available" ColumnName="Available" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Token" ColumnName="Token" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="DeptId" ColumnName="DeptId" />
+                <ScalarProperty Name="DirectlySupervisorId" ColumnName="DirectlySupervisorId" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="QQID" ColumnName="QQID" />
+                <ScalarProperty Name="EnglishName" ColumnName="EnglishName" />
+                <ScalarProperty Name="ChineseName" ColumnName="ChineseName" />
+                <ScalarProperty Name="No" ColumnName="No" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

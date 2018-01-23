@@ -1,0 +1,260 @@
+﻿@using System.Collections.Specialized
+@using MissionskyOA.Core.Common
+@using MissionskyOA.Portal.Common;
+@using MissionskyOA.Models;
+
+@model MissionskyOA.Models.ReportModel
+@{
+    ViewBag.Title = "编辑报表";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var reportConfigs = ViewData["ReportConfigs"] as NameValueCollection;
+    var defaultFormat = (reportConfigs == null ? string.Empty : reportConfigs[Constant.REPORT_CONFIG_DEFAULT_FORMAT]);
+    var serviceUrl = (reportConfigs == null ? string.Empty : reportConfigs[Constant.REPORT_CONFIG_SERVICE_URL]);
+    var reportPath = (reportConfigs == null ? string.Empty : reportConfigs[Constant.REPORT_CONFIG_REPORT_PATH]);
+    var userName = (reportConfigs == null ? string.Empty : reportConfigs[Constant.REPORT_CONFIG_USER_NAME]);
+    var password = (reportConfigs == null ? string.Empty : reportConfigs[Constant.REPORT_CONFIG_PASSWORD]);
+    var domain = (reportConfigs == null ? string.Empty : reportConfigs[Constant.REPORT_CONFIG_DOMAIN]);
+    var reportId = ViewData["ReportId"] ?? 0;
+}
+
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+        <small></small>
+    </h1>
+    <div class="pull-right header-r-toolbar">
+        <a class="btn btn-primary" href="@Url.Action("EditParameter", CmnConstants.MENU_REPORT, new { rId = reportId })">新增报表参数</a>
+    </div>
+</section>
+
+<section class="content">
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title"></h3>
+            <div class="box-tools pull-right">
+            </div>
+        </div><!-- /.box-header -->
+        @using (Html.BeginForm("Edit", CmnConstants.MENU_REPORT, FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            <div class="box-body">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Name, "名称", new {@class = "col-sm-2 control-label"})
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.Name, new {@class = "form-control input-sm"})
+                        @Html.ValidationMessageFor(m => m.Name)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Desc, "描述", new {@class = "col-sm-2 control-label"})
+                    <div class="col-sm-10">
+                        @Html.TextAreaFor(m => m.Desc, new {@class = "form-control"})
+                        @Html.ValidationMessageFor(m => m.Desc)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("格式", new {@class = "col-sm-2 control-label"})
+                    <div class="col-sm-10">
+                        @Html.DropDownList(Constant.REPORT_CONFIG_DEFAULT_FORMAT, ViewData["ReportFormats"] as SelectList, new { @class = "form-control input-sm" })
+                        @Html.ValidationMessage(Constant.REPORT_CONFIG_DEFAULT_FORMAT)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("报表服务", new {@class = "col-sm-2 control-label"})
+                    <div class="col-sm-10">
+                        @Html.TextBox(Constant.REPORT_CONFIG_SERVICE_URL, serviceUrl, new {@class = "form-control"})
+                        @Html.ValidationMessage(Constant.REPORT_CONFIG_SERVICE_URL)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("报表路径", new {@class = "col-sm-2 control-label"})
+                    <div class="col-sm-10">
+                        @Html.TextBox(Constant.REPORT_CONFIG_REPORT_PATH, reportPath, new { @class = "form-control" })
+                        @Html.ValidationMessage(Constant.REPORT_CONFIG_REPORT_PATH)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("用户名", new {@class = "col-sm-2 control-label"})
+                    <div class="col-sm-10">
+                        @Html.TextBox(Constant.REPORT_CONFIG_USER_NAME, userName, new { @class = "form-control" })
+                        @Html.ValidationMessage(Constant.REPORT_CONFIG_USER_NAME)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("密码", new {@class = "col-sm-2 control-label"})
+                    <div class="col-sm-10">
+                        @Html.Password(Constant.REPORT_CONFIG_PASSWORD, password, new { @class = "form-control" })
+                        @Html.ValidationMessage(Constant.REPORT_CONFIG_PASSWORD)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("域", new {@class = "col-sm-2 control-label"})
+                    <div class="col-sm-10">
+                        @Html.TextBox(Constant.REPORT_CONFIG_DOMAIN, domain, new { @class = "form-control" })
+                        @Html.ValidationMessage(Constant.REPORT_CONFIG_DOMAIN)
+                    </div>
+                </div>
+            </div>
+            <!-- /.box-body -->
+            <div class="form-group">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-default" value="cancel" name="Submit">取消</button>
+                    <button type="submit" class="btn btn-info" value="save" name="Submit">提交</button>
+                    <button type="submit" class="btn btn-info" value="test" name="Submit">测试</button>
+                </div>
+            </div>
+            @Html.HiddenFor(m => m.Id)
+        }
+    </div><!-- /.box -->
+</section>
+
+<div class="modal fade modal-center" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="mySmallModalLabel">提示</h4>
+            </div>
+            <div class="modal-body">
+                @ViewBag.Message
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-center" id="userDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">提示</h4>
+            </div>
+            <div class="modal-body">
+                确定删除?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" id="my-dialog-yes" data-area="" class="btn btn-primary" data-dismiss="modal">Yes</button>
+                @Html.Hidden("deleteId", "")
+            </div>
+        </div>
+    </div>
+</div>
+
+@section pagescript{
+    <script>
+        $(document).ready(function() {
+            $("#my-dialog-yes").on("click", function() {
+                var id = $("#deleteId").val();
+                if (id != "") {
+                    var url = "@Url.Action("DeleteParameter", CmnConstants.MENU_REPORT)" + "/" + id;
+                    $.post(url, null, function(data) {
+                        if (data && data.error) {
+                            alert(data.error);
+                        }
+                        location.reload();
+                    });
+
+                }
+            });
+
+            $('#userDialog').on('hide.bs.modal', function(event) {
+                $("#deleteId").val("");
+            });
+        });
+
+        function deleteItem(id) {
+            $("#deleteId").val(id);
+            $('#userDialog').modal();
+        }
+
+        function HideControl(fieldName, e) {
+            var cont = $(e.container);
+            HideFieldLabel(cont.find("label[for='" + fieldName + "']"));
+            HideFieldField(cont.find("#" + fieldName));
+        }
+
+        function HideFieldLabel(control) {
+            control.parent(".editor-label").hide();
+        }
+
+        function HideFieldField(control) {
+            control.parent(".editor-field").hide();
+        }
+
+        function error_handler(e) {
+            if (e.errors) {
+                var message = "Errors:\n";
+                $.each(e.errors, function(key, value) {
+                    if ('errors' in value) {
+                        $.each(value.errors, function() {
+                            message += this + "\n";
+                        });
+                    }
+                });
+                alert(message);
+            }
+        }
+
+        function showMessage() {
+            var message = '@(string.IsNullOrEmpty(ViewBag.Message) ? "" : ViewBag.Message)';
+            if (message != "") {
+                $('#messageModal').modal();
+            }
+        }
+
+        showMessage();
+    </script>
+}
+
+<section class="content">
+    <div class="k-widget k-grid" id="grid" data-role="grid">
+        <table role="grid">
+            <colgroup><col><col><col><col><col><col><col><col><col></colgroup>
+            <thead class="k-grid-header" role="rowgroup">
+                <tr role="row">
+                    <th class="k-header" data-field="Id" data-index="0" data-title="#" scope="col"><span class="k-link">#</span></th>
+                    <th class="k-header" data-field="Name" data-index="1" data-title="参数说明" scope="col"><span class="k-link">参数说明</span></th>
+                    <th class="k-header" data-field="Name" data-index="1" data-title="参数名称" scope="col"><span class="k-link">参数名称</span></th>
+                    <th class="k-header" data-field="Type" data-index="3" data-title="类型" scope="col"><span class="k-link">类型</span></th>
+                    <th class="k-header" data-field="Nullable" data-index="2" data-title="是否可空" scope="col"><span class="k-link">是否可空</span></th>
+                    <th class="k-header" data-field="Id" data-index="8" data-title="操作" scope="col"><span class="k-link">操作</span></th>
+                </tr>
+            </thead>
+            @{
+                var parameters = ViewData["ReportParameters"] as List<ReportParameterModel>;
+            }
+
+            @if (parameters == null || parameters.Count < 1)
+            {
+                <tbody role="rowgroup"><tr class="k-no-data"><td colspan="9">暂无参数</td></tr></tbody>
+            }
+            else
+            {
+                var no = 0; //编号
+                
+                <tbody role="rowgroup">
+                    @foreach (var para in parameters)
+                    {
+                        no++; //编号
+
+                        <tr role="row">
+                            <td role="gridcell">@no</td>
+                            <td role="gridcell">@para.Desc</td>
+                            <td role="gridcell">@para.Name</td>
+                            <td role="gridcell">@para.Type</td>
+                            <td role="gridcell">@para.Nullable</td>
+                            <td role="gridcell">
+                                <a class="btn btn-link" href="@Url.Action("EditParameter", CmnConstants.MENU_REPORT, new { rId = reportId, pId = para.Id })">编辑</a><a class="btn btn-link" onclick="deleteItem(@para.Id)">删除</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            }
+        </table>
+    </div>
+</section>

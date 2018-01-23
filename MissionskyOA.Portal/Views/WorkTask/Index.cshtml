@@ -1,0 +1,157 @@
+﻿@using PagedList.Mvc;
+@{
+    ViewBag.Title = "工作任务管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+        <small></small>
+    </h1>
+</section>
+<section class="content">
+    @{
+        Html.Kendo().Grid<MissionskyOA.Models.WorkTaskModel>()
+            .Name("grid")
+            .Columns(cols =>
+            {
+                cols.Bound(c => c.Id).Title("#").Sortable(false).Filterable(false);
+                cols.Bound(c => c.Outline).Title("任务简介").Sortable(false).Filterable(false);
+                cols.Bound(c => c.Type).Title("任务类型").Sortable(false).Filterable(false);
+                cols.Bound(c => c.SponsorName).Title("发起人").Sortable(false).Filterable(false);
+                cols.Bound(c => c.SupervisorName).Title("监督人").Sortable(false).Filterable(false);
+                cols.Bound(c => c.ExecutorName).Title("执行人").Sortable(false).Filterable(false);
+                cols.Bound(c => c.Priority).Title("优先级").Sortable(false).Filterable(false);
+                cols.Bound(c => c.Workload).Title("工作量(小时)").Sortable(false).Filterable(false);
+                cols.Bound(c => c.StartTime).Format("{0:yyyy/MM/dd}").Title("开始时间").Sortable(false).Filterable(false);
+                cols.Bound(c => c.EndTime).Format("{0:yyyy/MM/dd}").Title("截止时间").Sortable(false).Filterable(false);
+                cols.Bound(c => c.CompleteTime).Format("{0:yyyy/MM/dd}").Title("完成时间").Sortable(false).Filterable(false);
+                cols.Bound(c => c.CreatedTime).Format("{0:yyyy/MM/dd}").Title("创建日期");
+            })
+            //.ClientDetailTemplateId("myTemplate")
+            //.Filterable(filterable => filterable
+            //.Extra(false)
+            ////.Operators(operators => operators
+            ////    .ForString(str => str.Clear()
+            ////        .StartsWith("开头")
+            ////        .IsEqualTo("相等")
+            ////        .IsNotEqualTo("不相等")
+            ////    ))
+            ////)
+            .Sortable(f => f.AllowUnsort(true))
+            .Pageable(pageable => pageable.Refresh(true))
+            .DataSource(datasource => datasource.Ajax()
+                .PageSize(10)
+                .Read(read => read.Action("Read", "WorkTask"))
+                )
+            .Render();
+    }
+</section>
+
+<div class="modal fade modal-center" id="userDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">提示</h4>
+            </div>
+            <div class="modal-body">
+                确定?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" id="my-dialog-yes" data-area="" class="btn btn-primary" data-dismiss="modal">Yes</button>
+                @Html.Hidden("deleteId", "")
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="myTemplate" type="text/kendo-tmpl">
+    @*@(Html.Kendo().Grid<MissionskyOA.Models.WorkTaskHistoryModel>()
+                .Name("grid_#=Id#")
+                        .Columns(cols =>
+                {
+                    //cols.Bound(c => c.Id).Title("会议ID");
+                    cols.Bound(c => c.Title).Title("会议主题");
+                    cols.Bound(c => c.MeetingContext).Title("会议内容");
+                    cols.Bound(c => c.Host).Title("主持人");
+                    cols.Bound(c => c.StartDate).Title("开始时间").Format("{0:MM/dd/yyyy HH:MM}");
+                    cols.Bound(c => c.EndDate).Title("结束时间").Format("{0:MM/dd/yyyy HH:MM}");
+                    cols.Bound(c => c.MeetingSummary).Title("会议纪要");
+                    cols.Bound(c => c.ApplyUserName).Title("申请人");
+                })
+                .ClientDetailTemplateId("paticipantTemplate")
+                .DataSource(datasource => datasource.Ajax()
+                    .PageSize(10)
+                    .Read(read => read.Action("GetMeetingCalendar", "Meeting", new { Id = "#=Id#" }))
+                    )
+                .ToClientTemplate())*@
+</script>
+
+<script id="paticipantTemplate" type="text/kendo-tmpl">
+    @(Html.Kendo().Grid<MissionskyOA.Models.MeetingParticipantModel>()
+                .Name("grid2_#=Id#")
+                        .Columns(cols =>
+                {
+                    cols.Bound(c => c.User.EnglishName).Title("参会者名");
+                    cols.Bound(c => c.User.DeptName).Title("部门");
+                    cols.Bound(c => c.User.ProjectName).Title("项目组");
+                    cols.Bound(c => c.IsOptional).Title("是否必须参加");
+                })
+                .DataSource(datasource => datasource.Ajax()
+                    .PageSize(10)
+                    .Read(read => read.Action("GetMeetingParticipant", "Meeting", new { Id = "#=Id#" }))
+                    )
+                .ToClientTemplate())
+</script>
+
+
+
+@section pagescript{
+    <script>
+        $(document).ready(function () {
+            $("#my-dialog-yes").on("click", function () {
+                var id = $("#deleteId").val();
+                if (id != "") {
+                    var url = "@Url.Action("Delete","Meeting")" + "/" + id;
+                    $.post(url, null, function (data) {
+                        if (data && data.error) {
+                            alert(data.error);
+                        }
+                        $(".k-pager-refresh").click();
+                    });
+
+                }
+            });
+
+            $('#userDialog').on('hide.bs.modal', function (event) {
+                $("#deleteId").val("");
+            });
+        });
+
+        function deleteItem(id) {
+            $("#deleteId").val(id);
+            $('#userDialog').modal();
+        }
+
+        function error_handler(e) {
+            if (e.errors) {
+                var message = "Errors:\n";
+                $.each(e.errors, function (key, value) {
+                    if ('errors' in value) {
+                        $.each(value.errors, function () {
+                            message += this + "\n";
+                        });
+                    }
+                });
+                alert(message);
+            }
+        }
+    </script>
+}
+<style>
+    .k-edit-field, .k-edit-form-container .editor-field {
+        padding-top: 10px !important;
+    }
+</style>

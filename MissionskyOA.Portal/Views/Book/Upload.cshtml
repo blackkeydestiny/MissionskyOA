@@ -1,0 +1,61 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model MissionskyOA.Models.AttachmentModel
+@using MissionskyOA.Core.Enum;
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+        <small></small>
+    </h1>
+</section>
+<section class="content">
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title"></h3>
+            <div class="box-tools pull-right">
+            </div>
+        </div><!-- /.box-header -->
+        @(Html.Kendo().Upload()
+                .Name("files")
+                .Multiple(true)
+                .ShowFileList(true)
+                .Async(a =>
+                {
+                    a.Save("AttachmentUpload", "Book", new { bookId = @ViewBag.CurrentBookID}).AutoUpload(true);
+                })
+        )
+    </div>
+
+</section>
+
+<div class="modal fade modal-center" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="mySmallModalLabel">Alert</h4>
+            </div>
+            <div class="modal-body">
+                @ViewBag.Message
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section pagescript{
+    <script>
+
+        function showMessage() {
+            var message = '@(string.IsNullOrEmpty(ViewBag.Message)?"":ViewBag.Message)';
+            if (message != "") {
+                $('#messageModal').modal();
+            }
+        }
+        showMessage();
+    </script>
+}

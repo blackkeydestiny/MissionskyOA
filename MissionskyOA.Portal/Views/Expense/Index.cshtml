@@ -1,0 +1,98 @@
+﻿@using PagedList.Mvc;
+@{
+    ViewBag.Title = "报销单列表";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+        <small></small>
+    </h1>
+</section>
+<section class="content">
+    @(
+       Html.Kendo().Grid<MissionskyOA.Models.ExpenseMainModel>()
+            .Name("grid")
+            .Columns(cols =>
+            {
+                cols.Bound(c => c.Id).Title("#").Sortable(false).Filterable(false);
+                cols.Bound(c => c.ApplyUserName).Title("申请人");
+                cols.Bound(c => c.Reason).Title("申请理由").Sortable(false).Filterable(false);
+                cols.Bound(c => c.Amount).Title("总金额(RMB)").Sortable(false).Filterable(false);
+                cols.Bound(c => c.Department.Name).Title("部门").Sortable(false).Filterable(false);
+                cols.Bound(c => c.Project.Name).Title("项目组").Sortable(false).Filterable(false);
+                cols.Bound(c => c.currentAuditStatus.Status).Title("审批状态").Sortable(false).Filterable(false);
+                cols.Bound(c => c.currentAuditStatus.NextAuditName).Title("下个审批人").Sortable(false).Filterable(false);
+                cols.Bound(c => c.currentAuditStatus.AuditMessage).Title("审批意见").Sortable(false).Filterable(false);
+                cols.Bound(c => c.CreatedTime).Title("创建时间").ClientTemplate("#= kendo.toString(kendo.parseDate(CreatedTime), 'dd/MM/yyyy HH:MM') #");
+            })
+                .Sortable(f => f.AllowUnsort(true))
+                    .Filterable(filterable => filterable
+                        .Extra(false)
+                .Operators(o => o.ForString(s => s.Clear().IsEqualTo("相等")
+                .IsNotEqualTo("不相等")
+                .StartsWith("开始"))
+                .ForDate(d => d.IsEqualTo("相等")
+                    .IsNotEqualTo("不相等")
+                    .IsGreaterThan("大于")
+                    .IsGreaterThanOrEqualTo("大于等于")
+                    .IsLessThanOrEqualTo("小于等于")
+                    .IsLessThan("小于"))))
+               .ClientDetailTemplateId("myTemplate")
+            .Pageable(pageable => pageable.Refresh(true))
+            .DataSource(datasource => datasource.Ajax()
+                .PageSize(10)
+                .Read(read => read.Action("Read", "Expense"))
+                )
+            .Events(events => events.DataBound("dataBound"))
+    )
+</section>
+
+<script id="myTemplate" type="text/kendo-tmpl">
+
+    @(Html.Kendo().Grid<MissionskyOA.Models.ExpenseDetailModel>()
+                .Name("grid_#=Id#")
+                        .Columns(cols =>
+                {
+                    //cols.Bound(c => c.Id).Title("#").Sortable(false);
+                    cols.Bound(c => c.EType).Title("报销类型");
+                    cols.Bound(c => c.Amount).Title("报销金额").Sortable(false).Filterable(false);
+                    cols.Bound(c => c.ODate).Title("报销活动日期").Format("{0:MM/dd/yyyy HH:MM}").Sortable(false).Filterable(false);
+                    cols.Bound(c => c.ExpenseMemberNames).Title("涉及人员").Sortable(false).Filterable(false);
+                    cols.Bound(c => c.Remark).Title("备注").Sortable(false).Filterable(false);
+                })
+                .DataSource(datasource => datasource.Ajax()
+                    .PageSize(10)
+                    .Read(read => read.Action("ViewExpenseDetail", "Expense", new { Id = "#=Id#" }))
+                    )
+                .ToClientTemplate())
+
+</script>
+
+@*<script id="auditTemplate" type="text/kendo-tmpl">
+        @(Html.Kendo().Grid<MissionskyOA.Models.WorkflowProcessModel>()
+                    .Name("grid_#=Id#")
+                            .Columns(cols =>
+                    {
+                        cols.Bound(c => c.FlowId).Title("流程ID").Sortable(false);
+                        cols.Bound(c => c.StepName).Title("步骤名称");
+                        cols.Bound(c => c.OperatorName).Title("审批人姓名");
+                        cols.Bound(c => c.OperationDesc).Title("审批意见");
+                        cols.Bound(c => c.CreatedTime).Title("创建时间").Format("{0:MM/dd/yyyy HH:MM}");
+                    })
+                    .DataSource(datasource => datasource.Ajax()
+                        .PageSize(10)
+                                .Read(read => read.Action("ViewWorkFlowDetail", "AskLeave", new { Id = "#=Id#" }))
+                        )
+                    .ToClientTemplate())
+    </script>*@
+
+<script>
+    function dataBound() {
+        this.expandRow(this.tbody.find("tr.k-master-row").first());
+    }
+</script>
+
+
+
+

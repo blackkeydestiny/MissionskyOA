@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BDBE0051-53D4-469B-9EF7-57AC1969F8D3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MissionskyOA.Core</RootNamespace>
+    <AssemblyName>MissionskyOA.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net, Version=1.2.9.0, Culture=neutral, PublicKeyToken=b32731d11ce58905">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>..\packages\RestSharp.105.1.0\lib\net4\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Caching\ICacheManager.cs" />
+    <Compile Include="Caching\MemoryCacheManager.cs" />
+    <Compile Include="Common\Constant.cs" />
+    <Compile Include="Common\Global.cs" />
+    <Compile Include="Config\Menu.cs" />
+    <Compile Include="Config\Sidebar.cs" />
+    <Compile Include="Config\Template.cs" />
+    <Compile Include="Config\TemplateManager.cs" />
+    <Compile Include="Email\EmailClient.cs" />
+    <Compile Include="Email\EmailConfig.cs" />
+    <Compile Include="Enum\AnnouncementStatus.cs" />
+    <Compile Include="Enum\AnnouncementType.cs" />
+    <Compile Include="Enum\AssetInventoryStatus.cs" />
+    <Compile Include="Enum\AssetStatus.cs" />
+    <Compile Include="Enum\AssetDataType.cs" />
+    <Compile Include="Enum\BookSource.cs" />
+    <Compile Include="Enum\ExpenseAuditStep.cs" />
+    <Compile Include="Enum\ExpenseType.cs" />
+    <Compile Include="Enum\ProblemType.cs" />
+    <Compile Include="Enum\ScheduledTaskStatus.cs" />
+    <Compile Include="Enum\UserBorrowStatus.cs" />
+    <Compile Include="Enum\BookStatus.cs" />
+    <Compile Include="Enum\ExpressStatus.cs" />
+    <Compile Include="Enum\NotificationEnums.cs" />
+    <Compile Include="Enum\UserServiceYearType.cs" />
+    <Compile Include="Enum\UserTodayStatus.cs" />
+    <Compile Include="Enum\WorkflowOperation.cs" />
+    <Compile Include="Enum\WorkflowStatus.cs" />
+    <Compile Include="Enum\AccountStatus.cs" />
+    <Compile Include="Enum\AuditMessageStatus.cs" />
+    <Compile Include="Enum\AuditMessageType.cs" />
+    <Compile Include="Enum\OrderStatus.cs" />
+    <Compile Include="Enum\Gender.cs" />
+    <Compile Include="Enum\OrderType.cs" />
+    <Compile Include="Enum\WorkflowOperator.cs" />
+    <Compile Include="Enum\WorkflowStepType.cs" />
+    <Compile Include="Enum\ScheduledTaskUnit.cs" />
+    <Compile Include="Enum\WorkflowType.cs" />
+    <Compile Include="Enum\WorkTaskPriority.cs" />
+    <Compile Include="Enum\WorkTaskStatus.cs" />
+    <Compile Include="Enum\WorkTaskSource.cs" />
+    <Compile Include="Enum\WorkTaskType.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Extensions\IntegerExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Pager\IPagedList.cs" />
+    <Compile Include="Pager\PageList.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\ICryptology.cs" />
+    <Compile Include="Security\MD5Cryptology.cs" />
+    <Compile Include="Security\SecurityManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

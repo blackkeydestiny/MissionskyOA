@@ -1,0 +1,155 @@
+﻿@using PagedList.Mvc;
+@{
+    ViewBag.Title = "角色管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+        <small></small>
+    </h1>
+    <div class="pull-right header-r-toolbar">
+        <a class="btn btn-primary" href="@Url.Action("Edit", "Role")">新增角色</a>
+    </div>
+</section>
+<section class="content">
+    @{
+        Html.Kendo().Grid<MissionskyOA.Models.RoleModel>()
+                   .Name("grid")
+                   .Columns(cols =>
+                   {
+                       cols.Bound(c => c.Id).Title("#").Sortable(false).Filterable(false);
+                       cols.Bound(c => c.Abbreviation).Title("简称").Sortable(false).Filterable(false);
+                       cols.Bound(c => c.RoleName).Title("角色名").Sortable(false).Filterable(false);
+                       //cols.Bound(c => c.Status).Title("状态");
+                       cols.Bound(c => c.Status).Title("状态").Sortable(false).Filterable(false).ClientTemplate(
+                        "# if (Status == 0) { #" +
+                            "<span>禁用</span>" +
+                         "# } #" +
+                         "# if(Status == 1) { #" +
+                            "<span>启用</span>" +
+                         "# } #"
+                        );
+                       cols.Bound(c => c.IsInitRole).Title("来源").Sortable(false).Filterable(false).ClientTemplate(
+                        "# if (IsInitRole == 0) { #" +
+                            "<span>后台新建角色</span>" +
+                         "# } #" +
+                         "# if(IsInitRole == 1) { #" +
+                            "<span>系统初始角色</span>" +
+                         "# } #"
+                        );
+                       cols.Bound(c => c.CreatedTime).Title("创建时间").Sortable(false).Filterable(false).ClientTemplate("#= kendo.toString(kendo.parseDate(CreatedTime), 'dd/MM/yyyy HH:MM') #");
+                       cols.Bound(c => c.Id).Title("操作").Sortable(false).Filterable(false).ClientTemplate(
+                        "# if (IsInitRole == 0) { #" +
+                        @"<a class='btn btn-link' href='" + @Url.Action("Edit", "Role", new { id = "#:Id#" }) + "'>编辑</a>"
+                        +"# } #" 
+                       
+                       
+                       )
+       .Sortable(false);
+                   })
+                   .ClientDetailTemplateId("myTemplate")
+                       .Sortable(f => f.AllowUnsort(true))
+                       .Pageable(pageable => pageable.Refresh(true))
+                       .DataSource(datasource => datasource.Ajax()
+                           .PageSize(10)
+                           .Read(read => read.Action("Read", "Role"))
+                           )
+                  .Events(events => events.DataBound("dataBound"))
+                  .Render();
+    }
+</section>
+<div class="modal fade modal-center" id="userDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">提示</h4>
+            </div>
+            <div class="modal-body">
+                确定解除该用户绑定?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" id="my-dialog-yes" data-area="" class="btn btn-primary" data-dismiss="modal">Yes</button>
+                @Html.Hidden("deleteId", "")
+            </div>
+        </div>
+    </div>
+</div>
+<script id="myTemplate" type="text/kendo-tmpl">
+    @(Html.Kendo().Grid<MissionskyOA.Models.UserRolesModel>()
+                .Name("grid_#=Id#")
+                        .Columns(cols =>
+                {
+                    cols.Bound(c => c.Id).Title("用户角色ID");
+                    cols.Bound(c => c.ChineseName).Title("中文名");
+                    cols.Bound(c => c.EnglishName).Title("英文名");
+                    cols.Bound(c => c.Available).Title("在职状态").ClientTemplate(
+                        "\\# if (Available == false) { \\#" +
+                            "离职" +
+                         "\\# } \\#" +
+                         "\\# if(Available == true) { \\#" +
+                            "在职" +
+                         "\\# } \\#"
+                        );
+                    cols.Bound(c => c.DeptName).Title("部门");
+                    cols.Bound(c => c.ProjectName).Title("项目");
+                    cols.Bound(c => c.Position).Title("职位");
+                    cols.Bound(c => c.UserId).Title("操作").ClientTemplate(
+       @"<a class='btn btn-link' onclick='unRelatedUserRole(\\#= UserId \\#)'>解除角色绑定</a>")
+       .Sortable(false);
+                })
+
+                .DataSource(datasource => datasource.Ajax()
+                    .PageSize(10)
+                    .Read(read => read.Action("RelatedUser", "Role", new { Id = "#=Id#" }))
+                    )
+                .ToClientTemplate())
+</script>
+
+
+@section pagescript{
+    <script>
+        $(document).ready(function () {
+            $("#my-dialog-yes").on("click", function () {
+                var id = $("#deleteId").val();
+                if (id != "") {
+                    var url = "@Url.Action("UnRelatedUserRole", "Role")" + "/" + id;
+                    $.post(url, null, function (data) {
+                        if (data && data.error) {
+                            alert(data.error);
+                        }
+                        $(".k-pager-refresh").click();
+                    });
+
+                }
+            });
+
+            $('#userDialog').on('hide.bs.modal', function (event) {
+                $("#deleteId").val("");
+            });
+        });
+
+        function deleteItem(id) {
+            $("#deleteId").val(id);
+            $('#userDialog').modal();
+        }
+
+        function unRelatedUserRole(id) {
+            $("#deleteId").val(id);
+            $('#userDialog').modal();
+        }
+        function dataBound() {
+            this.expandRow(this.tbody.find("tr.k-master-row").first());
+        }
+    </script>
+}
+
+
+
+
+
+
+
+

@@ -1,0 +1,1959 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MissionskyOA.Api</name>
+    </assembly>
+    <members>
+        <member name="T:MissionskyOA.Api.ApiException.ApiAuthException">
+            <summary>
+            非法会话请求异常
+            </summary>
+        </member>
+        <member name="T:MissionskyOA.Api.ApiException.ApiBadRequestException">
+            <summary>
+            非法请求异常
+            </summary>
+        </member>
+        <member name="T:MissionskyOA.Api.ApiException.ApiDataValidationException">
+            <summary>
+            数据验证失败异常
+            </summary>
+        </member>
+        <member name="T:MissionskyOA.Api.ApiException.ApiNotfoundException">
+            <summary>
+            数据记录不存在异常
+            </summary>
+        </member>
+        <member name="T:MissionskyOA.Api.Bootstrapper">
+            <summary>
+            引导程序
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Bootstrapper.Start">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Bootstrapper.RegisterTypes(Autofac.ContainerBuilder)">
+            <summary>
+            将需要的类注册到容器中
+            参考 ： https://www.cnblogs.com/struggle999/p/6986903.html
+            Autofac创建类的生命周期:
+            1、InstancePerDependency（默认）
+            2、InstancePerLifetimeScope
+            3、InstancePerMatchingLifetimeScope
+            4、InstancePerOwned
+            5、SingleInstance
+            6、InstancePerHttpRequest  （新版autofac建议使用InstancePerRequest）
+            </summary>
+            <param name="builder"></param>
+        </member>
+        <member name="T:MissionskyOA.Api.WebApiConfig">
+            <summary>
+            API 配置
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.WebApiConfig.Register(System.Web.Http.HttpConfiguration)">
+            <summary>
+            注册函数
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Areas.HelpPage.ApiDescriptionExtensions.GetFriendlyId(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Generates an URI-friendly ID for the <see cref="T:System.Web.Http.Description.ApiDescription"/>. E.g. "Get-Values-id_name" instead of "GetValues/{id}?name={name}"
+            </summary>
+            <param name="description">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The ID as a string.</returns>
+        </member>
+        <member name="T:MissionskyOA.Api.Areas.HelpPage.HelpPageConfig">
+            <summary>
+            Use this class to customize the Help Page.
+            For example you can set a custom <see cref="T:System.Web.Http.Description.IDocumentationProvider"/> to supply the documentation
+            or you can provide the samples for the requests/responses.
+            </summary>
+        </member>
+        <member name="T:MissionskyOA.Api.Areas.HelpPage.Controllers.HelpController">
+            <summary>
+            The controller that will handle requests for the help page.
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Areas.HelpPage.HelpPageConfigurationExtensions.SetDocumentationProvider(System.Web.Http.HttpConfiguration,System.Web.Http.Description.IDocumentationProvider)">
+            <summary>
+            Sets the documentation provider for help page.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="documentationProvider">The documentation provider.</param>
+        </member>
+        <member name="M:MissionskyOA.Api.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleObjects(System.Web.Http.HttpConfiguration,System.Collections.Generic.IDictionary{System.Type,System.Object})">
+            <summary>
+            Sets the objects that will be used by the formatters to produce sample requests/responses.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sampleObjects">The sample objects.</param>
+        </member>
+        <member name="M:MissionskyOA.Api.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleRequest(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String)">
+            <summary>
+            Sets the sample request directly for the specified media type and action.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample request.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:MissionskyOA.Api.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleRequest(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String,System.String[])">
+            <summary>
+            Sets the sample request directly for the specified media type and action with parameters.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample request.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:MissionskyOA.Api.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleResponse(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String)">
+            <summary>
+            Sets the sample request directly for the specified media type of the action.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample response.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:MissionskyOA.Api.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleResponse(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String,System.String[])">
+            <summary>
+            Sets the sample response directly for the specified media type of the action with specific parameters.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample response.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:MissionskyOA.Api.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleForMediaType(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue)">
+            <summary>
+            Sets the sample directly for all actions with the specified media type.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample.</param>
+            <param name="mediaType">The media type.</param>
+        </member>
+        <member name="M:MissionskyOA.Api.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleForType(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.Type)">
+            <summary>
+            Sets the sample directly for all actions with the specified type and media type.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="type">The parameter type or return type of an action.</param>
+        </member>
+        <member name="M:MissionskyOA.Api.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualRequestType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String)">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> passed to the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate request samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:MissionskyOA.Api.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualRequestType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String,System.String[])">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> passed to the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate request samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:MissionskyOA.Api.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualResponseType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String)">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> returned as part of the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate response samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:MissionskyOA.Api.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualResponseType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String,System.String[])">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> returned as part of the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate response samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:MissionskyOA.Api.Areas.HelpPage.HelpPageConfigurationExtensions.GetHelpPageSampleGenerator(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Gets the help page sample generator.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <returns>The help page sample generator.</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Areas.HelpPage.HelpPageConfigurationExtensions.SetHelpPageSampleGenerator(System.Web.Http.HttpConfiguration,MissionskyOA.Api.Areas.HelpPage.HelpPageSampleGenerator)">
+            <summary>
+            Sets the help page sample generator.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sampleGenerator">The help page sample generator.</param>
+        </member>
+        <member name="M:MissionskyOA.Api.Areas.HelpPage.HelpPageConfigurationExtensions.GetModelDescriptionGenerator(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Gets the model description generator.
+            </summary>
+            <param name="config">The configuration.</param>
+            <returns>The <see cref="T:MissionskyOA.Api.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator"/></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Areas.HelpPage.HelpPageConfigurationExtensions.GetHelpPageApiModel(System.Web.Http.HttpConfiguration,System.String)">
+            <summary>
+            Gets the model that represents an API displayed on the help page. The model is initialized on the first call and cached for subsequent calls.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="apiDescriptionId">The <see cref="T:System.Web.Http.Description.ApiDescription"/> ID.</param>
+            <returns>
+            An <see cref="T:MissionskyOA.Api.Areas.HelpPage.Models.HelpPageApiModel"/>
+            </returns>
+        </member>
+        <member name="T:MissionskyOA.Api.Areas.HelpPage.ModelDescriptions.ModelDescription">
+            <summary>
+            Describes a type model.
+            </summary>
+        </member>
+        <member name="T:MissionskyOA.Api.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator">
+            <summary>
+            Generates model descriptions for given types.
+            </summary>
+        </member>
+        <member name="T:MissionskyOA.Api.Areas.HelpPage.ModelDescriptions.ModelNameAttribute">
+            <summary>
+            Use this attribute to change the name of the <see cref="T:MissionskyOA.Api.Areas.HelpPage.ModelDescriptions.ModelDescription"/> generated for a type.
+            </summary>
+        </member>
+        <member name="T:MissionskyOA.Api.Areas.HelpPage.Models.HelpPageApiModel">
+            <summary>
+            The model that represents an API displayed on the help page.
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Areas.HelpPage.Models.HelpPageApiModel.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:MissionskyOA.Api.Areas.HelpPage.Models.HelpPageApiModel"/> class.
+            </summary>
+        </member>
+        <member name="P:MissionskyOA.Api.Areas.HelpPage.Models.HelpPageApiModel.ApiDescription">
+            <summary>
+            Gets or sets the <see cref="P:MissionskyOA.Api.Areas.HelpPage.Models.HelpPageApiModel.ApiDescription"/> that describes the API.
+            </summary>
+        </member>
+        <member name="P:MissionskyOA.Api.Areas.HelpPage.Models.HelpPageApiModel.UriParameters">
+            <summary>
+            Gets or sets the <see cref="T:MissionskyOA.Api.Areas.HelpPage.ModelDescriptions.ParameterDescription"/> collection that describes the URI parameters for the API.
+            </summary>
+        </member>
+        <member name="P:MissionskyOA.Api.Areas.HelpPage.Models.HelpPageApiModel.RequestDocumentation">
+            <summary>
+            Gets or sets the documentation for the request.
+            </summary>
+        </member>
+        <member name="P:MissionskyOA.Api.Areas.HelpPage.Models.HelpPageApiModel.RequestModelDescription">
+            <summary>
+            Gets or sets the <see cref="T:MissionskyOA.Api.Areas.HelpPage.ModelDescriptions.ModelDescription"/> that describes the request body.
+            </summary>
+        </member>
+        <member name="P:MissionskyOA.Api.Areas.HelpPage.Models.HelpPageApiModel.RequestBodyParameters">
+            <summary>
+            Gets the request body parameter descriptions.
+            </summary>
+        </member>
+        <member name="P:MissionskyOA.Api.Areas.HelpPage.Models.HelpPageApiModel.ResourceDescription">
+            <summary>
+            Gets or sets the <see cref="T:MissionskyOA.Api.Areas.HelpPage.ModelDescriptions.ModelDescription"/> that describes the resource.
+            </summary>
+        </member>
+        <member name="P:MissionskyOA.Api.Areas.HelpPage.Models.HelpPageApiModel.ResourceProperties">
+            <summary>
+            Gets the resource property descriptions.
+            </summary>
+        </member>
+        <member name="P:MissionskyOA.Api.Areas.HelpPage.Models.HelpPageApiModel.SampleRequests">
+            <summary>
+            Gets the sample requests associated with the API.
+            </summary>
+        </member>
+        <member name="P:MissionskyOA.Api.Areas.HelpPage.Models.HelpPageApiModel.SampleResponses">
+            <summary>
+            Gets the sample responses associated with the API.
+            </summary>
+        </member>
+        <member name="P:MissionskyOA.Api.Areas.HelpPage.Models.HelpPageApiModel.ErrorMessages">
+            <summary>
+            Gets the error messages associated with this model.
+            </summary>
+        </member>
+        <member name="T:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleGenerator">
+            <summary>
+            This class will generate the samples for the help page.
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleGenerator.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleGenerator"/> class.
+            </summary>
+        </member>
+        <member name="P:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleGenerator.ActualHttpMessageTypes">
+            <summary>
+            Gets CLR types that are used as the content of <see cref="T:System.Net.Http.HttpRequestMessage"/> or <see cref="T:System.Net.Http.HttpResponseMessage"/>.
+            </summary>
+        </member>
+        <member name="P:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleGenerator.ActionSamples">
+            <summary>
+            Gets the objects that are used directly as samples for certain actions.
+            </summary>
+        </member>
+        <member name="P:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleGenerator.SampleObjects">
+            <summary>
+            Gets the objects that are serialized as samples by the supported formatters.
+            </summary>
+        </member>
+        <member name="P:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleGenerator.SampleObjectFactories">
+            <summary>
+            Gets factories for the objects that the supported formatters will serialize as samples. Processed in order,
+            stopping when the factory successfully returns a non-<see langref="null"/> object.
+            </summary>
+            <remarks>
+            Collection includes just <see cref="M:MissionskyOA.Api.Areas.HelpPage.ObjectGenerator.GenerateObject(System.Type)"/> initially. Use
+            <code>SampleObjectFactories.Insert(0, func)</code> to provide an override and
+            <code>SampleObjectFactories.Add(func)</code> to provide a fallback.</remarks>
+        </member>
+        <member name="M:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleGenerator.GetSampleRequests(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Gets the request body samples for a given <see cref="T:System.Web.Http.Description.ApiDescription"/>.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The samples keyed by media type.</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleGenerator.GetSampleResponses(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Gets the response body samples for a given <see cref="T:System.Web.Http.Description.ApiDescription"/>.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The samples keyed by media type.</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleGenerator.GetSample(System.Web.Http.Description.ApiDescription,MissionskyOA.Api.Areas.HelpPage.SampleDirection)">
+            <summary>
+            Gets the request or response body samples.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <param name="sampleDirection">The value indicating whether the sample is for a request or for a response.</param>
+            <returns>The samples keyed by media type.</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleGenerator.GetActionSample(System.String,System.String,System.Collections.Generic.IEnumerable{System.String},System.Type,System.Net.Http.Formatting.MediaTypeFormatter,System.Net.Http.Headers.MediaTypeHeaderValue,MissionskyOA.Api.Areas.HelpPage.SampleDirection)">
+            <summary>
+            Search for samples that are provided directly through <see cref="P:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleGenerator.ActionSamples"/>.
+            </summary>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+            <param name="type">The CLR type.</param>
+            <param name="formatter">The formatter.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="sampleDirection">The value indicating whether the sample is for a request or for a response.</param>
+            <returns>The sample that matches the parameters.</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleGenerator.GetSampleObject(System.Type)">
+            <summary>
+            Gets the sample object that will be serialized by the formatters. 
+            First, it will look at the <see cref="P:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleGenerator.SampleObjects"/>. If no sample object is found, it will try to create
+            one using <see cref="M:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleGenerator.DefaultSampleObjectFactory(MissionskyOA.Api.Areas.HelpPage.HelpPageSampleGenerator,System.Type)"/> (which wraps an <see cref="T:MissionskyOA.Api.Areas.HelpPage.ObjectGenerator"/>) and other
+            factories in <see cref="P:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleGenerator.SampleObjectFactories"/>.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>The sample object.</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleGenerator.ResolveHttpRequestMessageType(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Resolves the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> passed to the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The type.</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleGenerator.ResolveType(System.Web.Http.Description.ApiDescription,System.String,System.String,System.Collections.Generic.IEnumerable{System.String},MissionskyOA.Api.Areas.HelpPage.SampleDirection,System.Collections.ObjectModel.Collection{System.Net.Http.Formatting.MediaTypeFormatter}@)">
+            <summary>
+            Resolves the type of the action parameter or return value when <see cref="T:System.Net.Http.HttpRequestMessage"/> or <see cref="T:System.Net.Http.HttpResponseMessage"/> is used.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+            <param name="sampleDirection">The value indicating whether the sample is for a request or a response.</param>
+            <param name="formatters">The formatters.</param>
+        </member>
+        <member name="M:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleGenerator.WriteSampleObjectUsingFormatter(System.Net.Http.Formatting.MediaTypeFormatter,System.Object,System.Type,System.Net.Http.Headers.MediaTypeHeaderValue)">
+            <summary>
+            Writes the sample object using formatter.
+            </summary>
+            <param name="formatter">The formatter.</param>
+            <param name="value">The value.</param>
+            <param name="type">The type.</param>
+            <param name="mediaType">Type of the media.</param>
+            <returns></returns>
+        </member>
+        <member name="T:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleKey">
+            <summary>
+            This is used to identify the place where the sample should be applied.
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleKey.#ctor(System.Net.Http.Headers.MediaTypeHeaderValue)">
+            <summary>
+            Creates a new <see cref="T:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleKey"/> based on media type.
+            </summary>
+            <param name="mediaType">The media type.</param>
+        </member>
+        <member name="M:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleKey.#ctor(System.Net.Http.Headers.MediaTypeHeaderValue,System.Type)">
+            <summary>
+            Creates a new <see cref="T:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleKey"/> based on media type and CLR type.
+            </summary>
+            <param name="mediaType">The media type.</param>
+            <param name="type">The CLR type.</param>
+        </member>
+        <member name="M:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleKey.#ctor(MissionskyOA.Api.Areas.HelpPage.SampleDirection,System.String,System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates a new <see cref="T:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleKey"/> based on <see cref="P:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>, controller name, action name and parameter names.
+            </summary>
+            <param name="sampleDirection">The <see cref="P:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleKey.#ctor(System.Net.Http.Headers.MediaTypeHeaderValue,MissionskyOA.Api.Areas.HelpPage.SampleDirection,System.String,System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates a new <see cref="T:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleKey"/> based on media type, <see cref="P:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>, controller name, action name and parameter names.
+            </summary>
+            <param name="mediaType">The media type.</param>
+            <param name="sampleDirection">The <see cref="P:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="P:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleKey.ControllerName">
+            <summary>
+            Gets the name of the controller.
+            </summary>
+            <value>
+            The name of the controller.
+            </value>
+        </member>
+        <member name="P:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleKey.ActionName">
+            <summary>
+            Gets the name of the action.
+            </summary>
+            <value>
+            The name of the action.
+            </value>
+        </member>
+        <member name="P:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleKey.MediaType">
+            <summary>
+            Gets the media type.
+            </summary>
+            <value>
+            The media type.
+            </value>
+        </member>
+        <member name="P:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleKey.ParameterNames">
+            <summary>
+            Gets the parameter names.
+            </summary>
+        </member>
+        <member name="P:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleKey.SampleDirection">
+            <summary>
+            Gets the <see cref="P:MissionskyOA.Api.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>.
+            </summary>
+        </member>
+        <member name="T:MissionskyOA.Api.Areas.HelpPage.ImageSample">
+            <summary>
+            This represents an image sample on the help page. There's a display template named ImageSample associated with this class.
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Areas.HelpPage.ImageSample.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MissionskyOA.Api.Areas.HelpPage.ImageSample"/> class.
+            </summary>
+            <param name="src">The URL of an image.</param>
+        </member>
+        <member name="T:MissionskyOA.Api.Areas.HelpPage.InvalidSample">
+            <summary>
+            This represents an invalid sample on the help page. There's a display template named InvalidSample associated with this class.
+            </summary>
+        </member>
+        <member name="T:MissionskyOA.Api.Areas.HelpPage.ObjectGenerator">
+            <summary>
+            This class will create an object of a given type and populate it with sample data.
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Areas.HelpPage.ObjectGenerator.GenerateObject(System.Type)">
+            <summary>
+            Generates an object for a given type. The type needs to be public, have a public default constructor and settable public properties/fields. Currently it supports the following types:
+            Simple types: <see cref="T:System.Int32"/>, <see cref="T:System.String"/>, <see cref="T:System.Enum"/>, <see cref="T:System.DateTime"/>, <see cref="T:System.Uri"/>, etc.
+            Complex types: POCO types.
+            Nullables: <see cref="T:System.Nullable`1"/>.
+            Arrays: arrays of simple types or complex types.
+            Key value pairs: <see cref="T:System.Collections.Generic.KeyValuePair`2"/>
+            Tuples: <see cref="T:System.Tuple`1"/>, <see cref="T:System.Tuple`2"/>, etc
+            Dictionaries: <see cref="T:System.Collections.Generic.IDictionary`2"/> or anything deriving from <see cref="T:System.Collections.Generic.IDictionary`2"/>.
+            Collections: <see cref="T:System.Collections.Generic.IList`1"/>, <see cref="T:System.Collections.Generic.IEnumerable`1"/>, <see cref="T:System.Collections.Generic.ICollection`1"/>, <see cref="T:System.Collections.IList"/>, <see cref="T:System.Collections.IEnumerable"/>, <see cref="T:System.Collections.ICollection"/> or anything deriving from <see cref="T:System.Collections.Generic.ICollection`1"/> or <see cref="T:System.Collections.IList"/>.
+            Queryables: <see cref="T:System.Linq.IQueryable"/>, <see cref="T:System.Linq.IQueryable`1"/>.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>An object of the given type.</returns>
+        </member>
+        <member name="T:MissionskyOA.Api.Areas.HelpPage.SampleDirection">
+            <summary>
+            Indicates whether the sample is used for request or response
+            </summary>
+        </member>
+        <member name="T:MissionskyOA.Api.Areas.HelpPage.TextSample">
+            <summary>
+            This represents a preformatted text sample on the help page. There's a display template named TextSample associated with this class.
+            </summary>
+        </member>
+        <member name="T:MissionskyOA.Api.Areas.HelpPage.XmlDocumentationProvider">
+            <summary>
+            A custom <see cref="T:System.Web.Http.Description.IDocumentationProvider"/> that reads the API documentation from an XML documentation file.
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Areas.HelpPage.XmlDocumentationProvider.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MissionskyOA.Api.Areas.HelpPage.XmlDocumentationProvider"/> class.
+            </summary>
+            <param name="documentPath">The physical path to XML document.</param>
+        </member>
+        <member name="M:MissionskyOA.Api.Areas.HelpPage.XmlDocumentationProvider.GetDocumentation(System.Reflection.MemberInfo)">
+            <summary>
+            获取Model属性的注释
+            </summary>
+            <param name="member"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MissionskyOA.Api.ApiWorkContext">
+            <summary>
+            API Context 对象
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "P:MissionskyOA.Api.ApiWorkContext.Token" -->
+        <member name="P:MissionskyOA.Api.ApiWorkContext.User">
+            <summary>
+            用户信息
+            </summary>
+        </member>
+        <member name="F:MissionskyOA.Api.ApiWorkContext._instance">
+            <summary>
+            私有静态实例对象
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.ApiWorkContext.#ctor">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.ApiWorkContext.Instance">
+            <summary>
+            静态实例化单实例
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="F:MissionskyOA.Api.Common.HttpUtil.Timeout">
+            <summary>
+             INT Timeout
+            </summary>
+        </member>
+        <member name="F:MissionskyOA.Api.Common.HttpUtil.DefaultUserAgent">
+            <summary>
+            Default User Agent
+            </summary>
+        </member>
+        <member name="F:MissionskyOA.Api.Common.HttpUtil.defaultEncoding">
+            <summary>
+            Default Encoding
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Common.HttpUtil.Post(System.String,System.String,System.Nullable{System.Int32},System.Text.Encoding)">
+            <summary>
+            POST method.
+            </summary>
+            <param name="url">post URL</param>
+            <param name="postData">post data</param>
+            <param name="timeout">Timeout. The default is 5000</param>
+            <param name="encoding">The encoding format, the default format UTF-8</param>
+            <returns>string post data</returns>
+        </member>
+        <member name="F:MissionskyOA.Api.Common.Report.ReportHelper.Log">
+            <summary>
+            Log instance.
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Common.Report.ReportHelper.SendReport(System.Int32,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.String},System.Boolean)">
+            <summary>
+            向当前用户发送报表
+            </summary>
+            <param name="reportId">报表Id</param>
+            <param name="token">当前用户Token</param>
+            <param name="reportFormat">报表格式</param>
+            <param name="reprotParams">报表参数</param>
+            <param name="isDetele">是否删除临时的报表文件</param>
+            <returns>true or false</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Common.Report.ReportHelper.GenerateFile(MissionskyOA.Models.ReportModel,System.Byte[],System.String)">
+            <summary>
+            生成报表文件
+            </summary>
+            <param name="report"></param>
+            <param name="bytes"></param>
+            <param name="reportFormat"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Common.Report.ReportHelper.CreateReportViewer(System.Collections.Specialized.NameValueCollection,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            创建报表处理控件
+            </summary>
+            <param name="reportConfigs"></param>
+            <param name="reprotParams"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MissionskyOA.Api.FileUtil">
+            <summary>
+            Summary description for FileUtil
+            </summary>
+        </member>
+        <member name="P:MissionskyOA.Api.FileUtil.ApplicationRoot">
+            <summary>
+            Gets Application root, ends with /
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.FileUtil.GetApplicationRoot(System.Web.HttpContext)">
+            <summary>
+            Gets Application root, ends with /
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.FileUtil.AppendApplicationRoot(System.String)">
+            <summary>
+            return full vitual path with application root appended.
+            </summary>
+            <param name="partialPath"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.FileUtil.AppendAbsolutePath(System.String)">
+            <summary>
+            Appends the absolute path, contains host name, port and virtual path.
+            For example: http://hostname:1234/virtualPath/ + partialPath
+            </summary>
+            <param name="partialPath">The partial path.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.FileUtil.CombineWebPath(System.String,System.String)">
+            <summary>
+            combine web path
+            </summary>
+            <param name="path1"></param>
+            <param name="path2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.FileUtil.DeleteFile(System.String)">
+            <summary>
+            Delete CSV File
+            </summary>
+            <param name="filePath">CSV File Path</param>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AcceptProxyController.#ctor(MissionskyOA.Services.IAcceptProxyService)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="overtimeService">加班管理服务</param>
+            <param name="askLeaveService">请假管理服务</param>
+            <param name="userService">用户管理服务</param>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AcceptProxyController.AddAcceptProxy">
+            <summary>
+            新增签收单
+            </summary>
+            <returns>签收信息</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AcceptProxyController.Download(System.Int32)">
+            <summary>
+            下载签收记录附件
+            </summary>
+            <returns>附件文件流</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AcceptProxyController.UpdateAcceptProxy(System.Int32,MissionskyOA.Models.UpdateAcceptProxyModel)">
+            <summary>
+            更新签收单
+            </summary>
+            <returns>是否更新成功</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AcceptProxyController.DeleteAcceptProxy(System.Int32)">
+            <summary>
+            删除签收单
+            </summary>
+            <returns>是否删除成功</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AcceptProxyController.MyAcceptProxyList(System.Int32,System.Int32)">
+            <summary>
+            查询当前用户的代签和签收记录
+            </summary>
+            <returns>代签和签收记录信息</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AcceptProxyController.AcceptProxyHistoryList(System.Int32,System.Int32)">
+            <summary>
+            查询所有用户的签收记录
+            </summary>
+            <returns>签收记录信息</returns>
+        </member>
+        <member name="T:MissionskyOA.Api.Controllers.TestController">
+            <summary>
+            测试
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.TestController.#ctor(MissionskyOA.Services.IAttendanceSummaryService)">
+            <summary>
+            测试
+            </summary>
+            <param name="attendanceSummaryService"></param>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.TestController.CaculateBaseValueForCompanyServiceYear(System.String,System.Int32)">
+            <summary>
+            计算工龄年假
+            </summary>
+            <param name="joinDate">入职日期: yyyy-MM-dd</param>
+            <param name="count">测试次数</param>
+            <returns>入职日期的工龄年假</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.TestController.CaculateBaseValueForTotalServiceYear(System.String,System.Int32,System.Int32)">
+            <summary>
+            计算法定基础年假
+            </summary>
+            <param name="joinDate">入职日期: yyyy-MM-dd</param>
+            <param name="type">社保类型</param>
+            <param name="count">测试次数</param>
+            <returns>入职日期的工龄年假</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.TestController.CaculateAnnual(System.String,System.Int32)">
+            <summary>
+            计算年假
+            </summary>
+            <param name="joinDate">入职日期: yyyy-MM-dd</param>
+            <param name="type">社保类型</param>
+            <returns>入职日期的工龄年假</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AnnouncementController.#ctor(MissionskyOA.Services.IAnnouncementService,MissionskyOA.Services.IRoleService)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="announcementService">通告管理服务</param>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AnnouncementController.AddAnnouncement(MissionskyOA.Models.ApplyAnnoucementModel)">
+            <summary>
+            新增通告,员工只能申请员工消息和活动消息类型的通告
+            </summary>
+            <returns>通告信息</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AnnouncementController.GetAnnocument(System.Int32,System.Int32)">
+            <summary>
+            获取公告
+            </summary>
+            <returns>获取公告</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AnnouncementController.GetPendingAnnocument">
+            <summary>
+            获取待处理的公告申请,行政专员才能取得数据
+            </summary>
+            <returns>审批任务列表</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AnnouncementController.Audit(MissionskyOA.Models.AuditAnnouncementModel)">
+            <summary>
+            审批通告
+            </summary>
+            <param name="model">审批通告</param>
+            <returns>是否审批成功</returns>
+        </member>
+        <member name="T:MissionskyOA.Api.Controllers.FeedbackController">
+            <summary>
+            意见反馈
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.FeedbackController.#ctor(MissionskyOA.Services.Interface.IFeedbackService)">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.FeedbackController.AddWorkTask(MissionskyOA.Models.Feedback.NewFeedback)">
+            <summary>
+            创建意见反馈
+            </summary>
+            <param name="feed">意见反馈详细</param>
+            <returns>返回新的feed id</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.FeedbackController.UpdateFeedback(System.Int32,MissionskyOA.Models.Feedback.NewFeedback)">
+            <summary>
+            更新意见反馈
+            </summary>
+            <returns>是否更新成功</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.FeedbackController.DeleteFeedback(System.Int32)">
+            <summary>
+            删除意见反馈
+            </summary>
+            <returns>是否删除成功</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.FeedbackController.FeedbackHistoryList(System.Int32,System.Int32)">
+            <summary>
+            查询所有用户意见反馈
+            </summary>
+            <returns>意见反馈</returns>
+        </member>
+        <member name="T:MissionskyOA.Api.Controllers.WorkTaskController">
+            <summary>
+            工作任务
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.WorkTaskController.#ctor(MissionskyOA.Services.IWorkTaskService,MissionskyOA.Services.IWorkTaskCommentService,MissionskyOA.Services.IAttachmentService)">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.WorkTaskController.AddWorkTask(MissionskyOA.Models.NewWorkTaskModel)">
+            <summary>
+            创建工作任务
+            </summary>
+            <param name="task">工作任务详细</param>
+            <returns>返回新的Task id</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.WorkTaskController.EditWorkTask(System.Int32,MissionskyOA.Models.NewWorkTaskModel)">
+            <summary>
+            修改工作任务
+            </summary>
+            <param name="taskId">工作任务Id</param>
+            <param name="task">工作任务详细变更</param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.WorkTaskController.CancelWorkTask(System.Int32,MissionskyOA.Models.OperateWorkTaskModel)">
+            <summary>
+            取消工作任务
+            </summary>
+            <param name="taskId">工作任务Id</param>
+            <param name="model">取消工作任务原因</param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.WorkTaskController.TransferWorkTask(System.Int32,MissionskyOA.Models.OperateWorkTaskModel)">
+            <summary>
+            转移(指派)工作任务
+            </summary>
+            <param name="taskId">工作任务Id</param>
+            <param name="model">备注</param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.WorkTaskController.StartWorkTask(System.Int32,MissionskyOA.Models.OperateWorkTaskModel)">
+            <summary>
+            开始工作任务
+            </summary>
+            <param name="taskId">工作任务Id</param>
+            <param name="model">备注</param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.WorkTaskController.CompleteWorkTask(System.Int32,MissionskyOA.Models.OperateWorkTaskModel)">
+            <summary>
+            完成工作任务
+            </summary>
+            <param name="taskId">工作任务Id</param>
+            <param name="model">备注</param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.WorkTaskController.CloseWorkTask(System.Int32,MissionskyOA.Models.OperateWorkTaskModel)">
+            <summary>
+            关闭工作任务
+            </summary>
+            <param name="taskId">工作任务Id</param>
+            <param name="model">备注</param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.WorkTaskController.AddWorkTaskComment(System.Int32,MissionskyOA.Models.OperateWorkTaskModel)">
+            <summary>
+            添加工作任务评论
+            </summary>
+            <param name="taskId">工作任务Id</param>
+            <param name="model">评论</param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.WorkTaskController.ModifyWorkTaskComment(System.Int32,MissionskyOA.Models.OperateWorkTaskModel)">
+            <summary>
+            修改工作任务评论
+            </summary>
+            <param name="commentId">工作任务评论Id</param>
+            <param name="model">评论</param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.WorkTaskController.DeleteWorkTaskComment(System.Int32)">
+            <summary>
+            删除工作任务评论
+            </summary>
+            <param name="commentId">工作任务评论Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.WorkTaskController.Upload(System.Int32)">
+            <summary>
+            上传工作任务附件
+            </summary>
+            <param name="taskId">工作任务Id</param>
+            <returns>是否上传成功</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.WorkTaskController.Download(System.Int32)">
+            <summary>
+            下载工作任务附件
+            </summary>
+            <param name="attaId">附件Id</param>
+            <returns>工作任务附件文件流</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.WorkTaskController.SearcWorkTasks(MissionskyOA.Models.SearchWorkTaskModel,System.Int32,System.Int32)">
+            <summary>
+            分页条件查询工作任务
+            </summary>
+            <param name="search">查询条件</param>
+            <param name="pageIndex">页码</param>
+            <param name="pageSize">页大小</param>
+            <returns>工作任务分页列表</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.WorkTaskController.GetWorkTaskDetail(System.Int32)">
+            <summary>
+            根据工作任务ID获取详细信息
+            </summary>
+            <param name="taskId">工作任务id</param>
+            <returns>工作任务详细信息</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.WorkTaskController.SummaryWorkTask(System.Int32)">
+            <summary>
+            统计个人任务信息
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AuditMessageController.GetUserAuditMessages(MissionskyOA.Models.SearchAuditMessageModel,System.Int32,System.Int32)">
+            <summary>
+            获取用户审计信息
+            </summary>
+            <param name="model">查询条件</param>
+            <param name="pageIndex">页码</param>
+            <param name="pageSize">页大小</param>
+            <returns>返回用户审计信息及分页信息</returns>
+        </member>
+        <member name="T:MissionskyOA.Api.Controllers.AssetController">
+            <summary>
+            资产管理
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AssetController.#ctor(MissionskyOA.Services.IAssetTypeService,MissionskyOA.Services.IAssetService,MissionskyOA.Services.IAssetTransactionService,MissionskyOA.Services.IAssetInventoryService)">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AssetController.GetAssetTypes">
+            <summary>
+            获取资产分类
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AssetController.GetMyAssets">
+            <summary>
+            获取我的资产列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AssetController.SearchAssets(MissionskyOA.Models.AssetSearchModel,System.Int32,System.Int32)">
+            <summary>
+            查找资产
+            </summary>
+            <param name="search"></param>
+            <param name="pageIndex"></param>
+            <param name="pageSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AssetController.GetAssetBarcode(System.String)">
+            <summary>
+            根据编码查询资产信息
+            </summary>
+            <param name="barcode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AssetController.TransferAsset(MissionskyOA.Models.AssetTransactionModel)">
+            <summary>
+            资产转移
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AssetController.TransferAsset(System.Int32)">
+            <summary>
+            获取单个资产转移记录详情
+            </summary>
+            <param name="transactionId">转移记录Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AssetController.TransferCancel(System.Int32)">
+            <summary>
+            取消资产转移
+            </summary>
+            <param name="transactionId">转移记录Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AssetController.TransferConfirmOut(System.Int32)">
+            <summary>
+            确认转出资产
+            </summary>
+            <param name="transactionId">转移记录Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AssetController.TransferConfirmIn(System.Int32)">
+            <summary>
+            确认转入资产
+            </summary>
+            <param name="transactionId">转移记录Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AssetController.TransferAsset(System.Int32,System.Collections.Generic.List{MissionskyOA.Models.AssetInventoryRecordModel})">
+            <summary>
+            提交盘点记录
+            </summary>
+            <param name="inventoryId">盘点任务的Id</param>
+            <param name="model">Body数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AssetController.GetMyInventory(System.Int32)">
+            <summary>
+            获取我的盘点记录
+            </summary>
+            <param name="inventoryId">盘点任务的Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AssetController.HiddenAmount(System.Collections.Generic.List{MissionskyOA.Models.AssetModel})">
+            <summary>
+            隐藏金额
+            </summary>
+            <param name="list"></param>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AssetController.HiddenAmount(MissionskyOA.Models.AssetModel)">
+            <summary>
+            隐藏金额
+            </summary>
+            <param name="asset"></param>
+        </member>
+        <member name="T:MissionskyOA.Api.Controllers.AttachmentController">
+            <summary>
+            附件
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AttachmentController.#ctor(MissionskyOA.Services.IAttachmentService)">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AttachmentController.Download(System.Int32)">
+            <summary>
+            根据附件Id下载附件
+            </summary>
+            <param name="id">附件Id</param>
+            <returns>附件文件流</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AttachmentController.Upload(System.Int32,System.String)">
+            <summary>
+            上传附件
+            </summary>
+            <param name="entityId">附件信息</param>
+            <param name="entityType">附件信息</param>
+            <returns>上传成功或失败</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.ExpenseController.#ctor(MissionskyOA.Services.IExpenseService)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="expenseService">报销服务管理</param>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.ExpenseController.AddExpense(MissionskyOA.Models.ApplyExpenseModel)">
+            <summary>
+            新增报销申请
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.ExpenseController.GetExpenseList(System.Int32,System.Int32)">
+            <summary>
+            获取自己报销申请单列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.ExpenseController.GetExpenseDetail(System.Int32)">
+            <summary>
+            根据报销单id,获取报销单详细信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.ExpenseController.SendExpenseForm(System.Int32)">
+            <summary>
+            发送报销申请单
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.ExpenseController.GetPendingAuditLists">
+            <summary>
+            获取待处理的报销单
+            </summary>
+            <returns>审批任务列表</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.ExpenseController.ApproveExpense(System.Int32,System.String)">
+            <summary>
+            批准
+            </summary>
+            <param name="expenseId">申请单id</param>
+            <param name="reason">理由</param>
+            <returns>是否批准成功</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.ExpenseController.ApproveExpense(System.Int32)">
+            <summary>
+            确认接收纸质报销单
+            </summary>
+            <param name="expenseId">申请单id</param>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.ExpenseController.RejectExpense(System.Int32,System.String)">
+            <summary>
+            拒绝
+            </summary>
+            <param name="expenseId">申请单id</param>
+            <param name="reason">理由</param>
+            <returns>是否拒绝成功</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.ExpenseController.ExpenseSummary">
+            <summary>
+            统计审批人审批(待审批和已审批)报销单
+            </summary>
+            <returns>审批(待审批和已审批)报销单</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.ExpenseController.Cancel(System.Int32)">
+            <summary>
+            取消报销单
+            </summary>
+            <param name="orderNo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.ExpenseController.UpdateExpenseOrder(System.Int32,MissionskyOA.Models.UpdateExpenseModel)">
+            <summary>
+            更新报销单(目前只能更新报销理由)
+            </summary>
+            <param name="id">报销单号</param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.ExpenseController.UpdateExpenseDetailsOrder(System.Int32,MissionskyOA.Models.ApplyExpenseDetailModel)">
+            <summary>
+            更新报销单详细信息
+            </summary>
+            <param name="id">报销详细id</param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.ExpenseController.DeleteExpenseDetailsOrder(System.Int32)">
+            <summary>
+            删除报销详细
+            </summary>
+            <param name="id">报销详细id</param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.ExpenseController.AddExpenseDetailsOrder(System.Int32,MissionskyOA.Models.ApplyExpenseDetailModel)">
+            <summary>
+            添加报销单详细信息
+            </summary>
+            <param name="id">报销单id</param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MissionskyOA.Api.Controllers.MeetingController">
+            <summary>
+            会议管理
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.MeetingController.#ctor(MissionskyOA.Services.IMeetingService,MissionskyOA.Services.IUserService)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="meetingService">会议管理服务</param>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.MeetingController.GetMeetingRoomList">
+            <summary>
+            获取会议室列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.MeetingController.AddMeeting(MissionskyOA.Models.ReserveMeetingModel)">
+            <summary>
+            新增单条会议
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.MeetingController.AddMeetingByWeeks(MissionskyOA.Models.ReserveMeetingModel,System.Int32)">
+            <summary>
+            批量新增会议
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.MeetingController.GetMeetingDetailsById(System.Int32)">
+            <summary>
+            根据会议ID,获取会议详情
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.MeetingController.GetMeetingRoomById(System.Int32)">
+            <summary>
+            根据会议室ID,获取会议室信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.MeetingController.GetMeetingListByDateTime(MissionskyOA.Models.MeetingSearchModel)">
+            <summary>
+            根据会议室ID,获取某一段日期内的会议信息（拿取会议信息只精确到天，不精确到小时）
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.MeetingController.GetUserReserveMeetingHistory(MissionskyOA.Models.MeetingSearchModel)">
+            <summary>
+            根据用户ID,获取某一段日期内的会议信息,如果不传用户ID默认返回当前用户预约会议信息（拿取会议信息只精确到天，不精确到小时）
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.MeetingController.updateMeeting(System.Int32,MissionskyOA.Models.ReserveMeetingModel)">
+            <summary>
+            更新会议记录
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.MeetingController.cancelMeeting(System.Int32)">
+            <summary>
+            取消会议,会议已经开始status变为0,会议未开始直接从DB删除此数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:MissionskyOA.Api.Controllers.NotificationController">
+            <summary>
+            通知消息
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.NotificationController.#ctor(MissionskyOA.Services.INotificationService,MissionskyOA.Services.IUserService)">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.NotificationController.GetMyNotifications(System.Int32,System.Int32)">
+            <summary>
+            获取我的通知列表
+            </summary>
+            <param name="pageIndex"></param>
+            <param name="pageSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.NotificationController.SendQQMessage(System.Int32,System.String)">
+            <summary>
+            发送QQ消息给User
+            </summary>
+            <param name="userid">信息接受者user id</param>
+            <param name="messagecontent">信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AvatarController.#ctor(MissionskyOA.Services.IAvatarService)">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AvatarController.Upload">
+            <summary>
+            上传头像
+            </summary>
+            <returns>头像链接</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AvatarController.Download(System.Int32)">
+            <summary>
+            获取头像
+            </summary>
+            <returns>头像文件流</returns>
+        </member>
+        <member name="T:MissionskyOA.Api.Controllers.BookController">
+            <summary>
+            图书管理
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.BookController.#ctor(MissionskyOA.Services.IBookService,MissionskyOA.Services.IBookBorrowService,MissionskyOA.Services.IAttachmentService)">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.BookController.GetBookDetail(System.Int32)">
+            <summary>
+            根据图书ID获取图书详细信息
+            </summary>
+            <param name="id">图书id</param>
+            <returns>图书详细信息</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.BookController.GetBookList(MissionskyOA.Models.SearchBookModel)">
+            <summary>
+            查询满足条件的所有图书
+            </summary>
+            <param name="search">查询条件</param>
+            <returns>图书列表</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.BookController.GetBookListByISBNGroup(MissionskyOA.Models.SearchBookModel,System.Int32,System.Int32)">
+            <summary>
+            查询满足条件的所有图书并按照ISBN编码group返回
+            </summary>
+            <param name="search">查询条件</param>
+            <returns>图书列表</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.BookController.SearchBooks(MissionskyOA.Models.SearchBookModel,System.Int32,System.Int32)">
+            <summary>
+            分页查询图书
+            </summary>
+            <param name="search">查询条件</param>
+            <param name="pageIndex">页码</param>
+            <param name="pageSize">页大小</param>
+            <returns>图书分页列表</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.BookController.GetUserBorrowHistory">
+            <summary>
+            获取用户的借阅记录
+            </summary>
+            <param name="userId">用户id</param>
+            <returns>用户借阅记录</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.BookController.GetBookBorrowHistory(System.Int32)">
+            <summary>
+            获取图书的借阅历史记录
+            </summary>
+            <param name="bookId">图书id</param>
+            <returns>图书借阅历史记录</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.BookController.GetUserBookList(System.Int32)">
+            <summary>
+            查询与用户有关的图书(借阅或捐赠的图书)
+            </summary>
+            <param name="userId">用户ID</param>
+            <returns>借阅或捐赠的图书</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.BookController.GetCurrentUserBookList">
+            <summary>
+            查询与当前用户有关的图书(借阅或捐赠的图书)
+            </summary>
+            <param name="userId">用户ID</param>
+            <returns>借阅或捐赠的图书</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.BookController.Download(System.Int32)">
+            <summary>
+            下载图书封面
+            </summary>
+            <param name="id">图书封面附件Id</param>
+            <returns>图书封面文件流</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.BookController.Upload(System.Int32)">
+            <summary>
+            上传图书封面
+            </summary>
+            <param name="bookId">图书Id</param>
+            <returns>是否上传成功</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.BookController.Borrow(MissionskyOA.Models.BorrowBookModel)">
+            <summary>
+            用户借阅图书,根据图书id或者二维码借阅
+            </summary>
+            <param name="model">借阅信息</param>
+            <returns>是否借阅成功</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.BookController.Transfer(MissionskyOA.Models.BorrowBookModel)">
+            <summary>
+            用户转移图书
+            </summary>
+            <param name="model">转移信息</param>
+            <returns>是否转移成功</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.BookController.Return(MissionskyOA.Models.CommentBookModel)">
+            <summary>
+            用户归还图书
+            </summary>
+            <param name="model">借阅信息</param>
+            <returns>是否归还成功</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.BookController.Comment(MissionskyOA.Models.CommentBookModel)">
+            <summary>
+            添加或修改用户图书评论
+            </summary>
+            <param name="model">评论信息</param>
+            <returns>是否评论成功</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.BookController.DeleteComment(System.Int32)">
+            <summary>
+            删除评论
+            </summary>
+            <param name="id">图书评论Id</param>
+            <returns>是否删除成功</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.BookController.Add(MissionskyOA.Models.BaseBookModel)">
+            <summary>
+            添加图书
+            </summary>
+            <param name="model">图书信息</param>
+            <returns>是否添加成功</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.BookController.Add(System.Int32)">
+            <summary>
+            删除图书
+            </summary>
+            <param name="bookId">图书Id</param>
+            <returns>是否删除成功</returns>
+        </member>
+        <member name="T:MissionskyOA.Api.Controllers.ReportController">
+            <summary>
+            报表管理
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.ReportController.#ctor(MissionskyOA.Services.IReportService)">
+            <summary>
+            
+            </summary>
+            <param name="reportService"></param>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.ReportController.SendReport(System.Int32,MissionskyOA.Models.SendReportModel)">
+            <summary>
+            向当前用户发送报表
+            </summary>
+            <param name="reportId">报表Id</param>
+            <param name="reportInfo">报表附件信息: 报表格式(Excel, Word, PDF), 报表参数(键值对)</param>
+            <returns>true or false</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.ReportController.GetUserReports">
+            <summary>
+            获取用户可以使用的报表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.ReportController.GetReportDetail(System.Int32)">
+            <summary>
+            获取报表详细，包括参数、可用附件格式
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.ReportController.GetReportParameters(System.Int32)">
+            <summary>
+            获取报表参数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.ReportController.GetReportFormats">
+            <summary>
+            获取报表附件可用格式
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.ReportController.GetReportParamTypes">
+            <summary>
+            获取报表参数类型
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:MissionskyOA.Api.Controllers.WorkflowController">
+            <summary>
+            工作流
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.WorkflowController.GetAllTask">
+            <summary>
+            获取用户当前的流程任务
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.WorkflowController.GetTask(System.Int32)">
+            <summary>
+            获取单个任务
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.WorkflowController.UpdateRole(System.Int32,System.Object)">
+            <summary>
+            更新Task,处理当前任务,控制下一步任务
+            </summary>
+            <param name="id"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.WorkflowController.GetSingleWorkflow(MissionskyOA.Models.SearchWorkflowModel)">
+            <summary>
+            获取单个可用流程
+            </summary>
+            <param name="model">流程查询模型</param>
+            <returns>流程</returns>
+        </member>
+        <member name="T:MissionskyOA.Api.Controllers.OrderController">
+            <summary>
+            假单管理
+            </summary>
+        </member>
+        <member name="F:MissionskyOA.Api.Controllers.OrderController.Log">
+            <summary>
+            Log instance.
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.OrderController.#ctor(MissionskyOA.Services.IOvertimeService,MissionskyOA.Services.IOrderService,MissionskyOA.Services.IAskLeaveService,MissionskyOA.Services.IUserService)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="overtimeService">加班管理服务</param>
+            <param name="askLeaveService">请假管理服务</param>
+            <param name="userService">用户管理服务</param>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.OrderController.GetAskLeaveList(System.Int32,System.Int32)">
+            <summary>
+            获取自己请假申请单列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.OrderController.GetAskLeaveDetail(System.Int32)">
+            <summary>
+            根据请假单具体id,获取单个假单(包括详情列表)
+            </summary>
+            <param name="askLeaveDetailID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.OrderController.GetOvertimeList(System.Int32,System.Int32)">
+            <summary>
+            获取自己加班单列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.OrderController.GetOvertimeDetail(System.Int32)">
+            <summary>
+            根据加班单具体id,获取单个加班单(包括详情列表)
+            </summary>
+            <param name="overtimeDetialID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.OrderController.GetOvertimeHistoryByUserID(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            根据UserID查询加班记录
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.OrderController.GetAskLeaveHistoryByUserID(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            根据UserID查询请假记录
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.OrderController.AddOrder(MissionskyOA.Models.ApplyOrderModel)">
+            <summary>
+            新增请假单或加班单
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.OrderController.GetOrderDetail(System.Int32)">
+            <summary>
+            根据申请单OrderId获取申请单详细信细
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.OrderController.GetOrderDetailByOrderNo(System.Int32)">
+            <summary>
+            根据申请单号OrderNo获取申请单详细信细
+            </summary>
+            <param name="orderNo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.OrderController.UpdateOrder(System.Int32,MissionskyOA.Models.UpdateOrderModel)">
+            <summary>
+            更新假单
+            </summary>
+            <param name="orderNo">申请单号</param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.OrderController.Revoke(System.Int32,MissionskyOA.Models.RevokeOrderModel)">
+            <summary>
+            销请假单或者加班单
+            </summary>
+            <param name="orderNo"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.OrderController.Cancel(System.Int32)">
+            <summary>
+            取消请假或者加班单
+            </summary>
+            <param name="orderNo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.OrderController.ApproveOrder(MissionskyOA.Models.OperateOrderModel)">
+            <summary>
+            批准
+            </summary>
+            <param name="model">申请单</param>
+            <returns>是否批准成功</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.OrderController.RejecteOrder(MissionskyOA.Models.OperateOrderModel)">
+            <summary>
+            拒绝
+            </summary>
+            <param name="model">申请单</param>
+            <returns>是否拒绝成功</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.OrderController.Upload(System.Int32)">
+            <summary>
+            上传申请单附件
+            </summary>
+            <param name="orderNo">申请单Id</param>
+            <returns>是否上传成功</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.OrderController.GetPendingOrders">
+            <summary>
+            获取待处理的申请单，默认查询所有
+            </summary>
+            <returns>审批任务列表</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.OrderController.CountPendingOrders">
+            <summary>
+            获取待处理的申请单数目
+            </summary>
+            <returns>申请单数目</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.OrderController.SummaryApproveOrders">
+            <summary>
+            统计审批人审批(待审批和已审批)申请单，默认查询所有
+            </summary>
+            <returns>审批(待审批和已审批)申请单</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.OrderController.SearchOrdersByEnglishName(System.String)">
+            <summary>
+            根据待审批人英文名查询申请单
+            </summary>
+            <returns>审批(待审批和已审批)申请单</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.OrderController.ValidApplyOrder(MissionskyOA.Models.ApplyOrderModel)">
+            <summary>
+            验证申请单是否有效
+            </summary>
+            <param name="model">申请单</param>
+        </member>
+        <member name="T:MissionskyOA.Api.Controllers.RoleController">
+            <summary>
+            角色管理
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.RoleController.#ctor(MissionskyOA.Services.IRoleService)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="roleService"></param>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.RoleController.GetAllRoles">
+            <summary>
+            获取角色列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.RoleController.GetRole(System.Int32)">
+            <summary>
+            获取单个角色
+            </summary>
+            <param name="id">查询条件</param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.RoleController.AddRole(MissionskyOA.Models.RoleModel)">
+            <summary>
+            新增角色
+            </summary>
+            <param name="model">新增角色信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.RoleController.UpdateRole(System.Int32,MissionskyOA.Models.RoleModel)">
+            <summary>
+            更新角色
+            </summary>
+            <param name="id"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.RoleController.DelteRole(System.Int32)">
+            <summary>
+            删除角色
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MissionskyOA.Api.Controllers.ProjectController">
+            <summary>
+            项目管理
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.ProjectController.#ctor(MissionskyOA.Services.IProjectService)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="projectService"></param>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.ProjectController.GetAllProjects">
+            <summary>
+            获取项目列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.ProjectController.GetProject(System.Int32)">
+            <summary>
+            获取单个项目
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.ProjectController.AddProject(MissionskyOA.Models.ProjectModel)">
+            <summary>
+            新增项目
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.ProjectController.UpdateProject(System.Int32,MissionskyOA.Models.ProjectModel)">
+            <summary>
+            更新项目
+            </summary>
+            <param name="id"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.ProjectController.DeleteProject(System.Int32)">
+            <summary>
+            删除项目
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AccountController.Login(MissionskyOA.Models.LoginModel)">
+            <summary>
+            账户登录 (邮箱+密码 或 QQ)
+            </summary>
+            <param name="model">用户基本信息</param>
+            <returns>返回会话令牌</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AccountController.Logout">
+            <summary>
+            退出登录
+            </summary>
+            <returns>true or fase</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AccountController.UpdatePassowrd(MissionskyOA.Models.Account.UpdatePasswordModel)">
+            <summary>
+            更新用户密码
+            </summary>
+            <param name="model">用户新旧密码</param>
+            <returns>是否更新成功</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.AccountController.ResetPassword(MissionskyOA.Models.Account.ResetPasswordModel)">
+            <summary>
+            重置密码
+            </summary>
+            <param name="model">用户邮箱或电话</param>
+            <returns>是否重置成功</returns>
+        </member>
+        <member name="T:MissionskyOA.Api.Controllers.BaseController">
+            <summary>
+            基础控制器
+            </summary>
+        </member>
+        <member name="F:MissionskyOA.Api.Controllers.BaseController.Log">
+            <summary>
+            Log instance.
+            </summary>
+        </member>
+        <member name="P:MissionskyOA.Api.Controllers.BaseController.Member">
+            <summary>
+            登录用户信息
+            </summary>
+        </member>
+        <member name="P:MissionskyOA.Api.Controllers.BaseController.Token">
+            <summary>
+            Token
+            </summary>
+        </member>
+        <member name="T:MissionskyOA.Api.Controllers.UserController">
+            <summary>
+            用户管理
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.UserController.#ctor(MissionskyOA.Services.IUserTokenService,MissionskyOA.Services.IAttendanceSummaryService,MissionskyOA.Services.IUserService)">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.UserController.GetUserDetail(System.Int32)">
+            <summary>
+            根据用户ID 获取员工的基本信息
+            </summary>
+            <param name="id">用户id</param>
+            <returns>用户基本信息</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.UserController.GetUserDetail(MissionskyOA.Models.SingleUserModel)">
+            <summary>
+            根据电话号码/邮箱/中文名/英文名/QQ号获取员工的基本信息
+            </summary>
+            <param name="model">用户信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.UserController.SearchUsers(MissionskyOA.Models.SearchUserModel,System.Int32,System.Int32)">
+            <summary>
+            分页查询用户(员工)
+            默认查询所有在职员工
+            </summary>
+            <param name="model">查询条件</param>
+            <param name="pageIndex">页码</param>
+            <param name="pageSize">页大小</param>
+            <returns>满足条件的用户</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.UserController.GetLeaders">
+            <summary>
+            获取领导列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.UserController.GetDepartments">
+            <summary>
+            获取部门数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.UserController.GetCurrentUserDetail">
+            <summary>
+            获取当前用户的详细信息
+            </summary>
+            <returns>当前用户详细信息:基本信息，在职信息，假期信息等</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.UserController.UpdateUser(System.Int32,MissionskyOA.Models.UpdateUserModel)">
+            <summary>
+            更新用户信息
+            </summary>
+            <param name="id">用户id</param>
+            <param name="model">用户基本信息</param>
+            <returns></returns>
+            <remarks>是否更新成功</remarks>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.UserController.DelteUser(System.Int32)">
+            <summary>
+            删除用户,注意删除关联数据
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.UserController.LockUser(System.Int32)">
+            <summary>
+            锁定用户
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.UserController.UpdateRoles(System.Int32,System.Object)">
+            <summary>
+            更新用户角色
+            </summary>
+            <param name="id"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Controllers.UserController.ChangeNotifyAuth(System.Collections.Generic.Dictionary{System.String,System.Boolean})">
+            <summary>
+            用户消息推送授权
+            </summary>
+            <param name="updatedItems">变更的授权项</param>
+            <returns></returns>
+        </member>
+        <member name="T:MissionskyOA.Api.Filter.RequestBodyFilter">
+            <summary>
+            请求过滤器
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Filter.RequestBodyFilter.OnActionExecuting(System.Web.Http.Controllers.HttpActionContext)">
+            <summary>
+            在执行操作方法之前由 ASP.NET MVC 框架调用
+            </summary>
+            <param name="actionContext"></param>
+        </member>
+        <member name="T:MissionskyOA.Api.WebApiApplication">
+            <summary>
+            WebApiApplication
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.WebApiApplication.Application_Start">
+            <summary>
+            Start
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.WebApiApplication.Application_Error(System.Object,System.EventArgs)">
+            <summary>
+            
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="T:MissionskyOA.Api.Handlers.ApiRequestHandler">
+            <summary>
+            API 请求处理器
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Handlers.ApiRequestHandler.#cctor">
+            <summary>
+            静态构造函数
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Handlers.ApiRequestHandler.#ctor(MissionskyOA.Services.IUserTokenService)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="memberTokenService"></param>
+        </member>
+        <member name="M:MissionskyOA.Api.Handlers.ApiRequestHandler.SendAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)">
+            <summary>
+            检查用户登录状态，并以异步的方式请请求传送给下一个Http Request Handler
+            </summary>
+        </member>
+        <member name="M:MissionskyOA.Api.Handlers.ApiRequestHandler.GetHeaderByKey(System.Net.Http.HttpRequestMessage,System.String)">
+            <summary>
+            从 HttpHeader 获取对应key 的 值
+            </summary>
+            <param name="request">Request 对象</param>
+            <param name="key">Http Header 的 Key</param>
+            <returns>值</returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Handlers.ApiRequestHandler.GenerateResponse(System.Net.Http.HttpRequestMessage,System.Net.HttpStatusCode,System.String,System.String)">
+            <summary>
+            生成对应 Request 的 Response
+            </summary>
+            <param name="request">Request 对象</param>
+            <param name="statusCode">状态码</param>
+            <param name="message">消息</param>
+            <param name="detail">具体消息</param>
+            <returns>Response 对象 </returns>
+        </member>
+        <member name="M:MissionskyOA.Api.Handlers.ApiRequestHandler.IsNeededTokenApis(System.String)">
+            <summary>
+            是否是需要Token验证的API
+            </summary>
+            <param name="apiUri"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

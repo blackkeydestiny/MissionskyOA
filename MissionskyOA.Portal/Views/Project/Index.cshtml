@@ -1,0 +1,138 @@
+﻿@using PagedList.Mvc;
+@{
+    ViewBag.Title = "项目管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+        <small></small>
+    </h1>
+    <div class="pull-right header-r-toolbar">
+        <a class="btn btn-primary" href="@Url.Action("Edit", "Project")">新增项目</a>
+    </div>
+</section>
+<section class="content">
+    @{
+        Html.Kendo().Grid<MissionskyOA.Models.ProjectModel>()
+            .Name("grid")
+            .Columns(cols =>
+            {
+                cols.Bound(c => c.Id).Title("#").Sortable(false).Filterable(false);
+                cols.Bound(c => c.ProjectNo).Title("项目编号").Sortable(false).Filterable(false);
+                cols.Bound(c => c.Name).Title("项目组名称").Sortable(false).Filterable(false);
+                cols.Bound(c => c.ProjectManagerName).Title("项目经理名").Sortable(false).Filterable(false);
+                cols.Bound(c => c.Status).Title("状态").Sortable(false).Filterable(false);
+                cols.Bound(c => c.ProjectBegin).Format("{0:yyyy/MM/dd}").Title("项目开始时间").Sortable(false).Filterable(false);
+                cols.Bound(c => c.ProjectEnd).Format("{0:yyyy/MM/dd}").Title("项目关闭时间").Sortable(false).Filterable(false);
+                cols.Bound(c => c.CreateUserName).Title("创建人").Sortable(false).Filterable(false);
+                cols.Bound(c => c.CreatedTime).Title("创建时间").Sortable(false).Filterable(false).ClientTemplate("#= kendo.toString(kendo.parseDate(CreatedTime), 'dd/MM/yyyy HH:MM') #");
+                cols.Bound(c => c.Id).Title("操作").ClientTemplate(
+@"<a class='btn btn-link' href='" + @Url.Action("Edit", "Project", new { id = "#:Id#" }) + "'>编辑</a><a class='btn btn-link' onclick='deleteItem(#:Id#)'>删除</a>")
+.Sortable(false).Filterable(false);
+            })
+            .ClientDetailTemplateId("myTemplate")
+            .Sortable(f => f.AllowUnsort(true))
+            .Pageable(pageable => pageable.Refresh(true))
+            .DataSource(datasource => datasource.Ajax()
+                .PageSize(10)
+                .Read(read => read.Action("Read", "Project"))
+                )
+            .Events(events => events.DataBound("dataBound"))
+                  .Render();
+    }
+</section>
+
+<div class="modal fade modal-center" id="userDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">提示</h4>
+            </div>
+            <div class="modal-body">
+                确定?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" id="my-dialog-yes" data-area="" class="btn btn-primary" data-dismiss="modal">Yes</button>
+                @Html.Hidden("deleteId", "")
+                @Html.Hidden("relatedId", "")
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script id="myTemplate" type="text/kendo-tmpl">
+    @(Html.Kendo().Grid<MissionskyOA.Models.UserModel>()
+                .Name("grid_#=Id#")
+                        .Columns(cols =>
+                        {
+                            cols.Bound(c => c.Id).Title("用户ID");
+                            cols.Bound(c => c.ChineseName).Title("中文名");
+                            cols.Bound(c => c.EnglishName).Title("英文名");
+                            cols.Bound(c => c.Available).Title("在职状态");
+                            cols.Bound(c => c.DeptName).Title("部门");
+                            cols.Bound(c => c.ProjectName).Title("项目");
+                            cols.Bound(c => c.Position).Title("岗位");
+                            cols.Bound(c => c.Id).Title("操作").ClientTemplate(
+       @"<a class='btn btn-link' onclick='UnRelatedUserProject(\\#= Id \\#)'>解除与项目组绑定</a>")
+       .Sortable(false);
+                })
+
+                .DataSource(datasource => datasource.Ajax()
+                    .PageSize(10)
+                            .Read(read => read.Action("RelatedUser", "Project", new { Id = "#=Id#" }))
+                    )
+                .ToClientTemplate())
+</script>
+@section pagescript{
+<script>
+    $(document).ready(function () {
+        $("#my-dialog-yes").on("click", function () {
+            var currentDeleteId = $("#deleteId").val();
+            if (currentDeleteId != "") {
+                var url = "@Url.Action("Delete","Project")" + "/" + currentDeleteId;
+                $.post(url, null, function (data) {
+                    if (data && data.error) {
+                        alert(data.error);
+                    }
+                    $(".k-pager-refresh").click();
+                });
+
+            }
+            var currentRelatedId = $("#relatedId").val();
+            if (currentRelatedId != "") {
+                var url = "@Url.Action("UnRelatedUserProject", "Project")" + "/" + currentRelatedId;
+                $.post(url, null, function (data) {
+                    if (data && data.error) {
+                        alert(data.error);
+                    }
+                    $(".k-pager-refresh").click();
+                });
+
+            }
+        });
+
+        $('#userDialog').on('hide.bs.modal', function (event) {
+            $("#deleteId").val("");
+            $("#relatedId").val("");
+        });
+    });
+
+
+    function deleteItem(id) {
+        $("#deleteId").val(id);
+        $('#userDialog').modal();
+    }
+
+    function UnRelatedUserProject(id) {
+        $("#relatedId").val(id);
+        $('#userDialog').modal();
+    }
+    function dataBound() {
+        this.expandRow(this.tbody.find("tr.k-master-row").first());
+    }
+    </script>
+}

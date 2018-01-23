@@ -1,0 +1,196 @@
+﻿@using PagedList.Mvc;
+@{
+    ViewBag.Title = "用户列表";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+        <small></small>
+    </h1>
+    <div class="pull-right header-r-toolbar">
+        <a class="btn btn-primary" href="@Url.Action("Edit", "User")">新增员工</a>
+    </div>
+</section>
+<section class="content">
+    @{
+        Html.Kendo().Grid<MissionskyOA.Models.UserModel>()
+            .Name("grid")
+            .Columns(cols =>
+            {
+                cols.Bound(c => c.Id).Title("#").Sortable(false).Filterable(false);
+                cols.Bound(c => c.No).Title("工号").Sortable(false).Filterable(false);
+                cols.Bound(c => c.ChineseName).Title("中文名").Sortable(false);
+                cols.Bound(c => c.EnglishName).Title("英文名").Sortable(false);
+                cols.Bound(c => c.Email).Title("邮箱").Sortable(false).Filterable(false);
+                cols.Bound(c => c.Status).Title("账号状态").Sortable(false).Filterable(false) ;
+                cols.Bound(c => c.Available).Title("在职状态").Sortable(false).Filterable(false).ClientTemplate(
+                        "# if (Available == false) { #" +
+                            "<span>离职</span>" +
+                         "# } #" +
+                         "# if(Available == true) { #" +
+                            "<span>在职</span>" +
+                         "# } #"
+                        );
+                cols.Bound(c => c.TodayStatus).Title("今日出勤").Sortable(false).Filterable(false);
+                cols.Bound(c => c.JoinDate).Title("入职日期").ClientTemplate("#= kendo.toString(kendo.parseDate(JoinDate), 'dd/MM/yyyy HH:MM') #");
+                cols.Bound(c => c.DeptName).Title("部门").Sortable(false).Filterable(false);
+                cols.Bound(c => c.Position).Title("职位").Sortable(false).Filterable(false);
+                cols.Bound(c => c.Id).Title("操作").ClientTemplate(
+                @"<a class='btn btn-link' href='" + @Url.Action("Edit", "User", new { id = "#:Id#" }) + "'>编辑</a>"+
+                        "# if (Available==false) { #" +
+                            "<a class='btn btn-link' onclick='deleteItem(#:Id#)'>置为在职</a>" +
+                         "# } #" +
+                         "# if(Available == true) { #" +
+                            "<a class='btn btn-link' onclick='deleteItem(#:Id#)'>置为离职</a>" +
+                         "# } #").Sortable(false).Filterable(false);
+            })
+            .ClientDetailTemplateId("myTemplate")
+            .Filterable(filterable => filterable
+            .Extra(false)
+            .Operators(operators => operators
+                .ForString(str => str.Clear()
+                    .StartsWith("开头")
+                    .IsEqualTo("相等")
+                    .IsNotEqualTo("不相等")
+                ))
+            )
+            .Sortable(f => f.AllowUnsort(true))
+            .Pageable(pageable => pageable.Refresh(true))
+            .DataSource(datasource => datasource.Ajax()
+                .PageSize(10)
+                .Read(read => read.Action("Read", "User"))
+                )
+            .Render();
+    }
+</section>
+
+<div class="modal fade modal-center" id="userDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">提示</h4>
+            </div>
+            <div class="modal-body">
+                确定改变在职状态?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" id="my-dialog-yes" data-area="" class="btn btn-primary" data-dismiss="modal">Yes</button>
+                @Html.Hidden("deleteId", "")
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="myTemplate" type="text/kendo-tmpl">
+    <div class="content-header" style="margin-top:-10px;margin-left:-10px"><span class="modal-title" style="color:ActiveCaption; font-size:large">假期信息</span><small> (本年度剩余 = 上一年度剩余 + 本年度基准 - 已使用,1天 = 7.5 小时）</small></div>
+    @(Html.Kendo().Grid<MissionskyOA.Models.AttendanceSummaryModel>()
+                .Name("grid_#=Id#")
+                        .Columns(cols =>
+                {
+                    cols.Bound(c => c.Year).Title("年度");
+                    cols.Bound(c => c.TypeName).Title("类型");
+                    cols.Bound(c => c.LastValue).Title("上一年度剩余(小时)");
+                    cols.Bound(c => c.BaseValue).Title("本年度基准(小时)");
+                    cols.Bound(c => c.UsedValue).Title("已使用(小时)");
+                    cols.Bound(c => c.RemainValue).Title("本年度剩余(小时)");
+                    //cols.Command(command => {command.Edit();}).Width(160);
+                })
+                //.Editable(editable => editable.Mode(GridEditMode.PopUp))
+                .DataSource(datasource => datasource.Ajax()
+                    .PageSize(10)
+                            .Model(model => model.Id(c => c.Id))
+                            .Read(read => read.Action("GetAttendanceSummary", "User", new { Id = "#=Id#" }))
+                            //.Update(update => update.Action("EditingPopup_Update", "User"))
+                    )
+                //.Events(e => e.Edit("onEdit"))
+                .ToClientTemplate())
+</script>
+
+
+
+@section pagescript{
+    <script>
+        $(document).ready(function () {
+            $("#my-dialog-yes").on("click", function () {
+                var id = $("#deleteId").val();
+                if (id != "") {
+                    var url = "@Url.Action("Delete","User")" + "/" + id;
+                    $.post(url, null, function (data) {
+                        if (data && data.error) {
+                            alert(data.error);
+                        }
+                        $(".k-pager-refresh").click();
+                    });
+
+                }
+            });
+
+            $('#userDialog').on('hide.bs.modal', function (event) {
+                $("#deleteId").val("");
+            });
+        });
+
+        function deleteItem(id) {
+            $("#deleteId").val(id);
+            $('#userDialog').modal();
+        }
+
+        function onEdit(e) {
+            HideControl("Id", e)
+            HideControl("UserId", e)
+            HideControl("Type", e)
+            $("label[for='TypeName']").html("类型");
+            $("label[for='Year']").css("padding-top", "-10px");
+            $("label[for='Year']").html("年度");
+            $("label[for='LastValue']").html("上一年度剩余");
+            $("label[for='BaseValue']").html("本年度基准");
+            $("label[for='UsedValue']").html("已使用");
+            $("label[for='RemainValue']").html("本年度剩余");
+            $('[name="TypeName"]').attr("readonly", true);
+            $('[name="TypeName"]').css("background-color", "grey");
+            $('[name="LastValue"]').attr("required", true);
+            $('[name="BaseValue"]').attr("required", true);
+            $('[name="RemainValue"]').attr("required", true);
+            $('[name="Year"]').attr("required", true);
+        }
+
+        function HideControl(fieldName, e) {
+            var cont = $(e.container);
+            HideFieldLabel(cont.find("label[for='" + fieldName + "']"));
+            HideFieldField(cont.find("#" + fieldName));
+        }
+
+        function HideFieldLabel(control) {
+            control.parent(".editor-label").hide();
+        }
+
+        function HideFieldField(control) {
+            control.parent(".editor-field").hide();
+        }
+
+        function error_handler(e) {
+            if (e.errors) {
+                var message = "Errors:\n";
+                $.each(e.errors, function (key, value) {
+                    if ('errors' in value) {
+                        $.each(value.errors, function () {
+                            message += this + "\n";
+                        });
+                    }
+                });
+                alert(message);
+            }
+        }
+    </script>
+}
+<style>
+    .k-edit-field, .k-edit-form-container .editor-field {
+        padding-top: 10px !important;
+    }
+    #grid .k-dropdown .k-input {
+        background-color: blue;
+    }
+</style>

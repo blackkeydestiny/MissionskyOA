@@ -1,0 +1,80 @@
+﻿@model MissionskyOA.Models.MeetingCalendarModel
+
+@{
+    Layout = "~/Views/Shared/_MeetingSummaryLayout.cshtml";
+}
+
+<section class="sign-up section-padding text-center " id="download">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <h3><img src="@Url.Content("~/Content/images/logo2.png")" /> <span>会议纪要</span></h3>
+                @using (Html.BeginForm("Details", "MeetingSummary", FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    <div class="box-body">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Title, "会议名", new { @class = "col-sm-2 control-label", @style = "color:white" })
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(m => m.Title, new { @class = "form-control",@style = "color:white" })
+
+                                @Html.ValidationMessageFor(m => m.Title)
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.MeetingSummary, "会议纪要", new { @class = "col-sm-2 control-label", @style = "color:white" })
+                            <div class="col-sm-10">
+                                @Html.TextAreaFor(m => m.MeetingSummary, new { @class = "form-control", @style = "height:300px" })
+
+                                @Html.ValidationMessageFor(m => m.MeetingSummary)
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-10">
+                                <button type="submit" class="btn-fill sign-up-btn animated infinite pulse" value="save" name="Submit">提交</button>
+                            </div>
+                        </div>
+                    </div><!-- /.box-body -->
+                    @Html.HiddenFor(m => m.Id)
+                }
+
+            </div><!-- /.box -->
+            </div>
+        </div>
+</section>
+
+<div class="modal fade modal-center" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="mySmallModalLabel">Alert</h4>
+            </div>
+            <div class="modal-body">
+                @ViewBag.Message
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section pagescript{
+    <script>
+        window.onload = function () {
+            $('[name="Title"]').attr("readonly", true);
+            $('[name="Title"]').css("background-color", "grey");
+        }
+        function showMessage() {
+            var message = '@(string.IsNullOrEmpty(ViewBag.Message)?"":ViewBag.Message)';
+            if (message != "") {
+                $('#messageModal').modal();
+            }
+        }
+        showMessage();
+    </script>
+}

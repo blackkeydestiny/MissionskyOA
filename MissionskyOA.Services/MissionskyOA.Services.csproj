@@ -1,0 +1,238 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AECE5E90-4AF5-4B5F-A873-CB135279B51C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MissionskyOA.Services</RootNamespace>
+    <AssemblyName>MissionskyOA.Services</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="jpush-api, Version=1.0.0.30366, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\jpush-api.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.9.0, Culture=neutral, PublicKeyToken=b32731d11ce58905">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Report\Microsoft.ReportViewer.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Report\Microsoft.ReportViewer.WebForms.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Extensions">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AcceptProxyService.cs" />
+    <Compile Include="AnnouncementService.cs" />
+    <Compile Include="AssetInventoryService.cs" />
+    <Compile Include="AssetTransactionService.cs" />
+    <Compile Include="AssetService.cs" />
+    <Compile Include="AssetTypeService.cs" />
+    <Compile Include="AssetAttributeService.cs" />
+    <Compile Include="BookCommentService.cs" />
+    <Compile Include="BookBorrowService.cs" />
+    <Compile Include="BookService.cs" />
+    <Compile Include="DepartmentService.cs" />
+    <Compile Include="ExpenseService.cs" />
+    <Compile Include="Extentions\AcceptProxyExtensions.cs" />
+    <Compile Include="Extentions\AnnouncementExtentions.cs" />
+    <Compile Include="Extentions\AssetInventoryExtentions.cs" />
+    <Compile Include="Extentions\AssetTransactionExtentions.cs" />
+    <Compile Include="Extentions\AssetExtentions.cs" />
+    <Compile Include="Extentions\AssetTypeExtentions.cs" />
+    <Compile Include="Extentions\DepartmentExtensions.cs" />
+    <Compile Include="Extentions\ExpenseAuditHistoryExtentions.cs" />
+    <Compile Include="Extentions\ExpenseDetailExtentions.cs" />
+    <Compile Include="Extentions\ExpenseMainExtentions.cs" />
+    <Compile Include="Extentions\ExpenseMemberExtentions.cs" />
+    <Compile Include="Extentions\FeedbackExtentions.cs" />
+    <Compile Include="Extentions\MeetingCalendarExtentions.cs" />
+    <Compile Include="Extentions\MeetingParticipantExtentions.cs" />
+    <Compile Include="Extentions\MeetingRoomExtentions.cs" />
+    <Compile Include="Extentions\DataDictExtensions.cs" />
+    <Compile Include="Extentions\AttachmentExtensions.cs" />
+    <Compile Include="Extentions\BookBorrowExtensions.cs" />
+    <Compile Include="Extentions\BookCommentExtensions.cs" />
+    <Compile Include="Extentions\BookExtensions.cs" />
+    <Compile Include="Extentions\NotificationExtentions.cs" />
+    <Compile Include="Extentions\ProjectExtentions.cs" />
+    <Compile Include="Extentions\RoleExtentions.cs" />
+    <Compile Include="Extentions\AssetAttributeExtentions.cs" />
+    <Compile Include="Extentions\ScheduledTaskHistoryExtentions.cs" />
+    <Compile Include="Extentions\UserRoleExtentions.cs" />
+    <Compile Include="AttachmentService.cs" />
+    <Compile Include="Extentions\ScheduledTaskExtentions.cs" />
+    <Compile Include="Extentions\ReportExtentions.cs" />
+    <Compile Include="Extentions\WorkTaskExtensions.cs" />
+    <Compile Include="FeedbackService.cs" />
+    <Compile Include="Interface\IAnnouncementService.cs" />
+    <Compile Include="Interface\IAssetInventoryService.cs" />
+    <Compile Include="Interface\IAssetTransactionService.cs" />
+    <Compile Include="Interface\IAssetService.cs" />
+    <Compile Include="Interface\IAssetTypeService.cs" />
+    <Compile Include="Interface\IAssetAttributeService.cs" />
+    <Compile Include="Interface\IAttachmentService.cs" />
+    <Compile Include="Interface\IBookCommentService.cs" />
+    <Compile Include="Interface\IBookBorrowService.cs" />
+    <Compile Include="Interface\IBookService.cs" />
+    <Compile Include="Interface\IAcceptProxyService.cs" />
+    <Compile Include="Interface\IDepartmentService.cs" />
+    <Compile Include="Interface\IExpenseService.cs" />
+    <Compile Include="Interface\IFeedbackService.cs" />
+    <Compile Include="Interface\IMeetingService.cs" />
+    <Compile Include="Interface\INotificationService.cs" />
+    <Compile Include="Interface\IProjectService.cs" />
+    <Compile Include="Interface\IRoleService.cs" />
+    <Compile Include="Interface\IUserRoleService.cs" />
+    <Compile Include="Interface\IOrderService.cs" />
+    <Compile Include="Interface\IWorkflowService.cs" />
+    <Compile Include="AskLeaveService.cs" />
+    <Compile Include="AuditMessageService.cs" />
+    <Compile Include="Extentions\AttendanceSummaryExtentions.cs" />
+    <Compile Include="Extentions\JPushExtensions.cs" />
+    <Compile Include="Extentions\OrderDetailExtentions.cs" />
+    <Compile Include="Extentions\OrderExtentions.cs" />
+    <Compile Include="Extentions\AuditMessagerExtentions.cs" />
+    <Compile Include="Extentions\AvatarExtensions.cs" />
+    <Compile Include="Extentions\UserExtentions.cs" />
+    <Compile Include="Extentions\WorkflowProcessExtentions.cs" />
+    <Compile Include="Extentions\WorkflowStepExtentions.cs" />
+    <Compile Include="Extentions\WorkflowExtentions.cs" />
+    <Compile Include="Interface\IAskLeaveService.cs" />
+    <Compile Include="Interface\IAuditMessageService.cs" />
+    <Compile Include="Interface\IScheduledTaskService.cs" />
+    <Compile Include="Interface\IOvertimeService.cs" />
+    <Compile Include="Interface\IAvatarService.cs" />
+    <Compile Include="Interface\IUserService.cs" />
+    <Compile Include="Interface\IAttendanceSummaryService.cs" />
+    <Compile Include="Interface\IUserTokenService.cs" />
+    <Compile Include="Interface\IWorkflowProcessService.cs" />
+    <Compile Include="Interface\IReportService.cs" />
+    <Compile Include="Interface\IWorkTaskCommentService.cs" />
+    <Compile Include="Interface\IWorkTaskHistoryService.cs" />
+    <Compile Include="Interface\IWorkTaskService.cs" />
+    <Compile Include="MeetingService.cs" />
+    <Compile Include="NotificationService.cs" />
+    <Compile Include="ProjectService.cs" />
+    <Compile Include="ReportHelper4Service.cs" />
+    <Compile Include="RoleService.cs" />
+    <Compile Include="ScheduledTaskService.cs" />
+    <Compile Include="OvertimeService.cs" />
+    <Compile Include="AvatarService.cs" />
+    <Compile Include="ServiceBase.cs" />
+    <Compile Include="ReportService.cs" />
+    <Compile Include="SSRSReportServerCredentials.cs" />
+    <Compile Include="Task\ExpenseFileConfirm.cs" />
+    <Compile Include="Task\NotifyMeeting.cs" />
+    <Compile Include="Task\NotifyReturnBook.cs" />
+    <Compile Include="Task\SummaryAttendanceDetail.cs" />
+    <Compile Include="Task\TaskBase.cs" />
+    <Compile Include="Task\ITaskRunnable.cs" />
+    <Compile Include="Task\SummaryTodayStatus.cs" />
+    <Compile Include="UserRoleService.cs" />
+    <Compile Include="UserService.cs" />
+    <Compile Include="AttendanceSummaryService.cs" />
+    <Compile Include="UserTokenService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SeviceBase.cs" />
+    <Compile Include="OrderService.cs" />
+    <Compile Include="WorkflowService.cs" />
+    <Compile Include="WorkflowProcessService.cs" />
+    <Compile Include="WorkTaskCommentService.cs" />
+    <Compile Include="WorkTaskHistoryService.cs" />
+    <Compile Include="WorkTaskService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MissionskyOA.Core\MissionskyOA.Core.csproj">
+      <Project>{bdbe0051-53d4-469b-9ef7-57ac1969f8d3}</Project>
+      <Name>MissionskyOA.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MissionskyOA.Data\MissionskyOA.Data.csproj">
+      <Project>{d3ea1095-0b4b-48b8-87c9-d304a0bb5f05}</Project>
+      <Name>MissionskyOA.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MissionskyOA.Models\MissionskyOA.Models.csproj">
+      <Project>{00319a46-43e3-4ff8-9772-de6b2abd7b1c}</Project>
+      <Name>MissionskyOA.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MissionskyOA.Resources\MissionskyOA.Resources.csproj">
+      <Project>{4d86e316-7a14-4116-a7f0-eb614a518d6c}</Project>
+      <Name>MissionskyOA.Resources</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,268 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model MissionskyOA.Models.UserModel
+@using MissionskyOA.Core.Enum;
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+        <small></small>
+    </h1>
+</section>
+<section class="content">
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title"></h3>
+            <div class="box-tools pull-right">
+            </div>
+        </div><!-- /.box-header -->
+        @using (Html.BeginForm("edit", "User", FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            <div class="box-body">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.No, "工号", new { @class = "col-sm-2 control-label" })
+                    <div class="col-xs-3">
+                        @Html.TextBoxFor(m => m.No, new { @class = "form-control" })
+
+                        @Html.ValidationMessageFor(m => m.No)
+                    </div>
+
+                </div>               
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ChineseName,"中文名",new { @class = "col-sm-2 control-label" })
+                    <div class="col-xs-3">
+                        @Html.TextBoxFor(m => m.ChineseName, new { @class = "form-control" })
+
+                        @Html.ValidationMessageFor(m => m.ChineseName)
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.EnglishName, "英文名", new { @class = "col-sm-2 control-label" })
+                    <div class="col-xs-3">
+                        @Html.TextBoxFor(m => m.EnglishName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.EnglishName)
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Gender, "性别", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.RadioButtonFor(m => m.Gender,Gender.Male, new { @id = "userMan", @name = "Man" })<label for="userMan">男</label>
+                        @Html.RadioButtonFor(m => m.Gender, Gender.Female, new { @id = "userFemale", @name = "Female" })<label for="userFemale">女</label>
+                        @Html.ValidationMessageFor(m => m.Gender)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Email,"邮箱",new { @class = "col-sm-2 control-label" })
+                    <div class="col-xs-4">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Email)
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Phone, "手机", new { @class = "col-sm-2 control-label" })
+                    <div class="col-xs-4">
+                        @Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Phone)
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    @Html.LabelFor(m => m.QQID, "QQ", new { @class = "col-sm-2 control-label" })
+                    <div class="col-xs-4">
+                        @Html.TextBoxFor(m => m.QQID, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.QQID)
+                    </div>
+                </div>    
+                @*<div class="form-group">
+                    @Html.LabelFor(m => m.DirectlySupervisorId, "直属上级", new { @class = "col-sm-2 control-label" })
+                    <div class="col-xs-4 dropdown">
+                        @Html.DropDownListFor(m => m.DirectlySupervisorId, ViewData["DirectlySupervisorList"] as SelectList, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.DirectlySupervisorId)
+                    </div>
+                </div>*@
+                <div class="form-group">
+                    @Html.LabelFor(m => m.DirectlySupervisorId,"直接上级", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @(Html.Kendo().DropDownListFor(m => m.DirectlySupervisorId)
+                            .Name("DirectlySupervisorId")
+                            .BindTo(ViewData["directlySupervisorList"] as SelectList).DataTextField("Text")
+                            .HtmlAttributes(new { style = "width:250px" })
+                        )
+                        @Html.ValidationMessageFor(m => m.DirectlySupervisorId)
+                    </div>
+                </div>  
+                
+                <div class="form-group">
+                    @Html.LabelFor(m => m.DeptId, "部门", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @(Html.Kendo().DropDownListFor(m => m.DeptId)
+                        .Name("DeptId")
+                        .BindTo(ViewData["deptList"] as SelectList).DataTextField("Text")
+                        .HtmlAttributes(new { style = "width:250px;" })
+                        )
+                        @Html.ValidationMessageFor(m => m.Role)
+                    </div>
+                </div> 
+                
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Role, "角色", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @(Html.Kendo().DropDownListFor(m => m.Role)
+                            .Name("Role")
+                            .BindTo(ViewData["roleList"] as SelectList).DataTextField("Text")
+                            .HtmlAttributes(new { style = "width:250px" })
+                        )
+                        @Html.ValidationMessageFor(m => m.Role)
+                    </div>
+                </div>  
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Position, "岗位", new { @class = "col-sm-2 control-label" })
+                    <div class="col-xs-4">
+                        @Html.TextBoxFor(m => m.Position, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Position)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ProjectId,"项目组",new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @(Html.Kendo().DropDownListFor(m => m.ProjectId)
+                        .Name("ProjectId")
+                        .BindTo(ViewData["projectList"] as SelectList).DataTextField("Text")
+                        .HtmlAttributes(new { style = "width:250px;" })
+                        )
+                        @Html.ValidationMessageFor(m => m.ProjectId)
+                    </div>
+                </div>        
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Status, "账户状态", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.RadioButtonFor(m => m.Status, AccountStatus.Normal, new { @id = "userNormal", @name = "Normal" })<label for="userNormal">正常</label>
+                        @Html.RadioButtonFor(m => m.Status, AccountStatus.Lock, new { @id = "userLock", @name = "Lock" })<label for="userLock">锁定</label>
+                        @Html.RadioButtonFor(m => m.Status, AccountStatus.RestPassword, new { @id = "userResetPassword", @name = "RestPassword" })<label for="userResetPassword">密码重置</label>
+                        @Html.ValidationMessageFor(m => m.Status)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Available, "在职状态", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.RadioButtonFor(m => m.Available, true, new { @id = "userAvailable", @name = "Available" })<label for="userAvailable">在职</label>
+                        @Html.RadioButtonFor(m => m.Available, false, new { @id = "userUnAvailable", @name = "UnAvailable" })<label for="userUnAvailable">离职</label>
+                        @Html.ValidationMessageFor(m => m.Available)
+                    </div>
+                </div>        
+                <div class="form-group">
+                    @Html.LabelFor(m => m.TodayStatus, "今日出勤", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.RadioButtonFor(m => m.TodayStatus, UserTodayStatus.Normal, new { @id = "userTodayNomal", @name = "TodayNomal" })<label for="userTodayNomal">正常</label>
+                        @Html.RadioButtonFor(m => m.TodayStatus, UserTodayStatus.BusinessTrip, new { @id = "userTodayBusinessTrip", @name = "TodayBusinessTrip" })<label for="userTodayBusinessTrip">出差</label>
+                        @Html.RadioButtonFor(m => m.TodayStatus, UserTodayStatus.AskLeave, new { @id = "userTodayAskLeave", @name = "TodayAskLeave" })<label for="userTodayAskLeave">请假</label>
+                        @Html.ValidationMessageFor(m => m.TodayStatus)
+                    </div>
+                </div>    
+
+				 <div class="form-group">
+                    @Html.LabelFor(m => m.Phone, "工作年限", new { @class = "col-sm-2 control-label" })
+                    <div class="col-xs-4">
+                        @Html.TextBoxFor(m => m.ServerYear, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.ServerYear)
+                    </div>
+                </div>
+            
+                <div class="form-group">
+                    @Html.LabelFor(m => m.JoinDate, "入职日期", new { @class = "col-sm-2 control-label" })
+                    <div class="col-xs-4">
+                        @(Html.Kendo().DatePickerFor(m => m.JoinDate)
+                        .HtmlAttributes(new { style = "width:150px" })
+                        )
+                        @Html.ValidationMessageFor(m => m.JoinDate)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-default" value="cancel" name="Submit">取消</button>
+                        <button type="submit" class="btn btn-info" value="save" name="Submit">提交</button>
+                        @Html.HiddenFor(m => m.JoinDate)
+                    </div>
+                </div>
+            </div><!-- /.box-body -->
+            @Html.HiddenFor(m => m.Id)
+        }
+
+    </div><!-- /.box -->
+</section>
+
+<div class="modal fade modal-center" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="mySmallModalLabel">Alert</h4>
+            </div>
+            <div class="modal-body">
+                @ViewBag.Message
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section pagescript{
+    <script>
+        window.onload = function ()
+        {
+            var myDate = new Date();
+            var currentDate = myDate.toLocaleDateString();
+            if ($('#JoinDate').val() == "0001/1/1") {
+                $('#JoinDate ').val(currentDate.toString())
+            }
+        }
+    function showMessage() {
+        var message = '@(string.IsNullOrEmpty(ViewBag.Message)?"":ViewBag.Message)';
+        if (message != "") {
+            $('#messageModal').modal();
+        }
+    }
+    showMessage();
+
+</script>
+}
+<style>
+    .k-dropdown {
+        background-color: transparent !important;
+    }
+
+        .k-dropdown .k-dropdown-wrap, .k-dropdown.k-state-border-down .k-dropdown-wrap.k-state-border-down {
+            padding: 5px !important;
+            border: 1px solid #959694 !important;
+            border-radius: 20px 20px 20px 20px !important;
+        }
+
+            .k-dropdown .k-dropdown-wrap .k-select, .k-ie .k-dropdown .k-dropdown-wrap .k-select, .k-ff .k-dropdown .k-dropdown-wrap .k-select {
+                background-color: #f6f7ef !important;
+                border-left: solid #959694 thin !important;
+                border-right: solid #959694 thin !important;
+                border-radius: 0 20px 20px 20px !important;
+            }
+
+    [data-role="popup"] {
+        background-color: #bfb7b7 !important;
+        border-radius: 1px !important;
+    }
+
+        [data-role="popup"] ul li[class="k-item k-state-hover"], [data-role="popup"] ul li[class="k-item k-state-selected k-state-focused"] {
+            border-radius: 0px;
+        }
+
+</style>

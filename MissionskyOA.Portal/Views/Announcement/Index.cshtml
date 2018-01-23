@@ -1,0 +1,52 @@
+﻿@using PagedList.Mvc;
+@{
+    ViewBag.Title = "通知列表";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+        <small></small>
+    </h1>
+    <div class="pull-right header-r-toolbar">
+        <a class="btn btn-primary" href="@Url.Action("Edit", "Announcement")">新增</a>
+    </div>
+</section>
+<section class="content">
+    @{
+        Html.Kendo().Grid<MissionskyOA.Models.AnnouncementModel>()
+            .Name("grid")
+            .Columns(cols =>
+            {
+                cols.Bound(c => c.Id).Title("#").Sortable(false).Filterable(false);
+                cols.Bound(c => c.Title).Title("标题").Sortable(false).Filterable(false);
+                cols.Bound(c => c.Type).Title("通告类型").Sortable(false).Filterable(false);
+                cols.Bound(c => c.ApplyUserName).Title("申请人").Sortable(false).Filterable(false);
+                cols.Bound(c => c.Content).Title("内容").Sortable(false).Filterable(false);
+                cols.Bound(c => c.EffectiveDays).Title("有效天数").Sortable(false).Filterable(false);
+                cols.Bound(c => c.Status).Title("状态").Sortable(false).Filterable(false);
+                cols.Bound(c => c.CreatedTime).Format("{0:yyyy/MM/dd hh:mm:ss}").Title("创建时间").Filterable(false);
+                cols.Bound(c => c.Id).Title("操作").ClientTemplate(
+@"<a class='btn btn-link' href='" + @Url.Action("Edit", "Announcement", new { id = "#:Id#" }) + "'>编辑</a>").Sortable(false).Filterable(false);
+            })
+            .Filterable(filterable => filterable
+            .Extra(false)
+            .Operators(operators => operators
+                .ForString(str => str.Clear()
+                    .StartsWith("开头")
+                    .IsEqualTo("相等")
+                    .IsNotEqualTo("不相等")
+                ))
+            )
+            .Sortable(f => f.AllowUnsort(true))
+            .Pageable(pageable => pageable.Refresh(true))
+            .DataSource(datasource => datasource.Ajax()
+                .PageSize(10)
+                .Read(read => read.Action("Read", "Announcement"))
+                )
+            .Render();
+    }
+</section>
+@section pagescript{
+
+}

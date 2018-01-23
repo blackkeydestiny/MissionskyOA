@@ -1,0 +1,33 @@
+﻿@using PagedList.Mvc;
+@{
+    ViewBag.Title = "代签管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+        <small></small>
+    </h1>
+</section>
+<section class="content">
+    @{
+        Html.Kendo().Grid<MissionskyOA.Models.AcceptProxyModel>()
+                   .Name("grid")
+                   .Columns(cols =>
+                   {
+                       cols.Bound(c => c.Id).Title("#").Sortable(false).Filterable(false);
+                       cols.Bound(c => c.CreateUserName).Title("代签人").Sortable(false).Filterable(false);
+                       cols.Bound(c => c.AcceptUserName).Title("快递所有人").Sortable(false).Filterable(false);
+                       cols.Bound(c => c.Courier).Title("快递员姓名").Sortable(false).Filterable(false);
+                       cols.Bound(c => c.CourierPhone).Title("快递员电话").Sortable(false).Filterable(false);
+                       cols.Bound(c => c.LastModifyTime).Title("更新时间").ClientTemplate("#= kendo.toString(kendo.parseDate(LastModifyTime), 'dd/MM/yyyy HH:MM') #").Filterable(false);
+                   })
+                       .Sortable(f => f.AllowUnsort(true))
+                       .Pageable(pageable => pageable.Refresh(true))
+                       .DataSource(datasource => datasource.Ajax()
+                           .PageSize(10)
+                           .Read(read => read.Action("Read", "AcceptProxy"))
+                           )
+                  .Render();
+    }
+</section>

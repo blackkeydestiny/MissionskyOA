@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<templates>
+  <template name="ForgetPassword">
+    Dear {username}:
+      your temp password is {password}. please sign in with this password and then modify your password.
+    
+    Best Regards
+    Tutor    
+  </template>
+</templates>

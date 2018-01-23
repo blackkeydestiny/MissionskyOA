@@ -1,0 +1,43 @@
+﻿@using MissionskyOA.Models
+@using PagedList.Mvc;
+@using MissionskyOA.Portal.Common;
+
+@{
+    var task = ViewData["Task"] as ScheduledTaskModel;
+
+    if (task == null)
+    {
+        throw new InvalidOperationException("找不到定时任务。");
+    }
+    
+    ViewBag.Title = string.Format("定时任务({0})执行记录", task.Name);
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+        <small></small>
+    </h1>
+</section>
+<section class="content">
+    @{
+        Html.Kendo().Grid<ScheduledTaskHistoryModel>()
+            .Name("grid")
+            .Columns(cols =>
+            {
+                cols.Bound(c => c.Id).Title("#").Sortable(false);
+                cols.Bound(c => c.Result).Title("执行结果");
+                cols.Bound(c => c.Desc).Title("内容");
+                cols.Bound(c => c.CreatedTime).Format("{0:G}").Title("执行时间");
+            })
+            .Sortable(f => f.AllowUnsort(true))
+            .Pageable(pageable => pageable.Refresh(true))
+            .DataSource(datasource => datasource.Ajax()
+                .PageSize(10)
+                .Read(read => read.Action("ReadHistory", CmnConstants.MENU_TASK, new {taskId = task.Id}))
+                )
+            .Render();
+    }
+</section>
+}

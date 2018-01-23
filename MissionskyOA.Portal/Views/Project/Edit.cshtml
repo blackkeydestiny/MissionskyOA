@@ -1,0 +1,127 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model MissionskyOA.Models.ProjectModel
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+        <small></small>
+    </h1>
+</section>
+<section class="content">
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title"></h3>
+            <div class="box-tools pull-right">
+            </div>
+        </div><!-- /.box-header -->
+        @using (Html.BeginForm("edit", "Project", FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            
+            <div class="box-body">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ProjectNo, "项目组编号", new { @class = "col-sm-2 control-label" })
+                    <div class="col-xs-3">
+                        @Html.TextBoxFor(m => m.ProjectNo, new { @class = "form-control" })
+
+                        @Html.ValidationMessageFor(m => m.ProjectNo)
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Name, "项目组名称", new { @class = "col-sm-2 control-label" })
+                    <div class="col-xs-3">
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+
+                        @Html.ValidationMessageFor(m => m.Name)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ProjectManager, "项目经理", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @(Html.Kendo().DropDownListFor(m => m.ProjectManager)
+                         .Name("ProjectManager")
+                         .BindTo(ViewData["ProjectManagerList"] as SelectList).DataTextField("Text")
+                            .HtmlAttributes(new { style = "width:250px" })
+                        )
+                        @Html.ValidationMessageFor(m => m.ProjectManager)
+                    </div>
+                </div> 
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ProjectBegin, "项目开始日期", new { @class = "col-sm-2 control-label" })
+                    <div class="col-xs-4">
+                        @(Html.Kendo().DatePickerFor(m => m.ProjectBegin)
+                        .HtmlAttributes(new { style = "width:150px" })
+                        )
+                        @Html.ValidationMessageFor(m => m.ProjectBegin)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ProjectEnd, "项目结束日期", new { @class = "col-sm-2 control-label" })
+                    <div class="col-xs-4">
+                        @(Html.Kendo().DatePickerFor(m => m.ProjectEnd)
+                        .HtmlAttributes(new { style = "width:150px" })
+                        )
+                        @Html.ValidationMessageFor(m => m.ProjectEnd)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-default" value="cancel" name="Submit">取消</button>
+                        <button type="submit" class="btn btn-info" value="save" name="Submit">提交</button>
+                    </div>
+                </div>
+            </div><!-- /.box-body -->
+            @Html.HiddenFor(m => m.Id)
+        }
+
+    </div><!-- /.box -->
+</section>
+
+<div class="modal fade modal-center" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="mySmallModalLabel">Alert</h4>
+            </div>
+            <div class="modal-body">
+                @ViewBag.Message
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section pagescript{
+    <script>
+        window.onload = function () {
+            var myDate = new Date();
+            var currentDate = myDate.toLocaleDateString();
+            if ($('#ProjectBegin').val() == "0001/1/1") {
+                $('#ProjectBegin').val(currentDate.toString())
+                $('#ProjectEnd').val(currentDate.toString())
+            }
+            var isAddNew = '@(ViewBag.isAddNewProject)';
+            if (isAddNew == 'False') {
+                $('[name="ProjectNo"]').attr("readonly", true);
+                $('[name="ProjectNo"]').css("background-color", "grey");
+            }
+        }
+
+        function showMessage() {
+            var message = '@(string.IsNullOrEmpty(ViewBag.Message)?"":ViewBag.Message)';
+            if (message != "") {
+                $('#messageModal').modal();
+            }
+        }
+        showMessage();
+    </script>
+}

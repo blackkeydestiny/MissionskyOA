@@ -1,0 +1,96 @@
+﻿@using MissionskyOA.Core.Enum;
+
+@model MissionskyOA.Models.AnnouncementModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="content-header">
+    <h1>
+        发布通告
+        <small></small>
+    </h1>
+</section>
+<section class="content">
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title"></h3>
+            <div class="box-tools pull-right">
+            </div>
+        </div><!-- /.box-header -->
+        @using (Html.BeginForm("Edit", "Announcement", FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            <div class="box-body">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Type, "通告类型", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-3">
+                        @(Html.Kendo().DropDownListFor(m => m.Type)
+                            .Name("Type")
+                            .BindTo(ViewData["businessTypeList"] as SelectList).DataTextField("Text")
+                            .HtmlAttributes(new { style = "width:250px" })
+                        )
+                        @Html.ValidationMessageFor(m => m.Type)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Title, "标题", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-3">
+                        @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Title)
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Content, "消息内容", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-3">
+                        @Html.TextAreaFor(m => m.Content, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Content)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.EffectiveDays, "有效天数", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-3">
+                        @Html.TextBoxFor(m => m.EffectiveDays, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.EffectiveDays)
+                    </div>
+                </div><div class="form-group">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-default" value="cancel" name="Submit">取消</button>
+                        <button type="submit" class="btn btn-info" value="save" name="Submit">提交</button>
+                    </div>
+                </div>
+            </div><!-- /.box-body -->
+            @Html.HiddenFor(m => m.Id)
+        }
+
+    </div><!-- /.box -->
+</section>
+
+<div class="modal fade modal-center" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="mySmallModalLabel">提示</h4>
+            </div>
+            <div class="modal-body">
+                @ViewBag.Message
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section pagescript{
+    <script>
+        function showMessage() {
+            var message = '@(string.IsNullOrEmpty(ViewBag.Message)?"":ViewBag.Message)';
+            if (message != "") {
+                $('#messageModal').modal();
+            }
+        }
+        showMessage();
+    </script>
+}

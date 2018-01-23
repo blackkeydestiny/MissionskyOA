@@ -1,0 +1,91 @@
+﻿@using MissionskyOA.Portal.Common;
+
+@{
+    var currentMenu = ViewContext.RouteData.Values["controller"].ToString();
+
+    var currentUser = CommonInstance.GetInstance().LoginUser;
+}
+
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+        <!-- Sidebar Menu -->
+        <ul class="sidebar-menu">
+            <!-- Optionally, you can add icons to the links -->
+            @*<li @Html.Raw(CmnConstants.MENU_DASHBOARD.Equals(currentMenu) ? "class='active'" : String.Empty)>
+                    <a href="@Url.Action("Index", CmnConstants.MENU_DASHBOARD)"><i class='glyphicon glyphicon-dashboard'></i> <span>Dashboard</span></a>
+                </li>*@
+            @if (currentUser != null && currentUser.IsAdminStaff) //是否是行政专员
+            {
+                <li @Html.Raw(CmnConstants.MENU_USER.Equals(currentMenu) ? "class='active'" : String.Empty)>
+                    <a href="@Url.Action("Index", CmnConstants.MENU_USER)"><i class='glyphicon glyphicon-user'></i> <span>用户管理</span></a>
+                </li>
+                <li @Html.Raw(CmnConstants.MENU_ROLE.Equals(currentMenu) ? "class='active'" : String.Empty)>
+                    <a href="@Url.Action("Index", CmnConstants.MENU_ROLE)"><i class='glyphicon glyphicon-asterisk'></i> <span>角色管理</span></a>
+                </li>
+                <li @Html.Raw(CmnConstants.MENU_PROJECT.Equals(currentMenu) ? "class='active'" : String.Empty)>
+                    <a href="@Url.Action("Index", CmnConstants.MENU_PROJECT)"><i class='glyphicon glyphicon-th-list'></i> <span>项目管理</span></a>
+                </li>
+                <li @Html.Raw(CmnConstants.MENU_DEPT.Equals(currentMenu) ? "class='active'" : String.Empty)>
+                    <a href="@Url.Action("Index", CmnConstants.MENU_DEPT)"><i class='glyphicon glyphicon-globe'></i> <span>部门管理</span></a>
+                </li>
+            }
+            <li @Html.Raw(CmnConstants.MENU_OT.Equals(currentMenu) ? "class='active'" : String.Empty)>
+                <a href="@Url.Action("Index", CmnConstants.MENU_OT)"><i class='glyphicon glyphicon-file'></i> <span>加班单管理</span></a>
+            </li>
+            <li @Html.Raw(CmnConstants.MENU_ASKLEAVE.Equals(currentMenu) ? "class='active'" : String.Empty)>
+                <a href="@Url.Action("Index", CmnConstants.MENU_ASKLEAVE)"><i class='glyphicon glyphicon-file'></i> <span>请假单管理</span></a>
+            </li>
+            <li @Html.Raw(CmnConstants.MENU_EXPENSE.Equals(currentMenu) ? "class='active'" : String.Empty)>
+                <a href="@Url.Action("Index", CmnConstants.MENU_EXPENSE)"><i class='glyphicon glyphicon-leaf'></i> <span>报销单管理</span></a>
+            </li>
+            <li @Html.Raw(CmnConstants.MENU_AUDITMESSAGE.Equals(currentMenu) ? "class='active'" : String.Empty)>
+                <a href="@Url.Action("Index", CmnConstants.MENU_AUDITMESSAGE)"><i class='glyphicon glyphicon-list-alt'></i> <span>审计日志管理</span></a>
+            </li>
+            <li @Html.Raw(CmnConstants.MENU_MEETINGROOM.Equals(currentMenu) ? "class='active'" : String.Empty)>
+                <a href="@Url.Action("Index", CmnConstants.MENU_MEETINGROOM)"><i class='glyphicon glyphicon-calendar'></i> <span>会议管理</span></a>
+            </li>
+            <li @Html.Raw(CmnConstants.MENU_BOOK.Equals(currentMenu) ? "class='active'" : String.Empty)>
+                <a href="@Url.Action("Index", CmnConstants.MENU_BOOK)"><i class='glyphicon glyphicon-book'></i> <span>图书管理</span></a>
+            </li>
+            <li @Html.Raw(CmnConstants.MENU_ACCEPTPROXY.Equals(currentMenu) ? "class='active'" : String.Empty)>
+                <a href="@Url.Action("Index", CmnConstants.MENU_ACCEPTPROXY)"><i class='glyphicon glyphicon-gift'></i> <span>代签管理</span></a>
+            </li>
+            <li @Html.Raw(CmnConstants.MENU_NOTICE.Equals(currentMenu) ? "class='active'" : String.Empty)>
+                <a href="@Url.Action("Index", CmnConstants.MENU_NOTICE)"><i class='glyphicon glyphicon-exclamation-sign'></i> <span>推送消息</span></a>
+            </li>
+            <li @Html.Raw(CmnConstants.MENU_ANNOUNCEMENT.Equals(currentMenu) ? "class='active'" : String.Empty)>
+                <a href="@Url.Action("Index", CmnConstants.MENU_ANNOUNCEMENT)"><i class='glyphicon glyphicon-volume-down'></i> <span>通告管理</span></a>
+            </li>
+            <li @Html.Raw(CmnConstants.MENU_WORKFLOW.Equals(currentMenu) ? "class='active'" : String.Empty)>
+                <a href="@Url.Action("Index", CmnConstants.MENU_WORKFLOW)"><i class='glyphicon glyphicon-transfer'></i> <span>流程管理</span></a>
+            </li>
+            @if (currentUser!= null && currentUser.IsAssetManager)
+            {
+                <li @Html.Raw(currentMenu != null && currentMenu.StartsWith("Asset") ? "class='treeview active'" : "class='treeview'")>
+                    <a href="#">
+                        <i class="fa fa-ils"></i> <span>资产管理</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu menu-open" style="display: block;">
+                        <li @Html.Raw(CmnConstants.MENU_ASSETATTRIBUTE.Equals(currentMenu) ? "class='active'" : String.Empty)><a href="@Url.Action("Index", CmnConstants.MENU_ASSETATTRIBUTE)"><i class="fa fa-circle-o"></i> 资产属性维护</a></li>
+                        <li @Html.Raw(CmnConstants.MENU_ASSETTYPE.Equals(currentMenu) ? "class='active'" : String.Empty)><a href="@Url.Action("Index", CmnConstants.MENU_ASSETTYPE)"><i class="fa fa-circle-o"></i> 资产分类</a></li>
+                        <li @Html.Raw(CmnConstants.MENU_ASSET.Equals(currentMenu) ? "class='active'" : String.Empty)><a href="@Url.Action("Index", CmnConstants.MENU_ASSET)"><i class="fa fa-circle-o"></i> 资产列表</a></li>
+                        <li @Html.Raw(CmnConstants.MENU_ASSETINVENTORY.Equals(currentMenu) ? "class='active'" : String.Empty)><a href="@Url.Action("Index", CmnConstants.MENU_ASSETINVENTORY)"><i class="fa fa-circle-o"></i> 资产盘点</a></li>
+                    </ul>
+                </li>
+            }
+            <li @Html.Raw(CmnConstants.MENU_TASK.Equals(currentMenu) ? "class='active'" : String.Empty)>
+                <a href="@Url.Action("Index", CmnConstants.MENU_TASK)"><i class='glyphicon glyphicon-cd'></i> <span>智能引擎</span></a>
+            </li>
+            <li @Html.Raw(CmnConstants.MENU_REPORT.Equals(currentMenu) ? "class='active'" : String.Empty)>
+                <a href="@Url.Action("Index", CmnConstants.MENU_REPORT)"><i class='glyphicon glyphicon-list-alt'></i> <span>报表管理</span></a>
+            </li>
+            <li @Html.Raw(CmnConstants.MENU_WORKTASK.Equals(currentMenu) ? "class='active'" : String.Empty)>
+                <a href="@Url.Action("Index", CmnConstants.MENU_WORKTASK)"><i class='glyphicon glyphicon-tasks'></i> <span>任务管理</span></a>
+            </li>
+        </ul><!-- /.sidebar-menu -->
+    </section>
+
+    <!-- /.sidebar -->
+</aside>
