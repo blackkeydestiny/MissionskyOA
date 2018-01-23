@@ -539,16 +539,25 @@ namespace MissionskyOA.Api.Controllers
 
         /// <summary>
         /// 验证申请单是否有效
+        /// 
+        /// 这段验证在APP端提交表单到后台之前
+        /// 
         /// </summary>
         /// <param name="model">申请单</param>
         private void ValidApplyOrder(ApplyOrderModel model)
         {
+            // 1、 验证申请人
             if (model.UserIds.Count() < 0)
             {
                 Log.Error("请选择申请人。");
                 throw new ApiBadRequestException("请选择申请人。");
             }
 
+            // 2、验证申请时间
+            /*
+             * DateTime.Now.AddDays(-15) : 当前日期往前算15天
+             * DateTime.Now.AddDays(15) : 当前日期往后算15天
+             * **/
             if (DateTime.Compare(model.StartDate, DateTime.Now.AddDays(-15)) < 0)
             {
                 throw new ApiBadRequestException("开始必须大于" + string.Format("{0:F}", DateTime.Now.AddDays(-15)));
@@ -565,7 +574,13 @@ namespace MissionskyOA.Api.Controllers
             }
 
             /*
+             * 3、
+             * 请假：
+             *      开始时间必须大于等于上午8点半
+             *      结束时间必须小于等于下午6点半
              * 
+             * 加班：
+             *      开始时间必须大于上午8点半
              * 
              * **/
             if (model.OrderType != OrderType.Overtime && model.OrderType != 0)
@@ -583,6 +598,7 @@ namespace MissionskyOA.Api.Controllers
             }
             else
             {
+                // 加班 : 开始时间必须大于上午8点半
                 TimeSpan dspWorkingDayAM = DateTime.Parse("08:30").TimeOfDay;
                 if (model.StartDate.TimeOfDay < dspWorkingDayAM)
                 {
@@ -591,7 +607,9 @@ namespace MissionskyOA.Api.Controllers
             }
 
             /*
-             * 验证用户申请的时间段是否被占用
+             *  4、验证用户申请的时间段是否被占用
+             *  
+             *  参数0：申请单提交到后台前，申请单号为0
              * 
              * **/
             var invalidUsers = AskLeaveService.IsOrderTimeAvailiable(model, 0);

@@ -1092,12 +1092,23 @@ namespace MissionskyOA.Services
                 var invalidUsers = new List<int>(); //无效的用户
 
                 // RefOrderId 为 审批人Id
+                // 根据申请单号获取审批人Id
                 var refOrderIds = dbContext.Orders.Where(it => it.OrderNo == updateOrderNo).Select(it => it.RefOrderId);
 
                 model.UserIds.ToList().ForEach(userId =>
                 {
+                    //
                     var isTimeAvailabel = true;
 
+                    /*
+                     * 获取当前用户是否有正在审批或者正在执行的申请单
+                     *      1、当前申请用户
+                     *      2、不是现在正在申请的，也不是修改的
+                     *      3、不是取消状态的
+                     *      4、不是拒绝状态的
+                     *      5、不是撤销状态的
+                     * 
+                     * **/
                     var entityOrder =
                         dbContext.Orders.Where(
                             it =>
@@ -1115,6 +1126,11 @@ namespace MissionskyOA.Services
                         {
                             continue;
                         }
+
+                        /*
+                         * 
+                         * 
+                         * **/
 
                         //startdate>currentEndate or endate<currentStartdate
                         var avaliableStartDateTimeExist =
@@ -1172,6 +1188,10 @@ namespace MissionskyOA.Services
                     }
                 });
 
+                /*
+                 * 如果申请的时间段有被占用的话，那么返回占用时间段的申请人英文名
+                 * 
+                 * **/
                 return (invalidUsers.Count > 0
                     ? _userService.GetUsersName(dbContext, invalidUsers.ToArray())
                     : string.Empty);

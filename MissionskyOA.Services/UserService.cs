@@ -947,9 +947,23 @@ namespace MissionskyOA.Services
         public string GetUsersName(MissionskyOAEntities dbContext, int[] userIds)
         {
             string userInfo = string.Empty;
+
+            /*
+             * userIds.ToList().ForEach()的使用，遍历数组中的每一项，然后为每一项做操作
+             * 
+             * **/
             userIds.ToList().ForEach(it => userInfo += "," + it);
+
+            // 从下标1开始截取
             userInfo = userInfo.Substring(1);
 
+            /*
+             * SELECT ',' + EnglishName FROM [MissionskyOA].[dbo].[User] WHERE Id IN (1,2,3) FOR XML PATH('')
+             * 
+             *      XML_F52E2B61-18A1-11d1-B105-00805F49916B
+             *      ,Carly Xu,James Xu,Felix Chen
+             * 
+             * **/
             var sql = @"SELECT ',' + EnglishName FROM [User] WHERE Id IN ({0}) FOR XML PATH('');";
             var data = dbContext.Database.SqlQuery<string>(string.Format(sql, userInfo));
 
