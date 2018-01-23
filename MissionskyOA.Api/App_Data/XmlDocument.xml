@@ -1912,6 +1912,9 @@
         <member name="T:MissionskyOA.Api.Handlers.ApiRequestHandler">
             <summary>
             API 请求处理器
+            
+            资料学习：
+            https://www.cnblogs.com/artech/p/asp-net-web-api-pipeline.html
             </summary>
         </member>
         <member name="M:MissionskyOA.Api.Handlers.ApiRequestHandler.#cctor">

@@ -256,6 +256,12 @@ namespace MissionskyOA.Api.Controllers
                 throw new ApiBadRequestException("无效的参数");
             }
 
+            // 2. 验证申请单是否有效
+            /*
+             * 验证不需要返回值，不符合要求弹出提示信息
+             * 
+             * 
+             * **/
             ValidApplyOrder(model);
 
             //新增假单 如果是请假或者提交加班申请需要启动工作申请流程
@@ -558,6 +564,10 @@ namespace MissionskyOA.Api.Controllers
                 throw new ApiBadRequestException("结束时间必须大于开始时间");
             }
 
+            /*
+             * 
+             * 
+             * **/
             if (model.OrderType != OrderType.Overtime && model.OrderType != 0)
             {
                 TimeSpan dspWorkingDayAM = DateTime.Parse("08:30").TimeOfDay;
@@ -580,7 +590,13 @@ namespace MissionskyOA.Api.Controllers
                 }
             }
 
+            /*
+             * 验证用户申请的时间段是否被占用
+             * 
+             * **/
             var invalidUsers = AskLeaveService.IsOrderTimeAvailiable(model, 0);
+
+
             if (!string.IsNullOrEmpty(invalidUsers))
             {
                 throw new ApiBadRequestException(string.Format("用户({0})此申请时段已经占用。", invalidUsers));

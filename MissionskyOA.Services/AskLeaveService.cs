@@ -1078,6 +1078,9 @@ namespace MissionskyOA.Services
 
         /// <summary>
         /// 是否时间段重复申请
+        /// 
+        /// 验证用户申请的时间段是否被占用
+        /// 
         /// </summary>
         /// <returns>是否时间段重复申请</returns>
         public string IsOrderTimeAvailiable(ApplyOrderModel model, int updateOrderNo)
@@ -1088,6 +1091,7 @@ namespace MissionskyOA.Services
                 var endDate = model.EndDate;
                 var invalidUsers = new List<int>(); //无效的用户
 
+                // RefOrderId 为 审批人Id
                 var refOrderIds = dbContext.Orders.Where(it => it.OrderNo == updateOrderNo).Select(it => it.RefOrderId);
 
                 model.UserIds.ToList().ForEach(userId =>
@@ -1099,9 +1103,9 @@ namespace MissionskyOA.Services
                             it =>
                                 it.UserId == userId && //查询用户的申请记录 
                                 it.OrderNo != updateOrderNo && //不是当前待添加或修改的申请记录
-                                it.Status != (int) OrderStatus.Canceled && //过滤取消状态的申请记录
-                                it.Status != (int) OrderStatus.Rejected && //过滤拒绝状态的申请记录
-                                it.Status != (int) OrderStatus.Revoked); //过滤撤销状态的申请记录
+                                it.Status != (int) OrderStatus.Canceled && //过滤 取消状态的申请记录
+                                it.Status != (int) OrderStatus.Rejected && //过滤 拒绝状态的申请记录
+                                it.Status != (int) OrderStatus.Revoked); //过滤 撤销状态的申请记录
 
                     var orderList = entityOrder.ToList();
 
