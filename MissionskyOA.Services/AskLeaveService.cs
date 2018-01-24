@@ -380,12 +380,17 @@ namespace MissionskyOA.Services
         /// <returns></returns>
         private IEnumerable<Order> AddOrderToDb(MissionskyOAEntities dbContext, OrderModel order, WorkflowOperation operation)
         {
+            /*
+             * 1、判断操作是否为 撤销和申请
+             * 
+             * **/
             if (operation != WorkflowOperation.Revoke && operation != WorkflowOperation.Apply)
             {
                 Log.Error("无效的操作。");
                 throw new InvalidOperationException("无效的操作。");
             }
 
+            //
             IList<Order> dbOrders = new List<Order>();
 
             //假ID, 解决EF批量插入Entity时，报"Multiple added entities may have the same primary key"异常
@@ -438,6 +443,7 @@ namespace MissionskyOA.Services
         {
             //添加初始审批信息，请假为Apply_Leave_Application_Message，加班为Apply_OT_Application_Message
             var auditMessageType = (int) AuditMessageType.Apply_Leave_Application_Message;
+
             if (order.OrderType == OrderType.Overtime)
             {
                 auditMessageType = (int) AuditMessageType.Apply_OT_Application_Message;
@@ -456,7 +462,7 @@ namespace MissionskyOA.Services
                 CreatedTime = DateTime.Now
             };
 
-            // [MissionskyOA_DEV].[dbo].[AuditMessage]
+            // 将审核消息保存到表[MissionskyOA_DEV].[dbo].[AuditMessage]
             dbContext.AuditMessages.Add(auditMessageEntitry);
         }
         #endregion
@@ -1072,7 +1078,6 @@ namespace MissionskyOA.Services
             //验证余额是否充足
             _attendanceSummaryService.CheckVacationBalance(order.OrderUsers, order.OrderType, detail.IOHours.Value);
             
-
             return true;
         }
 

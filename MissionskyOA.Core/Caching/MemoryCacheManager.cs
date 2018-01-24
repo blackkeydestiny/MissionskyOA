@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace MissionskyOA.Core.Caching
 {
-    public class MemoryCacheManager:ICacheManager
+    public class MemoryCacheManager :  ICacheManager
     {
         /// <summary>
         /// Cache object

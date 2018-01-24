@@ -7,8 +7,18 @@ namespace MissionskyOA.Core.Security
 {
     public interface ICryptology
     {
+        /// <summary>
+        /// 加密
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         string Encrypt(string input);
 
+        /// <summary>
+        /// 解密
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         string Decrypt(string input);
     }
 }

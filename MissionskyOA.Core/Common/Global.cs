@@ -31,6 +31,9 @@ namespace MissionskyOA.Core.Common
             }
         }
 
+        /// <summary>
+        /// 国内领导的邮件
+        /// </summary>
         public static string InlandHeaderEmail
         {
             get
@@ -39,6 +42,9 @@ namespace MissionskyOA.Core.Common
             }
         }
 
+        /// <summary>
+        /// 国外领导的邮件
+        /// </summary>
         public static string OverseaHeaderEmail
         {
             get
@@ -46,6 +52,10 @@ namespace MissionskyOA.Core.Common
                 return ConfigurationManager.AppSettings["OverseaHeaderEmail"].ToLower();
             }
         }
+
+        /// <summary>
+        /// 财务邮件
+        /// </summary>
         public static string FinancialEmail
         {
             get
@@ -54,6 +64,9 @@ namespace MissionskyOA.Core.Common
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public static string SmartQQHost
         {
             get

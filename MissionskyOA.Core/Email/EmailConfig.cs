@@ -6,6 +6,16 @@ using System.Configuration;
 
 namespace MissionskyOA.Core.Email
 {
+
+    /*
+     * 程序集：System.Configuration.dll
+     * 命名空间 ： System.Configuration
+     *      ConfigurationManager
+     * 
+     * 
+     * **/
+
+
     /// <summary>
     /// 获取邮件服务器配置
     /// </summary>

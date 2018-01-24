@@ -190,6 +190,7 @@ namespace MissionskyOA.Services
 
             if (operation.Operation == WorkflowOperation.Apply) //申请
             {
+                //获取流程Id
                 searchWorkflow.WorkflowId = MatchWorkflow(dbContext, order, curUser); //匹配当前用户满足条件的申请流程
             }
             else
@@ -225,10 +226,14 @@ namespace MissionskyOA.Services
         {
             var workflowId = 0; //配置的流程ID
             
-            //匹配流程
+            // 匹配流程
+            // 判断是加班流程还是请假流程，然后获取相应流程记录
             var flowType = order.IsOvertime() ? (int)WorkflowType.Overtime : (int)WorkflowType.AskLeave;
             var workflows = dbContext.Workflows.Where(it => it.Type == flowType && it.Status).ToList();
 
+            /*
+             * 根据匹配的流程和流程条件和申请人，获取满足条件申请用户信息
+             * **/
             workflows.ForEach(it =>
             {
                 if (!string.IsNullOrEmpty(it.Condition) && workflowId == 0) //流程条件不为空 && 未匹配到相关流程

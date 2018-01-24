@@ -1649,6 +1649,9 @@
         <member name="M:MissionskyOA.Api.Controllers.OrderController.ValidApplyOrder(MissionskyOA.Models.ApplyOrderModel)">
             <summary>
             验证申请单是否有效
+            
+            这段验证在APP端提交表单到后台之前
+            
             </summary>
             <param name="model">申请单</param>
         </member>
